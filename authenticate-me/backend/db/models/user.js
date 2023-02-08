@@ -2,6 +2,8 @@
 const {
   Model, Validator
 } = require('sequelize');
+
+const bcrypt = require('bcryptjs')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -9,6 +11,51 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+
+    toSafeObject() {
+      const { id, username, email } = this;
+      return { id, username, email };
+    }
+
+    validatePassword(password) {
+      return bcrypt.compareSync(password, this.hashedPassword.toString());
+    }
+
+    getCurrentUserById(id) {
+      return User.scope('currentUser').findByPk(id)
+    }
+
+    // The method should search for one User with the specified credential 
+    // (either a username or an email)
+    static async login({ credential, password }) {
+      const { Op } = require('sequelize');
+      const user = await User.scope('loginUser').findOne({
+        where: {
+          [Op.or]: {
+            username: crendential,
+            email: credential
+          }
+        }
+      })
+
+      // If a user is found, then the method should validate the password by 
+      // passing it into the instance's .validatePassword method.
+      if (user && user.validatePassword(password)) {
+        // return the user by using the currentUser scope.
+        return await User.scope('currentUser').findByPk(user.id);
+      }
+    }
+
+    static async signup({ username, email, password }) {
+      const hashedPassword = bcrypt.hashSync(password);
+      const user = await User.create({
+        username,
+        email,
+        hashedPassword
+      })
+      return await User.scope('currentUser').findByPk(user.id)
+    }
+
     static associate(models) {
       // define association here
     }
@@ -42,7 +89,23 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60]
         }
       }
+    }, {
+    sequelize,
+    modelName: 'User',
+    defaultScope: {
+      attributes: {
+        exclude: ['hashedPassword', 'updatedAt', 'email', 'createdAt']
+      }
+    },
+    scopes: {
+      currentUser: {
+        attributes: { exclude: ['hashedPassword'] }
+      },
+      loginUser: {
+        attributes: {}
+      }
     }
+  }
   );
   return User;
 };
