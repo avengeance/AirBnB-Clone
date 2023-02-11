@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
      */
 
     toSafeObject() {
-      const { id, username, email } = this;
-      return { id, username, email };
+      const { id, username, email, firstName, lastName } = this;
+      return { id, username, email, firstName, lastName };
     }
 
     validatePassword(password) {
@@ -67,15 +67,15 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
           notEmpty: true
         }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
-          notEmpty:true
+        validate: {
+          notEmpty: true
         }
       },
       username: {
