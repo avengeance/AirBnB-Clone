@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Spot.hasOne(models.User, { foreignKey: "ownerId" })
+      Spot.hasMany(models.SpotImage, { foreignKey: "spotId" })
     }
   }
   Spot.init({
@@ -35,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lat: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    lng: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
