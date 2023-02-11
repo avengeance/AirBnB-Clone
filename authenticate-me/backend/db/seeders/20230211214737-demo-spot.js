@@ -1,9 +1,9 @@
 'use strict';
 
 let options = {}
-if (process.enc.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA
-}
+// if (process.enc.NODE_ENV === 'production') {
+//   options.schema = process.env.SCHEMA
+// }
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -52,7 +52,7 @@ module.exports = {
     options.tableName = 'Spots'
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      adress: { [Op.in]: ['123 fake st', '345 false cir', '987 invalid ave'] }
+      address: { [Op.in]: ['123 fake st', '345 false cir', '987 invalid ave'] }
     }, {})
   }
 };
