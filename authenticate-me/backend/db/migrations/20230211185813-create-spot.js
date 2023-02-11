@@ -60,6 +60,7 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
+
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Spots');
