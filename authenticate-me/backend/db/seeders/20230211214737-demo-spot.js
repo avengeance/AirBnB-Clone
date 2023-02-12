@@ -22,7 +22,7 @@ module.exports = {
         description: 'A big mansion',
         price: 500,
       }, {
-        ownderId: 2,
+        ownerId: 2,
         address: '345 false cir',
         city: 'New York',
         state: 'New York',
@@ -33,7 +33,7 @@ module.exports = {
         description: 'A nice house in the big city',
         price: 250,
       }, {
-        ownderId: 3,
+        ownerId: 3,
         address: '987 invalid ave',
         city: 'Austin',
         state: 'Texas',
@@ -48,11 +48,10 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-
     options.tableName = 'Spots'
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      address: { [Op.in]: ['123 fake st', '345 false cir', '987 invalid ave'] }
+      ownerId: { [Op.in]: [1, 2, 3] }
     }, {})
   }
 };
