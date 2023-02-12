@@ -5,36 +5,34 @@ let options = {}
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-
-    options.tableName = 'Bookings'
+    options.tableName = 'Reviews'
     return queryInterface.bulkInsert(options, [
       {
-        spotId: 1,
         userId: 1,
-        startDate: '2023, 01, 01',
-        endDate: '2023, 01, 08',
+        spotId: 1,
+        review: 'Lots of room, great place would reccommend',
+        stars: 4
       },
       {
-        spotId: 2,
         userId: 2,
-        startDate: '2023 ,02, 01',
-        endDate: '2023, 02, 08',
+        spotId: 2,
+        review: 'Great location to see the city lights',
+        stars: 4
       },
       {
-        spotId: 3,
         userId: 3,
-        startDate: '2023, 03, 01',
-        endDate: '2023, 03, 08',
+        spotId: 3,
+        review: 'Very homely environment',
+        stars: 4
       }
     ])
-
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Bookings'
+    options.tableName = 'Review'
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      spotId: { [Op.in]: [1, 2, 3] }
+      userId: { [Op.in]: [1, 2, 3] }
     }, {})
   }
 };
