@@ -90,7 +90,8 @@ module.exports = (sequelize, DataTypes) => {
             if (Validator.isEmail(value)) {
               throw new Error("Cannot be an email.");
             }
-          }
+          },
+          notEmpty:true
         }
       },
       email: {
@@ -119,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     scopes: {
       currentUser: {
-        attributes: { exclude: ['hashedPassword'] }
+        attributes: { exclude: ['hashedPassword','createdAt','updatedAt'] }
       },
       loginUser: {
         attributes: {}
