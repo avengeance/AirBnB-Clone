@@ -39,40 +39,39 @@ router.post(
     const checkEmail = await User.findOne({ where: { email } })
     const checkUsername = await User.findOne({ where: { username } })
 
-    if (checkEmail === null && checkUsername === null) {
-      const user = await User.signup({ email, username, password, firstName, lastName });
-      await setTokenCookie(res, user);
-      return res.json({
-        user,
-      });
-    } else if (checkEmail) {
-      return res.json({
-        "message": "User already exists",
-        "statusCode": 403,
-        "errors": {
-          "email": "User with that email already exists"
-        }
-      })
-    } else if (checkUsername) {
-      return res.json({
-        "message": "User already exists",
-        "statusCode": 403,
-        "errors": {
-          "username": "User with that username already exists"
-        }
-      })
-    } else {
-      return res.json({
-        "message": "Validation error",
-        "statusCode": 400,
-        "errors": {
-          "email": "Invalid email",
-          "username": "Username is required",
-          "firstName": "First Name is required",
-          "lastName": "Last Name is required"
-        }
-      })
+    let validationErrors = {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {}
     }
+
+    if (!req.body.email.length) {
+      validationErrors.errors.email = "Invalid email"
+    } else if (checkEmail) {
+      validationErrors.errors.email = "User with that email already exists"
+    }
+    else if (!req.body.username) {
+      validationErrors.errors.username = "Username is required"
+    } else if (checkUsername) {
+      validationErrors.errors.username = "User with that username already exists"
+    }
+    else if (!req.body.firstName) {
+      validationErrors.errors.firstName = "First Name is required"
+    } else if (!req.body.lastName) {
+      validationErrors.errors.lastName = "Last Name is required"
+    }
+
+    if (Object.values(validationErrors.errors).length) {
+      return res.json({ validationErrors })
+    }
+
+
+    const user = await User.signup({ email, username, password, firstName, lastName });
+
+    await setTokenCookie(res, user);
+    return res.json({
+      user,
+    });
 
   }
 );

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const { check } = require('express-validator');
@@ -28,6 +28,26 @@ router.post(
     const { credential, password } = req.body;
 
     const user = await User.login({ credential, password });
+
+    let credentialErrors = {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {}
+    }
+
+    // invalid credentials
+    // if(req.body.credential !== user.credential){
+    //   return res.json({
+    //     "message":"Invalid credentials",
+    //     "statusCode": 401
+    //   })
+    // }
+
+    if (!req.body.credential) {
+      credentialErrors.errors.credential = "Email or username is required"
+    } else if (!req.body.password) {
+      credentialErrors.errors.password = "Password is required"
+    }
 
     if (!user) {
       const err = new Error('Login failed');
@@ -68,6 +88,20 @@ router.get(
     } else return res.json({});
   }
 );
+
+// Get the current User
+router.get(
+  '/',
+  requireAuth,
+  (req, res) => {
+    const { user } = req
+    if(user){
+      return res.json({
+        user: user.toSafeObject()
+      });
+    } else return res.json({});
+  }
+)
 
 
 
