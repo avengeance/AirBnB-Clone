@@ -1,8 +1,11 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+
+const { Reviews } = require('../models/index.js')
+
+module.exports = (sequelize, DataTypes, Reviews) => {
   class Spot extends Model {
     /**
      * Helper method for defining associations.
@@ -12,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Spot.belongsTo(models.User, { foreignKey: "ownerId" })
       Spot.hasMany(models.SpotImage, { foreignKey: "spotId" })
+      Spot.hasMany(models.Review, { foreignKey: 'spotId' })
     }
   }
   Spot.init({
@@ -58,6 +62,24 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope: {
+      include: [
+        {
+          model: Reviews,
+          attributes: [
+            [Sequelize.fn('AVG', sequelize.col('Review.stars'))]
+          ]
+        }
+
+      ]
+    },
+    scopes: {
+      previewImage(reviewId) {
+        return {
+          where: { reviewId }
+        }
+      }
+    }
   });
   return Spot;
 };

@@ -2,6 +2,7 @@ const express = require('express')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Spot } = require('../../db/models');
+const { Review } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -30,6 +31,13 @@ router.get('/', async (req, res) => {
         ]
     })
     return res.json(results)
+})
+
+// Get all spots by the current user
+
+router.get('/current', async (req, res) => {
+    const user = await Spot.findAll()
+    return res.json({ user })
 })
 
 module.exports = router;

@@ -35,13 +35,6 @@ router.post(
       "errors": {}
     }
 
-    // invalid credentials
-    // if(req.body.credential !== user.credential){
-    //   return res.json({
-    //     "message":"Invalid credentials",
-    //     "statusCode": 401
-    //   })
-    // }
 
     if (!req.body.credential) {
       credentialErrors.errors.credential = "Email or username is required"
