@@ -3,9 +3,9 @@ const {
   Model, Sequelize
 } = require('sequelize');
 
-const { Reviews } = require('../models/index.js')
+const { Review } = require('../models/index.js')
 
-module.exports = (sequelize, DataTypes, Reviews) => {
+module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
      * Helper method for defining associations.
@@ -65,9 +65,9 @@ module.exports = (sequelize, DataTypes, Reviews) => {
     defaultScope: {
       include: [
         {
-          model: Reviews,
+          models: Review,
           attributes: [
-            [Sequelize.fn('AVG', sequelize.col('Review.stars'))]
+            [Sequelize.fn('AVG', sequelize.col('Review.stars')), 'avgReview']
           ]
         }
 
