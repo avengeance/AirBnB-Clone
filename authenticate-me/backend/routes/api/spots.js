@@ -1,19 +1,15 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot } = require('../../db/models');
-const { Review } = require('../../db/models');
-const { SpotImage } = require('../../db/models')
-const { User } = require('../../db/models')
+const { Spot, Review, SpotImage, User } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { QueryInterface } = require('sequelize');
+const { QueryInterface, Sequelize } = require('sequelize');
 
 const router = express.Router();
 
 // Get all spots
-
 router.get('/', async (req, res) => {
     const results = await Spot.findAll({
         attributes: [
@@ -35,23 +31,19 @@ router.get('/', async (req, res) => {
     return res.json({ "Spots": [results] })
 })
 
+
 // Get all spots by the current user
-
-router.get('/current', requireAuth, async (req, res) => {
+router.get('/current', async (req, res) => {
     const userId = req.user.id
-    const user = await Spot.findByPk(userId)
-    if (user) {
-        allSpots = await Spot.findAll({ where: { ownerId: userId } })
-        res.status(200)
-        return res.json({ "Spots": allSpots })
-    } else {
-        throw new Error('No user logged in')
-    }
-
+    console.log('userId', userId)
+    const allSpots = await Spot.scope({ method: ['includeRatingImage'] }).findAll({ where: { ownerId: userId } })
+    return res.json({ "Spots": allSpots })
 })
 
-// Get details of a Spot from an Id
-// server is hanging
+
+
+// // Get details of a Spot from an Id
+// // server is hanging
 router.get('/:spotId', async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId, {
@@ -72,6 +64,7 @@ router.get('/:spotId', async (req, res) => {
         })
     }
 })
+
 
 // Create a spot
 // server hang
