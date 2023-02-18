@@ -29,19 +29,13 @@ const validateSpotError = [
     check('lat')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .custom((val) => {
-            if (isNaN(parseFloat(val))) {
-                throw new Error('Latitude is not valid')
-            }
-        }),
+        .isFloat({ min: -90, max: 90 })
+        .withMessage("Latitude is not valid"),
     check('lng')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .custom((val) => {
-            if (isNaN(parseFloat(val))) {
-                throw new Error('Longitude is not valid')
-            }
-        }),
+        .isFloat({ min: -180, max: 180 })
+        .withMessage("Longitude is not valid"),
     check('name')
         .exists({ checkFalsy: true })
         .notEmpty()
@@ -156,15 +150,15 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
     // }
 
     const newSpot = await Spot.create({
-        ownerId, 
-        address, 
-        city, 
-        state, 
-        country, 
-        lat, 
-        lng, 
-        name, 
-        description, 
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
         price
     })
     return res.status(201).json(newSpot)
