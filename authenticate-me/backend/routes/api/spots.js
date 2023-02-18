@@ -9,6 +9,55 @@ const { QueryInterface, Sequelize } = require('sequelize');
 
 const router = express.Router();
 
+const validateSpotError = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Street address is required'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('City is required'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('State is required'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Country is required'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .custom((val) => {
+            if (isNaN(parseFloat(val))) {
+                throw new Error('Latitude is not valid')
+            }
+        }),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .custom((val) => {
+            if (isNaN(parseFloat(val))) {
+                throw new Error('Longitude is not valid')
+            }
+        }),
+    check('name')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .isLength({ max: 49 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Description is required'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Price per day is required'),
+    handleValidationErrors
+]
+
 // Get all spots
 router.get('/', async (req, res) => {
     const results = await Spot.findAll({
@@ -79,32 +128,44 @@ router.get('/:spotId', async (req, res) => {
 
 
 // Create a spot
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validateSpotError, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const ownerId = req.user.id
 
-    const validationErrors = {
-        "message": "Validation error",
-        "statusCode": 400,
-        "errors": {}
-    }
+    // const validationErrors = {
+    //     "message": "Validation error",
+    //     "statusCode": 400,
+    //     "errors": {}
+    // }
 
-    if (!req.body.address) {
-        validationErrors.errors.address = "Street address is required"
-    } else if (!req.body.address) {
-        validationErrors.errors.city = "City is required"
-    } else if (!req.body.state) {
-        validationErrors.errors.state = "State is required"
-    } else if (!req.body.country) {
-        validationErrors.errors.country = "Country is required"
-    } else if (!req.body.description) {
-        validationErrors.errors.city = "Description is required"
-    } else if (!req.body.price) {
-        validationErrors.errors.price = "Price per day is required"
-    }
+    // if (!req.body.address) {
+    //     validationErrors.errors.address = "Street address is required"
+    // } else if (!req.body.address) {
+    //     validationErrors.errors.city = "City is required"
+    // } else if (!req.body.state) {
+    //     validationErrors.errors.state = "State is required"
+    // } else if (!req.body.country) {
+    //     validationErrors.errors.country = "Country is required"
+    // } else if (!req.body.description) {
+    //     validationErrors.errors.city = "Description is required"
+    // } else if (!req.body.price) {
+    //     validationErrors.errors.price = "Price per day is required"
+    // }
+    // if(Object.values(validateSpotError.errors).length){
+    //     return res.json({validateSpotError})
+    // }
 
     const newSpot = await Spot.create({
-        ownerId, address, city, state, country, lat, lng, name, description, price
+        ownerId, 
+        address, 
+        city, 
+        state, 
+        country, 
+        lat, 
+        lng, 
+        name, 
+        description, 
+        price
     })
     return res.status(201).json(newSpot)
 
