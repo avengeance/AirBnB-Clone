@@ -42,12 +42,21 @@ router.post(
       credentialErrors.errors.password = "Password is required"
     }
 
+    // if (!user) {
+    //   const err = new Error('Login failed');
+    //   err.status = 401;
+    //   err.title = 'Login failed';
+    //   err.errors = ['The provided credentials were invalid.'];
+    //   return next(err);
+    // }
+
     if (!user) {
-      const err = new Error('Login failed');
-      err.status = 401;
-      err.title = 'Login failed';
-      err.errors = ['The provided credentials were invalid.'];
-      return next(err);
+      res.status(401)
+      return res.json({
+        "message": "Invalid credentials",
+        "statusCode": 401
+      }
+      )
     }
 
     await setTokenCookie(res, user);
@@ -88,7 +97,7 @@ router.get(
   requireAuth,
   (req, res) => {
     const { user } = req
-    if(user){
+    if (user) {
       return res.json({
         user: user.toSafeObject()
       });

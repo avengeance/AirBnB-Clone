@@ -65,20 +65,32 @@ module.exports = (sequelize, DataTypes) => {
     defaultScope: {
       include: [
         {
-          models: Review,
-          attributes: [
-            [Sequelize.fn('AVG', sequelize.col('Review.stars')), 'avgReview']
-          ]
+          association: 'Reviews',
+          attributes: [],
+        },
+        {
+          association: 'SpotImages',
+          where: { preview: true },
+          attributes: [],
         }
-
+      ],
+      attributes: [
+        'id',
+        'ownerId',
+        'address',
+        'city',
+        'state',
+        'country',
+        'lat',
+        'lng',
+        'name',
+        'description',
+        'price',
+        'createdAt',
+        'updatedAt',
+        [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+        [Sequelize.col('SpotImages.url'), 'previewImage']
       ]
-    },
-    scopes: {
-      previewImage(reviewId) {
-        return {
-          where: { reviewId }
-        }
-      }
     }
   });
   return Spot;
