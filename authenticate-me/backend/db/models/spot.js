@@ -47,7 +47,9 @@ module.exports = (sequelize, DataTypes) => {
         isDecimal: {
           args: true,
           msg: 'Latitude is not Valid'
-        }
+        },
+        len: [1, 20],
+        notEmpty: true
       }
     },
     lng: {
@@ -57,12 +59,18 @@ module.exports = (sequelize, DataTypes) => {
         isDecimal: {
           args: true,
           msg: 'Longitude is not Valid'
-        }
+        },
+        len: [1, 20],
+        notEmpty: true
       }
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [3, 50]
+      }
     },
     description: {
       type: DataTypes.STRING,

@@ -59,7 +59,7 @@ router.get('/:spotId', async (req, res) => {
         ]
     })
     if (spot.id) {
-    return res.status(200).json(spot)
+        return res.status(200).json(spot)
     } else {
         return res.status(404).json({
             "message": "Spot couldn't be found",
@@ -70,11 +70,9 @@ router.get('/:spotId', async (req, res) => {
 
 
 // Create a spot
-// server hang
 router.post('/', requireAuth, async (req, res) => {
-    const userId = req.user.id
-    const user = Spot.findByPk(userId)
     const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const ownerId = req.user.id
 
     const validationErrors = {
         "message": "Validation error",
@@ -95,19 +93,21 @@ router.post('/', requireAuth, async (req, res) => {
     } else if (!req.body.price) {
         validationErrors.errors.price = "Price per day is required"
     }
-    if (!user) {
-        const newSpot = Spot.create(req.body)
-        res.status(201)
-        return res.json(newSpot)
-    }
+
+    const newSpot = await Spot.create({
+        ownerId, address, city, state, country, lat, lng, name, description, price
+    })
+    return res.status(201).json(newSpot)
 
 })
 
 // Add an image to a spot based on the Spot's Id
 router.post('/:spotId/images', requireAuth, async (req, res) => {
-    const spotId = req.params.spotId
-    const spot = await Spot.findOne({ where: { spotId } })
+    const spotId = req.params.id
+    const spot = await Spot.findOne(spotId)
     const { url, preview } = req.body
+
+
     if (spot) {
         const newImage = await SpotImage.create({
             spotId: parseInt(spotId),
@@ -124,6 +124,8 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     }
 
 })
+
+
 
 
 module.exports = router;
