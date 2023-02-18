@@ -9,7 +9,6 @@ const { User } = require('../../db/models')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { QueryInterface } = require('sequelize');
-const spot = require('../../db/models/spot');
 
 const router = express.Router();
 
@@ -33,7 +32,7 @@ router.get('/', async (req, res) => {
             'updatedAt'
         ]
     })
-    return res.json(results)
+    return res.json({ "Spots": [results] })
 })
 
 // Get all spots by the current user
@@ -53,8 +52,8 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // Get details of a Spot from an Id
 // server is hanging
-router.get('/:spotid', async (req, res) => {
-    const spotId = req.params.id
+router.get('/:spotId', async (req, res) => {
+    const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId, {
         include: [
             { model: SpotImage, attributes: ['id', 'url', 'preview'] },
@@ -65,38 +64,67 @@ router.get('/:spotid', async (req, res) => {
     if (spot) {
         res.status(200)
         return res.json(spot)
+    } else {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
     }
 })
 
 // Create a spot
+// server hang
 router.post('/', requireAuth, async (req, res) => {
     const userId = req.user.id
     const user = Spot.findByPk(userId)
     const { address, city, state, country, lat, lng, name, description, price } = req.body
 
-    const validationErrors={
+    const validationErrors = {
         "message": "Validation error",
         "statusCode": 400,
         "errors": {}
     }
 
-    if(!req.body.address){
+    if (!req.body.address) {
         validationErrors.errors.address = "Street address is required"
-    }else if(!req.body.address){
-        validationErrors.errors.city =  "City is required"
-    }else if(!req.body.state){
-        validationErrors.errors.state =  "State is required"
-    }else if(!req.body.country){
-        validationErrors.errors.country =  "Country is required"
-    }else if(!req.body.description){
-        validationErrors.errors.city =  "Description is required"
-    }else if(!req.body.price){
-        validationErrors.errors.price =  "Price per day is required"
+    } else if (!req.body.address) {
+        validationErrors.errors.city = "City is required"
+    } else if (!req.body.state) {
+        validationErrors.errors.state = "State is required"
+    } else if (!req.body.country) {
+        validationErrors.errors.country = "Country is required"
+    } else if (!req.body.description) {
+        validationErrors.errors.city = "Description is required"
+    } else if (!req.body.price) {
+        validationErrors.errors.price = "Price per day is required"
     }
     if (!user) {
         const newSpot = Spot.create(req.body)
         res.status(201)
         return res.json(newSpot)
+    }
+
+})
+
+// Add an image to a spot based on the Spot's Id
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+    const spotId = req.params.spotId
+    const spot = await Spot.findOne({ where: { spotId } })
+    const { url, preview } = req.body
+    if (spot) {
+        const newImage = await SpotImage.create({
+            spotId: parseInt(spotId),
+            url,
+            preview
+        })
+        return res.status(200).json(newImage)
+    } else {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
     }
 
 })

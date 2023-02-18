@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.belongsTo(models.User, { foreignKey: "ownerId" })
+      Spot.belongsTo(models.User, { as: "Owner" }, { foreignKey: "ownerId" })
       Spot.hasMany(models.SpotImage, { foreignKey: "spotId" })
       Spot.hasMany(models.Review, { foreignKey: 'spotId' })
       Spot.hasMany(models.Booking, { foreignKey: 'spotId' })
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDecimal: {
-          args:true,
+          args: true,
           msg: 'Latitude is not Valid'
         }
       }
@@ -55,8 +55,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDecimal: {
-          args:true,
-          msg: 'Latitude is not Valid'
+          args: true,
+          msg: 'Longitude is not Valid'
         }
       }
     },
@@ -77,15 +77,8 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Spot',
     defaultScope: {
       include: [
-        {
-          association: 'Reviews',
-          attributes: [],
-        },
-        {
-          association: 'SpotImages',
-          where: { preview: true },
-          attributes: [],
-        }
+        { association: 'Reviews', attributes: [], },
+        { association: 'SpotImages', where: { preview: true }, attributes: [], }
       ],
       attributes: [
         'id',
