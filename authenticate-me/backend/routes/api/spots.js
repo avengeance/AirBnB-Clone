@@ -42,23 +42,26 @@ router.get('/current', async (req, res) => {
 
 
 
-// // Get details of a Spot from an Id
-// // server is hanging
+// Get details of a Spot from an Id
 router.get('/:spotId', async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId, {
+        attributes: [
+            'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description',
+            'price', 'createdAt', 'updatedAt',
+            [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
+            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+        ],
         include: [
+            { model: Review, attributes: [] },
             { model: SpotImage, attributes: ['id', 'url', 'preview'] },
             { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
         ]
     })
-
-    if (spot) {
-        res.status(200)
-        return res.json(spot)
+    if (spot.id) {
+    return res.status(200).json(spot)
     } else {
-        res.status(404)
-        return res.json({
+        return res.status(404).json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
