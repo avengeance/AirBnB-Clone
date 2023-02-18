@@ -36,7 +36,16 @@ router.get('/', async (req, res) => {
 router.get('/current', async (req, res) => {
     const userId = req.user.id
     console.log('userId', userId)
-    const allSpots = await Spot.scope({ method: ['includeRatingImage'] }).findAll({ where: { ownerId: userId } })
+    // const allSpots = await Spot.scope({
+    //     method: ['includeRatingImage']
+    // })
+    //     .findAll({ where: { ownerId: userId } })
+    // return res.json({ "Spots": allSpots })
+    const allSpots = await Spot.findAll({
+        where: {
+            ownerId: userId
+        }
+    })
     return res.json({ "Spots": allSpots })
 })
 
@@ -125,7 +134,56 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 })
 
+// Edit a Spot
+router.put('/:spotId', requireAuth, async (req, res) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const spotId = req.params.id
+    const spot = Spot.findByPk(spotId)
 
+    const validationErrors = {
+        "message": "Validation error",
+        "statusCode": 400,
+        "errors": {}
+    }
+
+    if (!req.body.address) {
+        validationErrors.errors.address = "Street address is required"
+    } else if (!req.body.city) {
+        validationErrors.errors.city = "City is required"
+    } else if (!req.body.state) {
+        validationErrors.errors.state = "State is required"
+    } else if (!req.body.country) {
+        validationErrors.errors.country = "Country is required"
+    } else if (!req.body.lat) {
+        validationErrors.errors.lat = "Latitude is not valid"
+    } else if (!req.body.lng) {
+        validationErrors.errors.lng = "Longitude is not valid"
+    } else if (!req.body.name || req.body.name.length >= 50) {
+        validationErrors.errors.name = "Name must be less than 50 characters"
+    } else if (!req.body.description) {
+        validationErrors.errors.description = "Description is required"
+    } else if (!req.body.price) {
+        validationErrors.errors.price = "Price per day is required"
+    }
+
+    if (Object.values(validationErrors.errors).length) {
+        return res.json({ validationErrors })
+    }
+
+    if (spot) {
+        return res.status(200).json({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
+    }
+})
 
 
 module.exports = router;

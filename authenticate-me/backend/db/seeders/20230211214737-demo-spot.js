@@ -43,6 +43,18 @@ module.exports = {
         name: 'Small house',
         description: 'A small house to gather and explore the city',
         price: 125,
+      },
+      {
+        ownerId: 1,
+        address: '123 fake st1',
+        city: 'Los Angeles1',
+        state: 'California1',
+        country: 'United States1',
+        lat: 34.052235,
+        lng: -118.243683,
+        name: 'Mansion1',
+        description: 'A big mansion1',
+        price: 500,
       }
     ])
   },
