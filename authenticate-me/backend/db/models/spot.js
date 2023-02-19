@@ -84,30 +84,23 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Spot',
     scopes: {
-      includeRatingImage() {
+      includePrevAvg(userId) {
         const { Review, SpotImage } = require('./index.js')
         return {
+          where: { ownerId: userId },
           include: [
-            { model: Review, attributes: [] },
-            { model: SpotImage, where: { preview: true }, attributes: [] }
+            { model: Review, attributes: [], },
+            { model: SpotImage, where: { preview: true }, attributes: [] },
           ],
-          attributes: [
-            'id',
-            'ownerId',
-            'address',
-            'city',
-            'state',
-            'country',
-            'lat',
-            'lng',
-            'name',
-            'description',
-            'price',
-            'createdAt',
-            'updatedAt',
-            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-            [Sequelize.col('SpotImages.url'), 'previewImage']
-          ]
+          attributes: {
+            include: [
+              'id',
+              'ownerId',
+              [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',],
+              [Sequelize.col('SpotImages.url'), 'previewImage',]
+            ],
+          },
+          group:'Reviews.spotId',
         }
       }
     }
