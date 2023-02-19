@@ -77,18 +77,10 @@ router.get('/', async (req, res) => {
 
 // Get all spots by the current user
 router.get('/current', async (req, res) => {
-    const userId = req.user.id
-    console.log('userId', userId)
-    // const allSpots = await Spot.scope({
-    //     method: ['includeRatingImage']
-    // })
-    //     .findAll({ where: { ownerId: userId } })
-    // return res.json({ "Spots": allSpots })
-    const allSpots = await Spot.findAll({
-        where: {
-            ownerId: userId
-        }
-    })
+
+    const allSpots = await Spot.scope({
+        method: ['includePrevAvg', req.user.id],
+    }).findAll()
     return res.json({ "Spots": allSpots })
 })
 
@@ -126,29 +118,6 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const ownerId = req.user.id
 
-    // const validationErrors = {
-    //     "message": "Validation error",
-    //     "statusCode": 400,
-    //     "errors": {}
-    // }
-
-    // if (!req.body.address) {
-    //     validationErrors.errors.address = "Street address is required"
-    // } else if (!req.body.address) {
-    //     validationErrors.errors.city = "City is required"
-    // } else if (!req.body.state) {
-    //     validationErrors.errors.state = "State is required"
-    // } else if (!req.body.country) {
-    //     validationErrors.errors.country = "Country is required"
-    // } else if (!req.body.description) {
-    //     validationErrors.errors.city = "Description is required"
-    // } else if (!req.body.price) {
-    //     validationErrors.errors.price = "Price per day is required"
-    // }
-    // if(Object.values(validateSpotError.errors).length){
-    //     return res.json({validateSpotError})
-    // }
-
     const newSpot = await Spot.create({
         ownerId,
         address,
@@ -167,26 +136,32 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
 
 // Add an image to a spot based on the Spot's Id
 router.post('/:spotId/images', requireAuth, async (req, res) => {
-    const spotId = req.params.id
-    const spot = await Spot.findOne(spotId)
+    const userId = req.user.id
     const { url, preview } = req.body
-
-
-    if (spot) {
-        const newImage = await SpotImage.create({
-            spotId: parseInt(spotId),
-            url,
-            preview
-        })
-        return res.status(200).json(newImage)
-    } else {
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
+    if (!spot) {
         res.status(404)
         return res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
     }
-
+    if (userId !== spot.ownerId) {
+        return res.status(400).json({
+            "message": "User is not authorized"
+        })
+    }
+    const newImage = await SpotImage.create({
+        spotId: spotId,
+        url: url,
+        preview: preview
+    })
+    return res.status(200).json({
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    })
 })
 
 // Edit a Spot
