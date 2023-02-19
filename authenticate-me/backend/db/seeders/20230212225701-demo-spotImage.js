@@ -11,6 +11,10 @@ module.exports = {
         spotId: 1,
         url: 'https://images.pexels.com/photos/53610/large-home-residential-house-architecture-53610.jpeg',
         preview: true
+      }, {
+        spotId: 1,
+        url: 'https://images.pexels.com/photos/5997992/pexels-photo-5997992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        preview: false
       },
       {
         spotId: 2,

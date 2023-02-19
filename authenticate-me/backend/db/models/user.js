@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Review, { foreignKey: 'userId' })
       User.hasMany(models.Booking, { foreignKey: 'userId' })
-      User.hasMany(models.Spot, { foreignKey: 'ownerId' })
+      User.hasMany(models.Spot, { foreignKey: 'ownerId', as: "Owner" })
     }
   }
   User.init(
@@ -69,16 +69,10 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true
-        }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true
-        }
       },
       username: {
         type: DataTypes.STRING,
@@ -90,8 +84,7 @@ module.exports = (sequelize, DataTypes) => {
             if (Validator.isEmail(value)) {
               throw new Error("Cannot be an email.");
             }
-          },
-          notEmpty:true
+          }
         }
       },
       email: {
@@ -99,8 +92,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          len: [3, 256],
-          isEmail: true
+          len: [3, 256]
         }
       },
       hashedPassword: {
@@ -120,7 +112,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     scopes: {
       currentUser: {
-        attributes: { exclude: ['hashedPassword','createdAt','updatedAt'] }
+        attributes: { exclude: ['hashedPassword', 'createdAt', 'updatedAt'] }
       },
       loginUser: {
         attributes: {}

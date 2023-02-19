@@ -1,7 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize, where
 } = require('sequelize');
+
+const { Review } = require('../models/index.js')
+
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -10,8 +13,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.belongsTo(models.User, { foreignKey: "ownerId" })
+      Spot.belongsTo(models.User, { foreignKey: "ownerId", as: "Owner" })
       Spot.hasMany(models.SpotImage, { foreignKey: "spotId" })
+      Spot.hasMany(models.Review, { foreignKey: 'spotId' })
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId' })
     }
   }
   Spot.init({
@@ -36,16 +41,36 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lat: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        isDecimal: {
+          args: true,
+          msg: 'Latitude is not Valid'
+        },
+        len: [1, 20],
+        notEmpty: true
+      }
     },
     lng: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        isDecimal: {
+          args: true,
+          msg: 'Longitude is not Valid'
+        },
+        len: [1, 20],
+        notEmpty: true
+      }
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [3, 50]
+      }
     },
     description: {
       type: DataTypes.STRING,
@@ -58,6 +83,27 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    scopes: {
+      includePrevAvg(userId) {
+        const { Review, SpotImage } = require('./index.js')
+        return {
+          where: { ownerId: userId },
+          include: [
+            { model: Review, attributes: [], },
+            { model: SpotImage, where: { preview: true }, attributes: [] },
+          ],
+          attributes: {
+            include: [
+              'id',
+              'ownerId',
+              [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',],
+              [Sequelize.col('SpotImages.url'), 'previewImage',]
+            ],
+          },
+          group:'Reviews.spotId',
+        }
+      }
+    }
   });
   return Spot;
 };
