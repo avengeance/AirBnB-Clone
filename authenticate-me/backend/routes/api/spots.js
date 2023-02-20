@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -53,6 +53,7 @@ const validateSpotError = [
 ]
 
 // Get all spots
+// not displaying new spots that were created from "create a spot"
 router.get('/', async (req, res) => {
     const results = await Spot.findAll({
         attributes: [
@@ -77,9 +78,9 @@ router.get('/', async (req, res) => {
             { model: Review, attributes: [] },
             { model: SpotImage, attributes: [] }
         ],
-        group:'Reviews.spotId',
+        group: 'Reviews.spotId',
     })
-    return res.json({ "Spots": results })
+    return res.status(200).json({ "Spots": results })
 })
 
 
@@ -90,7 +91,6 @@ router.get('/current', async (req, res) => {
     }).findAll()
     return res.json({ "Spots": allSpots })
 })
-
 
 
 // Get details of a Spot from an Id
@@ -200,6 +200,32 @@ router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
         price,
     });
     return res.status(200).json(update)
+})
+
+// Delete a spot
+router.delete('/:spotId', async (req, res) => {
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
+
+    if (!spot) {
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+    if (spot.ownerId !== userId) {
+        res.status(400).json({
+            message: 'User not authorized'
+        })
+    }
+
+    await spot.destroy(spotId)
+
+    return res.status(200).json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+    })
 })
 
 
