@@ -3,7 +3,7 @@ const {
   Model, Sequelize, where
 } = require('sequelize');
 
-const { Review } = require('../models/index.js')
+const { Review, ReviewImage } = require('../models/index.js')
 
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
               [Sequelize.col('SpotImages.url'), 'previewImage',]
             ],
           },
-          group:'Reviews.spotId',
+          group: 'Reviews.spotId',
         }
       }
     }
