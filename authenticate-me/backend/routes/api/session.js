@@ -13,10 +13,11 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
+    .withMessage('Email or username is required'),
   check('password')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
+    .notEmpty()
+    .withMessage('Password is required'),
   handleValidationErrors
 ];
 
@@ -28,27 +29,6 @@ router.post(
     const { credential, password } = req.body;
 
     const user = await User.login({ credential, password });
-
-    let credentialErrors = {
-      "message": "Validation error",
-      "statusCode": 400,
-      "errors": {}
-    }
-
-
-    if (!req.body.credential) {
-      credentialErrors.errors.credential = "Email or username is required"
-    } else if (!req.body.password) {
-      credentialErrors.errors.password = "Password is required"
-    }
-
-    // if (!user) {
-    //   const err = new Error('Login failed');
-    //   err.status = 401;
-    //   err.title = 'Login failed';
-    //   err.errors = ['The provided credentials were invalid.'];
-    //   return next(err);
-    // }
 
     if (!user) {
       res.status(401)
