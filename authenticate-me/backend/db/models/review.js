@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
@@ -35,7 +35,25 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Review',
+    scopes: {
+      includeUserSpotReviewImages(userId) {
+        const { User, Spot, ReviewImage, SpotImage } = require('./index.js')
+        return {
+          where: { userId: userId },
+          include: [
+            { model: User, attributes: ['id', 'firstName', 'lastName'] },
+            {
+              model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
+                'lat', 'lng', 'name', 'price',],
+              include: { model: SpotImage, where: { preview: true }, attributes: [[Sequelize.col('url'), 'previewImage',]] },
+            },
+            { model: ReviewImage, attributes: ['id', 'url'] }
+          ]
+          // group: 'Reviews.spotId',
+        }
+      }
+    }
   });
   return Review;
 };
-
+// [Sequelize.col('url'), 'previewImage',]

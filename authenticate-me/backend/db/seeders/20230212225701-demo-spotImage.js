@@ -24,7 +24,7 @@ module.exports = {
       {
         spotId: 3,
         url: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        preview: false
+        preview: true
       }
     ])
   },
