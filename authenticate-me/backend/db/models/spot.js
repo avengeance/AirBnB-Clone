@@ -1,9 +1,9 @@
 'use strict';
 const {
-  Model, Sequelize, where
+  Model, Sequelize
 } = require('sequelize');
 
-const { Review } = require('../models/index.js')
+const { Review, ReviewImage } = require('../models/index.js')
 
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
           where: { ownerId: userId },
           include: [
             { model: Review, attributes: [], },
-            { model: SpotImage, where: { preview: true }, attributes: [] },
+            { model: SpotImage, attributes: [] },
           ],
           attributes: {
             include: [
@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
               [Sequelize.col('SpotImages.url'), 'previewImage',]
             ],
           },
-          group:'Reviews.spotId',
+          group: 'Reviews.spotId',
         }
       }
     }

@@ -14,10 +14,18 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isEmail()
     .withMessage('Please provide a valid email.'),
-  check('username')
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .withMessage('First Name is required'),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .withMessage('Last name is required'),
+  check('username', 'validationErrors')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
+    .withMessage('Please provide a username with at least 4 characters.')
+    .not()
+    .notEmpty(),
   check('username')
     .not()
     .isEmail()
@@ -55,11 +63,6 @@ router.post(
     } else if (checkUsername) {
       validationErrors.errors.username = "User with that username already exists"
     }
-    else if (!req.body.firstName) {
-      validationErrors.errors.firstName = "First Name is required"
-    } else if (!req.body.lastName) {
-      validationErrors.errors.lastName = "Last Name is required"
-    }
 
     if (Object.values(validationErrors.errors).length) {
       return res.json({ validationErrors })
@@ -68,9 +71,15 @@ router.post(
 
     const user = await User.signup({ email, username, password, firstName, lastName });
 
-    await setTokenCookie(res, user);
+    const newToken = await setTokenCookie(res, user);
+    user.token = newToken
     return res.json({
-      user,
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+      token: newToken
     });
 
   }
