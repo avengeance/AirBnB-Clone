@@ -68,16 +68,23 @@ router.get('/', async (req, res) => {
             'description',
             'price',
             'createdAt',
-            'updatedAt'
-        ]
+            'updatedAt',
+            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+            [Sequelize.col('SpotImages.url'), 'previewImage']
+
+        ],
+        include: [
+            { model: Review, attributes: [] },
+            { model: SpotImage, attributes: [] }
+        ],
+        group:'Reviews.spotId',
     })
-    return res.json({ "Spots": [results] })
+    return res.json({ "Spots": results })
 })
 
 
 // Get all spots by the current user
 router.get('/current', async (req, res) => {
-
     const allSpots = await Spot.scope({
         method: ['includePrevAvg', req.user.id],
     }).findAll()
@@ -165,54 +172,34 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 })
 
 // Edit a Spot
-router.put('/:spotId', requireAuth, async (req, res) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body
-    const spotId = req.params.id
-    const spot = Spot.findByPk(spotId)
-
-    const validationErrors = {
-        "message": "Validation error",
-        "statusCode": 400,
-        "errors": {}
-    }
-
-    if (!req.body.address) {
-        validationErrors.errors.address = "Street address is required"
-    } else if (!req.body.city) {
-        validationErrors.errors.city = "City is required"
-    } else if (!req.body.state) {
-        validationErrors.errors.state = "State is required"
-    } else if (!req.body.country) {
-        validationErrors.errors.country = "Country is required"
-    } else if (!req.body.lat) {
-        validationErrors.errors.lat = "Latitude is not valid"
-    } else if (!req.body.lng) {
-        validationErrors.errors.lng = "Longitude is not valid"
-    } else if (!req.body.name || req.body.name.length >= 50) {
-        validationErrors.errors.name = "Name must be less than 50 characters"
-    } else if (!req.body.description) {
-        validationErrors.errors.description = "Description is required"
-    } else if (!req.body.price) {
-        validationErrors.errors.price = "Price per day is required"
-    }
-
-    if (Object.values(validationErrors.errors).length) {
-        return res.json({ validationErrors })
-    }
-
-    if (spot) {
-        return res.status(200).json({
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
+router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
+    const userId = req.user.id
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    if (!spot) {
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
         })
     }
+    if (spot.ownerId !== userId) {
+        res.status(400).json({
+            message: 'User not authorized'
+        })
+    }
+    const update = await spot.update({
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+    });
+    return res.status(200).json(update)
 })
 
 
