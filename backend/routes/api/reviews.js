@@ -73,6 +73,8 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 })
 
 // Edit a review
+// trying to get response body
+// get authorization working
 router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) => {
     const reviewId = req.params.reviewId
     const updateReview = await Review.findByPk(reviewId)
@@ -96,6 +98,29 @@ router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) =>
 
 
     return res.status(200).json(update)
+})
+
+// Delete a Review
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+    const reviewId = req.params.reviewId
+    const review = await Review.findByPk(reviewId)
+    const userId = req.user.id
+    if (!review) {
+        return res.status(404).json({
+            "message": "Review couldn't be found",
+            "statusCode": 404
+        })
+    }
+    if (review.userId !== userId) {
+        res.status(400).json({
+            message: 'User not authorized'
+        })
+    }
+    await review.destroy(reviewId)
+    return res.status(200).json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+    })
 })
 
 module.exports = router;

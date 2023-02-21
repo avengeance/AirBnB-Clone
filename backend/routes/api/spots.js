@@ -219,6 +219,7 @@ router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
 router.delete('/:spotId', async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
+    const userId = req.user.id
 
     if (!spot) {
         return res.status(404).json({
