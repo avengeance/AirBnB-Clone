@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, checkPermission, spotAuthorization } = require('../../utils/auth');
 const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
 
 const { check } = require('express-validator');
@@ -155,7 +155,8 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
 })
 
 // Add an image to a spot based on the Spot's Id
-router.post('/:spotId/images', requireAuth, async (req, res) => {
+// Need to work on the spot Authorization
+router.post('/:spotId/images', requireAuth, spotAuthorization, async (req, res) => {
     const userId = req.user.id
     const { url, preview } = req.body
     const spotId = req.params.spotId
@@ -167,11 +168,11 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             "statusCode": 404
         })
     }
-    if (userId !== spot.ownerId) {
-        return res.status(400).json({
-            "message": "User is not authorized"
-        })
-    }
+    // if (userId !== spot.ownerId) {
+    //     return res.status(403).json({
+    //         "message": "User is not authorized"
+    //     })
+    // }
     const newImage = await SpotImage.create({
         spotId: spotId,
         url: url,
@@ -197,7 +198,7 @@ router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
         })
     }
     if (spot.ownerId !== userId) {
-        res.status(400).json({
+        res.status(403).json({
             message: 'User not authorized'
         })
     }
@@ -229,7 +230,7 @@ router.delete('/:spotId', async (req, res) => {
     }
 
     if (spot.ownerId !== userId) {
-        res.status(400).json({
+        res.status(403).json({
             message: 'User not authorized'
         })
     }

@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
             {
               model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
                 'lat', 'lng', 'name', 'price',],
-              include: { model: SpotImage, where: { preview: true }, attributes: [[Sequelize.col('url'), 'previewImage',]] },
+              include: { model: SpotImage, attributes: [[Sequelize.col('url'), 'previewImage',]] },
             },
             { model: ReviewImage, attributes: ['id', 'url'] }
           ]

@@ -91,7 +91,7 @@ router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) =>
     //         "message": "User not authorized"
     //     })
     // }
-    const update = await review.update({
+    const update = await Review.update({
         review,
         stars,
     });

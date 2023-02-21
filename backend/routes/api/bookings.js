@@ -10,9 +10,19 @@ const { QueryInterface, Sequelize } = require('sequelize');
 const router = express.Router();
 
 router.get('/current', requireAuth, async (req, res) => {
-    const allBookings = await Booking.scope({
-        method: ['getBookings', req.params.spotId]
-    }).findAll()
+    const allBookings = await Booking.findAll({
+        // attributes: ['id', 'spotId'],
+        attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
+        include: [
+            {
+                model: Spot, attributes: [
+                    'id', 'ownerId', 'address', 'city', 'state', 'country',
+                    'lat', 'lng', 'name', 'description', 'price',
+                ]
+            }
+        ],
+    },
+    )
     return res.json({ "Bookings": allBookings })
 })
 

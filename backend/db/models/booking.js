@@ -34,25 +34,25 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Booking',
-    scopes: {
-      getBookings(spotId) {
-        const { Spot, SpotImage } = require('./index.js')
-        return {
-          where: { spotId: spotId },
-          include: [
-            { model: Spot, attributes: [] },
-            { model: SpotImage, attributes: [] }
-          ],
-          attributes: {
-            include: [
-              'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name',
-              'price',
-              [Sequelize.col('SpotImages.url'), 'previewImage',]
-            ]
-          }
-        }
-      }
-    }
+    // scopes: {
+    //   getBookings(spotId) {
+    //     const { Spot, SpotImage } = require('./index.js')
+    //     return {
+    //       where: { spotId: spotId },
+    //       include: [
+    //         { model: Spot, attributes: [] },
+    //         { model: SpotImage, attributes: [] }
+    //       ],
+    //       attributes: {
+    //         include: [
+    //           'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name',
+    //           'price',
+    //           [Sequelize.col('SpotImages.url'), 'previewImage',]
+    //         ]
+    //       }
+    //     }
+    //   }
+    // }
   });
   return Booking;
 };
