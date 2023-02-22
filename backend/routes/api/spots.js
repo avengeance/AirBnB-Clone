@@ -385,4 +385,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         return res.status(200).json({ "Bookings": bookings })
     }
 })
+
+
+
+
 module.exports = router;
