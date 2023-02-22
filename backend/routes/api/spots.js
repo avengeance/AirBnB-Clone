@@ -66,7 +66,6 @@ const reviewValidationError = [
 ]
 
 // Get all spots
-// not displaying new spots that were created from "create a spot"
 router.get('/', async (req, res) => {
     const results = await Spot.findAll({
         attributes: [
@@ -156,7 +155,7 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
 
 // Add an image to a spot based on the Spot's Id
 // Need to work on the spot Authorization
-router.post('/:spotId/images', requireAuth, spotAuthorization, async (req, res) => {
+router.post('/:spotId/images', requireAuth, async (req, res) => {
     const userId = req.user.id
     const { url, preview } = req.body
     const spotId = req.params.spotId

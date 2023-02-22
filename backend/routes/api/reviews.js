@@ -41,21 +41,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const reviewId = req.params.reviewId
     const { url } = req.body
     const review = await Review.findByPk(reviewId)
-    // const countReview = await Review.findByPk(reviewId, {
-    //     attributes: [
-    //         [Sequelize.fn('COUNT', Sequelize.col('ReviewImage.id')), 'numReviews']
-    //     ],
-    //     include: [
-    //         { model: reviewimage, attributes: [] }
-    //     ]
-    // })
-
-    // if (countReview >= 10) {
-    //     return res.status(403).json({
-    //         "message": "Maximum number of images for this resource was reached",
-    //         "statusCode": 403
-    //     })
-    // }
     if (!review) {
         return res.status(404).json({
             "message": "Review couldn't be found",
@@ -66,6 +51,13 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
         reviewId: reviewId,
         url: url
     })
+    const countReview = await ReviewImage.findAll({ where: { reviewId } })
+    if (countReview.length >= 10) {
+        return res.status(403).json({
+            "message": "Maximum number of images for this resource was reached",
+            "statusCode": 403
+        })
+    }
     return res.status(200).json({
         id: newImage.id,
         url: newImage.url
@@ -91,7 +83,7 @@ router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) =>
     //         "message": "User not authorized"
     //     })
     // }
-    const update = await Review.update({
+    const update = await updateReview.update({
         review,
         stars,
     });

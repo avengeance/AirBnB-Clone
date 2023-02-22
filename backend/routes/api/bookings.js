@@ -9,6 +9,7 @@ const { QueryInterface, Sequelize } = require('sequelize');
 
 const router = express.Router();
 
+// Get all of the current user's bookings
 router.get('/current', requireAuth, async (req, res) => {
     const { SpotImage } = require('./index.js')
     const allBookings = await Booking.findAll({
@@ -30,5 +31,7 @@ router.get('/current', requireAuth, async (req, res) => {
 )
 return res.json({ "Bookings": allBookings })
 })
+
+//
 
 module.exports = router;

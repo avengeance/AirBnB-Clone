@@ -44,10 +44,11 @@ module.exports = (sequelize, DataTypes) => {
             { model: User, attributes: ['id', 'firstName', 'lastName'] },
             {
               model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
-                'lat', 'lng', 'name', 'price',],
-              include: { model: SpotImage, attributes: [[Sequelize.col('url'), 'previewImage',]] },
+                'lat', 'lng', 'name', 'price'],
+              include: [{ model: SpotImage, attributes: ['url'] }],
             },
-            { model: ReviewImage, attributes: ['id', 'url'] }
+            { model: ReviewImage, attributes: ['id', 'url'] },
+            // { model: SpotImage, attributes: ['id,', 'url', 'preview'] }
           ]
           // group: 'Reviews.spotId',
         }
