@@ -348,7 +348,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         })
     }
     const newBooking = await Booking.create({
-        spotId : parseFloat(spotId),
+        spotId: parseFloat(spotId),
         userId,
         startDate,
         endDate
@@ -358,5 +358,31 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 })
 
 
+// Get all Bookings for a Spot based on the Spot's id
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+    const userId = req.user.id
+    const spotId = parseInt(req.params.spotId, 10)
+    const spot = await Spot.findByPk(spotId)
 
+    if (!spot) {
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+    if (spot.ownerId === userId) {
+        const bookings = await Booking.findAll({
+            where: { spotId: spotId },
+            include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
+        })
+        return res.status(200).json({ "Bookings": bookings })
+    } else {
+        const bookings = await Booking.findAll({
+            where: { spotId: spotId },
+            attributes: ['spotId', 'startDate', 'endDate'],
+        })
+        return res.status(200).json({ "Bookings": bookings })
+    }
+})
 module.exports = router;
