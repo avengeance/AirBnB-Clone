@@ -11,27 +11,21 @@ const router = express.Router();
 
 // Get all of the current user's bookings
 router.get('/current', requireAuth, async (req, res) => {
-    const { SpotImage } = require('./index.js')
-    const allBookings = await Booking.findAll({
-        // attributes: ['id', 'spotId'],
-        attributes: ['id', 'spotId', {
-            include: [
-                {
-                    model: Spot, attributes: [
-                        'id', 'ownerId', 'address', 'city', 'state', 'country',
-                        'lat', 'lng', 'name', 'description', 'price',
-                        // include: { model: SpotImage, attributes: [] },
-                        // include: [Sequelize.col('SpotImages.url'), 'previewImage',]
-                        // }
-                    ]
-                }
-            ]
-        }, 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
-    },
-)
-return res.json({ "Bookings": allBookings })
+    const userId = req.user.id
+    const bookings = await Booking.findAll({
+        where: { userId: userId },
+        include: [
+            {
+                model: Spot, attributes: ['id', 'ownerId', 'address', 'city',
+                    'state', 'country', 'lat', 'lng', 'name', 'price'
+                ],
+                include: { model: SpotImage, attributes: ['url'] }
+            },
+        ]
+    })
+
+    return res.json({ "Bookings": bookings })
 })
 
-//
 
 module.exports = router;
