@@ -104,4 +104,21 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
 
 })
 
+// Delete a booking
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+    const bookingId = req.params.bookingId
+    const booking = await Booking.findByPk(bookingId)
+    if (!booking) {
+        return res.status(404).json({
+            "message": "Booking couldn't be found",
+            "statusCode": 404
+        })
+    }
+    await booking.destroy(bookingId)
+    return res.status(200).json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+    })
+})
+
 module.exports = router;
