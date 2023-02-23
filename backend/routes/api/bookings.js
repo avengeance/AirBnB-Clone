@@ -40,6 +40,12 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             "statusCode": 404
         })
     }
+    if(booking.userId !== userId) {
+        return res.status(403).json({
+             message: "User not authorized",
+             statusCode: 403
+         })
+     }
     if (new Date(endDate) < new Date(startDate)) {
         return res.status(400).json({
             "message": "Validation error",
@@ -70,7 +76,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             }
         }
     })
-    if (checkConflict.length) {
+    if (checkConflict) {
         return res.status(403).json({
             "message": "Sorry, this spot is already booked for the specified dates",
             "statusCode": 403,

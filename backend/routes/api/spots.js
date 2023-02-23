@@ -66,34 +66,34 @@ const reviewValidationError = [
 ]
 
 // Get all spots
-router.get('/', async (req, res) => {
-    const results = await Spot.findAll({
-        attributes: [
-            'id',
-            'ownerId',
-            'address',
-            'city',
-            'state',
-            'country',
-            'lat',
-            'lng',
-            'name',
-            'description',
-            'price',
-            'createdAt',
-            'updatedAt',
-            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-            [Sequelize.col('SpotImages.url'), 'previewImage']
+// router.get('/', async (req, res) => {
+//     const results = await Spot.findAll({
+//         attributes: [
+//             'id',
+//             'ownerId',
+//             'address',
+//             'city',
+//             'state',
+//             'country',
+//             'lat',
+//             'lng',
+//             'name',
+//             'description',
+//             'price',
+//             'createdAt',
+//             'updatedAt',
+//             [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+//             [Sequelize.col('SpotImages.url'), 'previewImage']
 
-        ],
-        include: [
-            { model: Review, attributes: [] },
-            { model: SpotImage, attributes: [] }
-        ],
-        group: 'Reviews.spotId',
-    })
-    return res.status(200).json({ "Spots": results })
-})
+//         ],
+//         include: [
+//             { model: Review, attributes: [] },
+//             { model: SpotImage, attributes: [] }
+//         ],
+//         group: 'Reviews.spotId',
+//     })
+//     return res.status(200).json({ "Spots": results })
+// })
 
 
 // Get all spots by the current user
@@ -216,6 +216,7 @@ router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
 })
 
 // Delete a spot
+// fix if the spot doesn't exist error
 router.delete('/:spotId', async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
@@ -386,7 +387,44 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     }
 })
 
+// Add query filters to Get all Spots
+router.get('/', async (req, res) => {
+    let page = Number(req.query.page) || 1
+    let size = Number(req.query.size) || 20
+    let minLat = Number(req.query.minLat)
+    let maxLat = Number(req.query.maxLat)
+    let minLng = Number(req.query.minLng)
+    let maxLng = Number(req.query.maxLng)
+    let minPrice = Number(req.query.minPrice) || 0
+    let maxPrice = Number(req.query.maxPrice)
+    const results = await Spot.findAll({
+        attributes: [
+            'id',
+            'ownerId',
+            'address',
+            'city',
+            'state',
+            'country',
+            'lat',
+            'lng',
+            'name',
+            'description',
+            'price',
+            'createdAt',
+            'updatedAt',
+            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+            [Sequelize.col('SpotImages.url'), 'previewImage']
 
-
+        ],
+        include: [
+            { model: Review, attributes: [] },
+            { model: SpotImage, attributes: [] }
+        ],
+        group: 'Reviews.spotId',
+        offset: (page - 1) * size,
+        // limit: size
+    })
+    return res.status(200).json({ "Spots": results, page, size })
+})
 
 module.exports = router;
