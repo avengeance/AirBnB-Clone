@@ -1,7 +1,7 @@
 'use strict';
 
 let options = {}
-if (process.enc.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA
 }
 
