@@ -19,7 +19,7 @@ router.get('/current', requireAuth, async (req, res) => {
                 model: Spot, attributes: ['id', 'ownerId', 'address', 'city',
                     'state', 'country', 'lat', 'lng', 'name', 'price'
                 ],
-                include: { model: SpotImage, attributes: ['url'] }
+                include: { model: SpotImage, as: 'previewImage', attributes: ['url'] }
             },
         ]
     })
@@ -40,73 +40,60 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             "statusCode": 404
         })
     }
-    if(booking.userId !== userId) {
+    if (booking.userId !== userId) {
         return res.status(403).json({
-             message: "User not authorized",
-             statusCode: 403
-         })
-     }
-    if (new Date(endDate) < new Date(startDate)) {
-        return res.status(400).json({
-            "message": "Validation error",
-            "statusCode": 400,
-            "errors": {
-                "endDate": "endDate cannot come before startDate"
-            }
+            message: "User not authorized",
+            statusCode: 403
         })
-    }
-    if (new Date() > new Date(endDate)) {
-        return res.status(403).json({
-            "message": "Past bookings can't be modified",
-            "statusCode": 403
-        })
-    }
-
-    const checkConflict = await Booking.findAll({
-        where: {
-            spotId: bookingId,
-            startDate: {
-                [Op.lte]: new Date(endDate)
-            },
-            endDate: {
-                [Op.gte]: new Date(startDate)
-            },
-            id: {
-                [Op.ne]: bookingId
-            }
+    }else{
+        if (new Date(endDate) < new Date(startDate)) {
+            return res.status(400).json({
+                "message": "Validation error",
+                "statusCode": 400,
+                "errors": {
+                    "endDate": "endDate cannot come before startDate"
+                }
+            })
         }
-    })
-    if (checkConflict) {
-        return res.status(403).json({
-            "message": "Sorry, this spot is already booked for the specified dates",
-            "statusCode": 403,
-            "errors": {
-                "startDate": "Start date conflicts with an existing booking",
-                "endDate": "End date conflicts with an existing booking"
+        if (new Date() > new Date(endDate)) {
+            return res.status(403).json({
+                "message": "Past bookings can't be modified",
+                "statusCode": 403
+            })
+        }
+    
+        const checkConflict = await Booking.findAll({
+            where: {
+                spotId: bookingId,
+                startDate: {
+                    [Op.lte]: new Date(endDate)
+                },
+                endDate: {
+                    [Op.gte]: new Date(startDate)
+                },
+                id: {
+                    [Op.ne]: bookingId
+                }
             }
         })
+        if (checkConflict) {
+            return res.status(403).json({
+                "message": "Sorry, this spot is already booked for the specified dates",
+                "statusCode": 403,
+                "errors": {
+                    "startDate": "Start date conflicts with an existing booking",
+                    "endDate": "End date conflicts with an existing booking"
+                }
+            })
+        }
+    
+        const updateBooking = await booking.update({
+            startDate: new Date(startDate),
+            endDate: new Date(endDate)
+        })
+    
+        return res.status(200).json(updateBooking)
     }
-
-    // if (checkConflict.startDate === new Date(startDate) || checkConflict.endDate === new Date(endDate)) {
-    //     return res.status(403).json({
-    //         "message": "Sorry, this spot is already booked for the specified dates",
-    //         "statusCode": 403,
-    //         "errors": {
-    //             "startDate": "Start date conflicts with an existing booking",
-    //             "endDate": "End date conflicts with an existing booking"
-    //         }
-    //     })
-    // }
-
-
-
-
-    const updateBooking = await booking.update({
-        startDate: new Date(startDate),
-        endDate: new Date(endDate)
-    })
-
-    return res.status(200).json(updateBooking)
 
 })
 
@@ -120,11 +107,18 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
             "statusCode": 404
         })
     }
-    await booking.destroy(bookingId)
-    return res.status(200).json({
-        "message": "Successfully deleted",
-        "statusCode": 200
-    })
+    if (booking.userId !== req.user.id) {
+        return res.status(403).json({
+            message: "User not authorized",
+            statusCode: 403
+        })
+    }else{
+        await booking.destroy(bookingId)
+        return res.status(200).json({
+            "message": "Successfully deleted",
+            "statusCode": 200
+        })
+    }
 })
 
 module.exports = router;

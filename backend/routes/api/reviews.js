@@ -23,7 +23,6 @@ const reviewValidationError = [
 ]
 
 // Get all reviews of the current user
-// find a way to remove 'SpotImages' and only display previewImage
 router.get('/current', async (req, res) => {
     const userId = req.user.id
     const user = await Review.findByPk(userId)
@@ -71,31 +70,29 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 })
 
 // Edit a review
-// trying to get response body
 // get authorization working
 router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) => {
     const reviewId = req.params.reviewId
     const updateReview = await Review.findByPk(reviewId)
-    const userId = req.user.id
     const { review, stars } = req.body
+    console.log(review.userId)
     if (!updateReview) {
         return res.status(404).json({
             "message": "Review couldn't be found",
             "statusCode": 404
         })
     }
-    // if (review.userId !== userId) {
-    //     res.status(400).json({
-    //         "message": "User not authorized"
-    //     })
-    // }
-    const update = await updateReview.update({
-        review,
-        stars,
-    });
-
-
-    return res.status(200).json(update)
+    if (review.userId !== req.user.id) {
+        res.status(400).json({
+            "message": "User not authorized"
+        })
+    } else {
+        const update = await updateReview.update({
+            review,
+            stars,
+        });
+        return res.status(200).json(update)
+    }
 })
 
 // Delete a Review
@@ -113,12 +110,13 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
         res.status(400).json({
             message: 'User not authorized'
         })
+    }else{
+        await review.destroy(reviewId)
+        return res.status(200).json({
+            "message": "Successfully deleted",
+            "statusCode": 200
+        })
     }
-    await review.destroy(reviewId)
-    return res.status(200).json({
-        "message": "Successfully deleted",
-        "statusCode": 200
-    })
 })
 
 module.exports = router;
