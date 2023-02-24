@@ -154,9 +154,8 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
 })
 
 // Add an image to a spot based on the Spot's Id
-// Need to work on the spot Authorization
 router.post('/:spotId/images', requireAuth, async (req, res) => {
-    const userId = req.user.id
+
     const { url, preview } = req.body
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
@@ -167,28 +166,30 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             "statusCode": 404
         })
     }
-    // if (userId !== spot.ownerId) {
-    //     return res.status(403).json({
-    //         "message": "User is not authorized"
-    //     })
-    // }
-    const newImage = await SpotImage.create({
-        spotId: spotId,
-        url: url,
-        preview: preview
-    })
-    return res.status(200).json({
-        id: newImage.id,
-        url: newImage.url,
-        preview: newImage.preview
-    })
+
+    if (spot.ownerId !== req.user.id) {
+        return res.status(403).json({
+            message: 'User not authorized'
+        })
+    } else{
+        const newImage = await SpotImage.create({
+            spotId: spotId,
+            url: url,
+            preview: preview
+        })
+        return res.status(200).json({
+            id: newImage.id,
+            url: newImage.url,
+            preview: newImage.preview
+        })
+    }
+
 })
 
 // Edit a Spot
 router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
-    const userId = req.user.id
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     if (!spot) {
         return res.status(404).json({
@@ -196,51 +197,49 @@ router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
             "statusCode": 404
         })
     }
-    if (spot.ownerId !== userId) {
-        res.status(403).json({
+
+    if (spot.ownerId !== req.user.id) {
+        return res.status(403).json({
             message: 'User not authorized'
         })
+    } else {
+        const update = await spot.update({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price,
+        });
+        return res.status(200).json(update)
+
     }
-    const update = await spot.update({
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price,
-    });
-    return res.status(200).json(update)
 })
 
 // Delete a spot
-// fix if the spot doesn't exist error
 router.delete('/:spotId', async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
-    const userId = req.user.id
-
     if (!spot) {
         return res.status(404).json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
     }
-
-    if (spot.ownerId !== userId) {
-        res.status(403).json({
+    if (spot.ownerId !== req.user.id) {
+        return res.status(403).json({
             message: 'User not authorized'
         })
+    } else {
+        await spot.destroy()
+        return res.status(200).json({
+            "message": "Successfully deleted",
+            "statusCode": 200
+        })
     }
-
-    await spot.destroy(spotId)
-
-    return res.status(200).json({
-        "message": "Successfully deleted",
-        "statusCode": 200
-    })
 })
 
 //Get all reviews by a Spot's id

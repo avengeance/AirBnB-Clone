@@ -14,19 +14,10 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isEmail()
     .withMessage('Please provide a valid email.'),
-  check('firstName')
-    .exists({ checkFalsy: true })
-    .withMessage('First Name is required'),
-  check('lastName')
-    .exists({ checkFalsy: true })
-    .withMessage('Last name is required'),
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.')
-    .not()
-    .notEmpty()
-    .withMessage('Username is required.'),
+    .withMessage('Please provide a username with at least 4 characters.'),
   check('username')
     .not()
     .isEmail()
@@ -35,6 +26,12 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
+    check('firstName')
+    .exists({checkFalsy:true})
+    .withMessage('First Name is required'),
+    check('lastName')
+    .exists({checkFalsy:true})
+    .withMessage('Last Name is required'),
   handleValidationErrors
 ];
 
@@ -58,15 +55,18 @@ router.post(
       validationErrors.errors.email = "Invalid email"
     } else if (checkEmail) {
       validationErrors.errors.email = "User with that email already exists"
-    }
-    else if (!req.body.username) {
+    } else if (!req.body.username) {
       validationErrors.errors.username = "Username is required"
     } else if (checkUsername) {
       validationErrors.errors.username = "User with that username already exists"
+    } else if (!req.body.firstName) {
+      validationErrors.errors.firstName = "First Name is required"
+    } else if (!req.body.lastName) {
+      validationErrors.errors.lastName = "Last Name is required"
     }
 
-    if (Object.values(validationErrors.errors).length) {
-      return res.json({ validationErrors })
+    if (Object.values(validationErrors.errors)) {
+      return res.json(validationErrors)
     }
 
 
