@@ -19,7 +19,7 @@ router.get('/current', requireAuth, async (req, res) => {
                 model: Spot, attributes: ['id', 'ownerId', 'address', 'city',
                     'state', 'country', 'lat', 'lng', 'name', 'price'
                 ],
-                include: { model: SpotImage, as: 'previewImage', attributes: ['url'] }
+                include: { model: SpotImage, attributes: ['url'] }
             },
         ]
     })
