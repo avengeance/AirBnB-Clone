@@ -95,7 +95,7 @@ module.exports = (sequelize, DataTypes) => {
       includePrevAvg(userId) {
         const { Review, SpotImage } = require('./index.js')
         return {
-          where: { ownerId: userId },
+          where: { ownerId: userId }, 
           include: [
             { model: Review, attributes: [], },
             { model: SpotImage, attributes: [] },
