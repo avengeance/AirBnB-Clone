@@ -394,29 +394,32 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 // Add query filters to Get all Spots
 router.get('/', async (req, res) => {
-    let page = Number(req.query.page) || 1
-    let size = Number(req.query.size) || 20
-    let minLat = Number(req.query.minLat)
-    let maxLat = Number(req.query.maxLat)
-    let minLng = Number(req.query.minLng)
-    let maxLng = Number(req.query.maxLng)
-    let minPrice = Number(req.query.minPrice)
-    let maxPrice = Number(req.query.maxPrice)
-    const results = await Spot.findAll({
-        attributes: [
-            'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
-            'name', 'description', 'price', 'createdAt', 'updatedAt',
-            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-            [Sequelize.col('SpotImages.url'), 'previewImage']
-        ],
-        include: [
-            { model: Review, attributes: [] },
-            { model: SpotImage, attributes: [] }
-        ],
-        group: 'Reviews.spotId',
-        offset: (page - 1) * size,
-        // limit: size
+    const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice = 0, maxPrice = 0 } = req.query
+    const limit = Math.min(parseInt(size), 20)
+    const offset = (parseInt(page) - 1) * limit
+    const filters = {
+        ...(minLat && { lat: { [Op.gte]: minLat } }),
+        ...(maxLat && { lat: { [Op.lte]: maxLat } }),
+        ...(minLng && { lng: { [Op.gte]: minLng } }),
+        ...(maxLng && { lng: { [Op.lte]: maxLng } }),
+        ...(minPrice && { price: { [Op.gte]: minPrice } }),
+        ...(maxPrice && { price: { [Op.lte]: maxPrice } })
+    };
+
+
+    const results = await Spot.scope({ method: ['queryFilter'] }).findAll({
+        where: filters,
+        limit: limit,
+        offset: offset
+
     })
+
+    if (!results) {
+        return res.status(404).json({
+            "message": "Spot doesn't exist",
+            "statusCode": 404
+        })
+    }
 
     if (page < 0) {
         return res.status(400).json({
@@ -448,12 +451,12 @@ router.get('/', async (req, res) => {
             'message': "Maximum longitude is invalid",
             "statusCode": 400
         })
-    } else if (minPrice && minPrice < 1) {
+    } else if (minPrice && minPrice <= 1) {
         return res.status(400).json({
             'message': "Minimum price must be greater than or equal to 1",
             "statusCode": 400
         })
-    } else if (maxPrice && maxPrice < 1) {
+    } else if (maxPrice && maxPrice <= 1) {
         return res.status(400).json({
             'message': "Maximum price must be greater than or equal to 1",
             "statusCode": 400
