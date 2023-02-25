@@ -108,7 +108,7 @@ module.exports = (sequelize, DataTypes) => {
               [Sequelize.col('SpotImages.url'), 'previewImage',]
             ],
           },
-          group: 'Reviews.spotId',
+          group: ['Reviews.spotId','Spot.id'],
         }
       },
       queryFilter() {
