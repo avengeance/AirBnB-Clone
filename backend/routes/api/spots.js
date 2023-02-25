@@ -151,10 +151,8 @@ router.get('/:spotId', async (req, res) => {
             group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", "Owner.id"]
         },
     )
-    let numReviews = spot.dataValues ? parseInt(spot.dataValues.numReviews) : 0
-    let avgRating = spot.dataValues ? parseInt(spot.datavalues.avgRating) : 0
     if (spot.id) {
-        return res.status(200).json(spot, numReviews, avgRating)
+        return res.status(200).json(spot)
     } else {
         return res.status(404).json({
             "message": "Spot couldn't be found",
