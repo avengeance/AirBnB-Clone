@@ -109,21 +109,49 @@ router.get('/current', async (req, res) => {
 // Get details of a Spot from an Id
 router.get('/:spotId', async (req, res) => {
     const spotId = req.params.spotId
-    const spot = await Spot.findByPk(spotId, {
-        attributes: [
-            'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description',
-            'price', 'createdAt', 'updatedAt',
-            [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
-            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-        ],
-        include: [
-            { model: Review, attributes: [] },
-            { model: SpotImage, attributes: ['id', 'url', 'preview'] },
-            { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
-        ],
-        group: ['Reviews.spotId', 'Spot.id', 'SpotImages.url', 'SpotImages.id','Owner.id']
-    })
-    if (spot.id) {
+    // const spot = await Spot.findByPk(spotId, {
+    //     attributes: [
+    //         'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description',
+    //         'price', 'createdAt', 'updatedAt',
+    //         [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
+    //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+    //     ],
+    //     include: [
+    //         { model: Review, attributes: [] },
+    //         { model: SpotImage, attributes: ['id', 'url', 'preview'] },
+    //         { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
+    //     ],
+    //     group: ['Reviews.spotId', 'Spot.id', 'SpotImages.url', 'SpotImages.id','Owner.id']
+    // })
+
+    const selectedSpot = await Spot.findByPk(spotId,
+        {
+            include: [
+                {
+                    model: SpotImage,
+                    attributes: ['id', 'url', 'preview']
+                },
+                {
+                    model: User,
+                    as: 'Owner', //aliasing
+                    attributes: ['id', 'firstName', 'lastName'],
+
+                },
+                {
+                    model: Review,
+                    attributes: []
+                }
+            ],
+            attributes: {
+                include: [
+                    [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), 'avgStarRating'],
+                    [Sequelize.fn("COUNT", Sequelize.col("Reviews.stars")), 'numReviews']
+                ]
+            },
+            group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", "Owner.id"]
+        },
+    )
+    if (selectedSpot.id) {
         return res.status(200).json(spot)
     } else {
         return res.status(404).json({
