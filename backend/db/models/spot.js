@@ -4,6 +4,10 @@ const {
 } = require('sequelize');
 
 const { Review, ReviewImage } = require('../models/index.js')
+let schema;
+if (process.env.NODE_ENV === 'production') {
+  schema = process.env.SCHEMA; // define your schema in opinos object
+}
 
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
@@ -18,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true
       })
-      Spot.hasMany(models.SpotImage, { foreignKey: "spotId"})
+      Spot.hasMany(models.SpotImage, { foreignKey: "spotId" })
       Spot.hasMany(models.Review, { foreignKey: 'spotId' })
       Spot.hasMany(models.Booking, { foreignKey: 'spotId' })
     }
@@ -106,13 +110,12 @@ module.exports = (sequelize, DataTypes) => {
           },
           group: 'Reviews.spotId',
         }
-      }
-    },
+      },
       queryFilter() {
         return {
-          attributes: [ 'id', 'ownerId', 'address', 'city', 'state', 'country','lat','lng','name','description','price','createdAt','updatedAt',
-            [ Sequelize.literal(`(SELECT ROUND(AVG(stars), 1) FROM ${schema ? `"${schema}"."Reviews"` : 'Reviews'} WHERE "Reviews"."spotId" = "Spot"."id")`
-              ),
+          attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt',
+            [Sequelize.literal(`(SELECT ROUND(AVG(stars), 1) FROM ${schema ? `"${schema}"."Reviews"` : 'Reviews'} WHERE "Reviews"."spotId" = "Spot"."id")`
+            ),
               'avgRating',
             ],
             [
@@ -123,6 +126,7 @@ module.exports = (sequelize, DataTypes) => {
           ],
         };
       }
+    },
   });
   return Spot;
 };

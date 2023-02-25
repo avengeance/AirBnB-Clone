@@ -394,7 +394,9 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 // Add query filters to Get all Spots
 router.get('/', async (req, res) => {
-    const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice = 0, maxPrice = 0 } = req.query
+    const page = parseInt(req.query.page) || 1
+    const size = parseInt(req.query.size) || 20
+    const { minLat, maxLat, minLng, maxLng, minPrice = 0, maxPrice = 0 } = req.query
     const limit = Math.min(parseInt(size), 20)
     const offset = (parseInt(page) - 1) * limit
     const filters = {
