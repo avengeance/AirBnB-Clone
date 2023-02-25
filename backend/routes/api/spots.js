@@ -124,7 +124,7 @@ router.get('/:spotId', async (req, res) => {
     //     group: ['Reviews.spotId', 'Spot.id', 'SpotImages.url', 'SpotImages.id','Owner.id']
     // })
 
-    const selectedSpot = await Spot.findByPk(spotId,
+    const spot = await Spot.findByPk(spotId,
         {
             include: [
                 {
@@ -151,7 +151,7 @@ router.get('/:spotId', async (req, res) => {
             group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", "Owner.id"]
         },
     )
-    if (selectedSpot.id) {
+    if (spot.id) {
         return res.status(200).json(spot)
     } else {
         return res.status(404).json({
