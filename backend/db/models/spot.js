@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true
       })
-      Spot.hasMany(models.SpotImage, { foreignKey: "spotId", as: 'previewImage' })
+      Spot.hasMany(models.SpotImage, { foreignKey: "spotId"})
       Spot.hasMany(models.Review, { foreignKey: 'spotId' })
       Spot.hasMany(models.Booking, { foreignKey: 'spotId' })
     }
@@ -107,7 +107,22 @@ module.exports = (sequelize, DataTypes) => {
           group: 'Reviews.spotId',
         }
       }
-    }
+    },
+      queryFilter() {
+        return {
+          attributes: [ 'id', 'ownerId', 'address', 'city', 'state', 'country','lat','lng','name','description','price','createdAt','updatedAt',
+            [ Sequelize.literal(`(SELECT ROUND(AVG(stars), 1) FROM ${schema ? `"${schema}"."Reviews"` : 'Reviews'} WHERE "Reviews"."spotId" = "Spot"."id")`
+              ),
+              'avgRating',
+            ],
+            [
+              Sequelize.literal(`(SELECT url FROM ${schema ? `"${schema}"."SpotImages"` : 'SpotImages'} WHERE "SpotImages"."spotId" = "Spot"."id" AND "SpotImages"."preview" = true LIMIT 1)`
+              ),
+              'previewImage',
+            ],
+          ],
+        };
+      }
   });
   return Spot;
 };

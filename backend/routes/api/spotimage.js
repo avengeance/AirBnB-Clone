@@ -11,7 +11,6 @@ const spotimage = require('../../db/models/spotimage');
 const router = express.Router();
 
 // Delete a Spot Image
-// work on authorization
 router.delete('/:imageId', requireAuth, async (req, res) => {
     const imageId = req.params.imageId
     const image = await SpotImage.findByPk(imageId, {

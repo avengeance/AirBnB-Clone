@@ -70,7 +70,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 })
 
 // Edit a review
-// get authorization working
 router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) => {
     const reviewId = req.params.reviewId
     const updateReview = await Review.findByPk(reviewId)
@@ -82,7 +81,7 @@ router.put('/:reviewId', requireAuth, reviewValidationError, async (req, res) =>
             "statusCode": 404
         })
     }
-    if (review.userId !== req.user.id) {
+    if (updateReview.userId !== req.user.id) {
         res.status(400).json({
             "message": "User not authorized"
         })
