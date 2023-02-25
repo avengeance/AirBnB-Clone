@@ -36,7 +36,6 @@ router.get('/current', async (req, res) => {
 
 
 // Add an image to a Review based on the Review's id
-// count review is going past 10
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const reviewId = req.params.reviewId
     const { url } = req.body
