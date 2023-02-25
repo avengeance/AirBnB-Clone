@@ -45,7 +45,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             message: "User not authorized",
             statusCode: 403
         })
-    }else{
+    } else {
         if (new Date(endDate) < new Date(startDate)) {
             return res.status(400).json({
                 "message": "Validation error",
@@ -61,22 +61,28 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
                 "statusCode": 403
             })
         }
-    
-        const checkConflict = await Booking.findAll({
+
+        const checkConflict = await Booking.findOne({
             where: {
-                spotId: bookingId,
-                startDate: {
-                    [Op.lte]: new Date(endDate)
-                },
-                endDate: {
-                    [Op.gte]: new Date(startDate)
-                },
-                id: {
-                    [Op.ne]: bookingId
-                }
-            }
-        })
-        if (checkConflict.length) {
+                spotId: booking.spotId,
+                [Op.and]: [
+                    {
+                        startDate: { [Op.lt]: endDate },
+                    },
+                    {
+                        endDate: { [Op.gt]: startDate },
+                    },
+                ],
+            },
+        });
+
+        if (!checkConflict) {
+            const updateBooking = await booking.update({
+                startDate: new Date(startDate),
+                endDate: new Date(endDate)
+            })
+            return res.status(200).json(updateBooking)
+        } else {
             return res.status(403).json({
                 "message": "Sorry, this spot is already booked for the specified dates",
                 "statusCode": 403,
@@ -85,17 +91,9 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
                     "endDate": "End date conflicts with an existing booking"
                 }
             })
-        }else{
-            const updateBooking = await booking.update({
-                startDate: new Date(startDate),
-                endDate: new Date(endDate)
-            })
-        
-            return res.status(200).json(updateBooking)
         }
-    
-    }
 
+    }
 })
 
 // Delete a booking
@@ -113,7 +111,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
             message: "User not authorized",
             statusCode: 403
         })
-    }else{
+    } else {
         await booking.destroy(bookingId)
         return res.status(200).json({
             "message": "Successfully deleted",
