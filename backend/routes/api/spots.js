@@ -65,48 +65,6 @@ const reviewValidationError = [
     handleValidationErrors
 ]
 
-const queryValidators = [
-    check('page')
-        .exists({ checkFalsy: true })
-        .isNumeric()
-        .isInt({ min: 1 })
-        .withMessage('Page must be greater than or equal to 1'),
-    check('size')
-        .exists({ checkFalsy: true })
-        .isNumeric()
-        .isInt({ min: 1 })
-        .withMessage('Size must be greater than or equal to 1'),
-    check('maxLat')
-        .exists({ checkFalsy: true })
-        .isLatLong()
-        .isInt({ max: 90 })
-        .withMessage('Maximum latitude is invalid'),
-    check('minLat')
-        .exists({ checkFalsy: true })
-        .isLatLong()
-        .isInt({ min: -90 })
-        .withMessage('Minimum latitude is invalid'),
-    check('minLng')
-        .exists({ checkFalsy: true })
-        .isLatLong()
-        .isInt({ min: -180 })
-        .withMessage('Maximum longitude is invalid'),
-    check('maxLng')
-        .exists({ checkFalsy: true })
-        .isLatLong()
-        .isInt({ max: 180 })
-        .withMessage('Minimum longitude is invalid'),
-    check('minPrice')
-        .exists({ checkFalsy: true })
-        .isNumeric()
-        .isInt({ min: 1 })
-        .withMessage('Minimum price must be greater than or equal to 1'),
-    check('maxPrice')
-        .exists({ checkFalsy: true })
-        .isNumeric()
-        .isInt()
-        .withMessage('Maxmimum price must be greater than or equal to 1'),
-]
 
 // Get all spots
 // router.get('/', async (req, res) => {
@@ -470,32 +428,32 @@ router.get('/', async (req, res) => {
             'message': "Size must be greater than or equal to 1",
             "statusCode": 400
         })
-    } else if (minLat < -90) {
+    } else if (minLat && minLat < -90) {
         return res.status(400).json({
             'message': "Minimum latitude is invalid",
             "statusCode": 400
         })
-    } else if (maxLat > 90) {
+    } else if (maxLat && maxLat > 90) {
         return res.status(400).json({
             'message': "Minimum latitude is invalid",
             "statusCode": 400
         })
-    } else if (minLng < -180) {
+    } else if (minLng && minLng < -180) {
         return res.status(400).json({
             'message': "Minimum longitude is invalid",
             "statusCode": 400
         })
-    } else if (maxLng > 180) {
+    } else if (maxLng && maxLng > 180) {
         return res.status(400).json({
             'message': "Maximum longitude is invalid",
             "statusCode": 400
         })
-    } else if (minPrice < 1) {
+    } else if (minPrice && minPrice < 1) {
         return res.status(400).json({
             'message': "Minimum price must be greater than or equal to 1",
             "statusCode": 400
         })
-    } else if (maxPrice < 1) {
+    } else if (maxPrice && maxPrice < 1) {
         return res.status(400).json({
             'message': "Maximum price must be greater than or equal to 1",
             "statusCode": 400
