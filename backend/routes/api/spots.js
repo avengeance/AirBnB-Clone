@@ -101,7 +101,7 @@ const reviewValidationError = [
 router.get('/current', async (req, res) => {
     const allSpots = await Spot.scope({
         method: ['includePrevAvg', req.user.id],
-    }).findAll({ group: ['Reviews.spotId', 'Spot.id', "SpotImages.url"] })
+    }).findAll({ group: ['Reviews.spotId', 'Spot.id',"SpotImages.url"] })
     return res.json({ "Spots": allSpots })
 })
 
@@ -114,14 +114,14 @@ router.get('/:spotId', async (req, res) => {
             'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description',
             'price', 'createdAt', 'updatedAt',
             [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
-            parseFloat([Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating']),
+            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
         ],
         include: [
             { model: Review, attributes: [] },
             { model: SpotImage, attributes: ['id', 'url', 'preview'] },
             { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
         ],
-        group: ['Reviews.spotId', 'Spot.id', 'SpotImages.url']
+        group: ['Reviews.spotId', 'Spot.id','SpotImages.url']
     })
     if (spot.id) {
         return res.status(200).json(spot)
