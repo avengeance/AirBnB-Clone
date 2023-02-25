@@ -104,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
             include: [
               'id',
               'ownerId',
-              [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',],
+              parseFloat([Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',]),
               [Sequelize.col('SpotImages.url'), 'previewImage',]
             ],
           },
