@@ -106,6 +106,16 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
             "statusCode": 404
         })
     }
+
+    const startDate = booking.startDate
+    const currDate = new Date()
+    if (new Date(startDate) <= currDate) {
+      return res.status(404).json({
+        "message": 'Bookings that have been started can not be deleted',
+        "statusCode": 403
+      })
+    }
+
     if (booking.userId !== req.user.id) {
         return res.status(403).json({
             message: "User not authorized",
