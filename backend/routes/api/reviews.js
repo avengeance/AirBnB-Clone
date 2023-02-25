@@ -30,8 +30,8 @@ router.get('/current', async (req, res) => {
         allReviews = await Review.scope({
             method: ['includeUserSpotReviewImages', req.user.id],
         }).findAll({})
+        return res.json({ "Reviews": allReviews })
     }
-    return res.json({ "Reviews": allReviews })
 })
 
 
@@ -108,7 +108,7 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
         res.status(400).json({
             message: 'User not authorized'
         })
-    }else{
+    } else {
         await review.destroy(reviewId)
         return res.status(200).json({
             "message": "Successfully deleted",
