@@ -101,7 +101,7 @@ const reviewValidationError = [
 router.get('/current', async (req, res) => {
     const allSpots = await Spot.scope({
         method: ['includePrevAvg', req.user.id],
-    }).findAll()
+    }).findAll({ group: 'Reviews.spotId' })
     return res.json({ "Spots": allSpots })
 })
 
