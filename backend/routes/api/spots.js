@@ -114,7 +114,7 @@ router.get('/:spotId', async (req, res) => {
             'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description',
             'price', 'createdAt', 'updatedAt',
             [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
-            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+            parseFloat([Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating']),
         ],
         include: [
             { model: Review, attributes: [] },
