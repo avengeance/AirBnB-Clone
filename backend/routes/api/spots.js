@@ -126,7 +126,7 @@ router.get('/:spotId', async (req, res) => {
 
     const spot = await Spot.findByPk(spotId,
         {
-            from: 'spots',
+            from: ['spots','reviews'],
             include: [
                 {
                     model: SpotImage,
