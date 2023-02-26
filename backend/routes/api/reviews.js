@@ -24,33 +24,13 @@ const reviewValidationError = [
 
 // Get all reviews of the current user
 router.get('/current', async (req, res) => {
-    // const userId = req.user.id
-    // const user = await Review.findByPk(userId)
-    // if (user) {
-    //     const allReviews = await Review.scope({
-    //         method: ['previewImage', req.user.id],
-    //     }).findAll({})
-    //     return res.json({ "Reviews": allReviews })
-    // }
-
     const userId = req.user.id
     const user = await Review.findByPk(userId)
     if (user) {
-        const allReviews = await Review.scope({method: ['previewImage', req.user.id]}).findAll({
-            attributes: [
-                'id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt'
-            ],
-            include: [
-                { model: User, attributes: ['id', 'firstName', 'lastName'] },
-                {
-                    model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
-                    include: [{ model: SpotImage, attributes: ['url'], as: 'previewImage' }]
-                },
-                { model: ReviewImage, attributes: ['id', 'url'] },
-            ]
-        },
-        )
-        return res.status(200).json({ "Reviews": allReviews })
+        const allReviews = await Review.scope({
+            method: ['previewImage', req.user.id],
+        }).findAll({})
+        return res.json({ "Reviews": allReviews })
     }
 })
 
