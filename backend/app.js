@@ -9,7 +9,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { environment } = require('./config');
 const routes = require('./routes')
-const { ValidationError } = require('sequelize');
+const { ValidationError, Sequelize } = require('sequelize');
 
 // Create a variable called isProduction that will be true if the 
 // environment is in production or not by checking the environment 
