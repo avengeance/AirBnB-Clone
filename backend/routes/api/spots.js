@@ -126,6 +126,7 @@ router.get('/:spotId', async (req, res) => {
 
     const spot = await Spot.findByPk(spotId,
         {
+            from: 'spots',
             include: [
                 {
                     model: SpotImage,
@@ -146,8 +147,8 @@ router.get('/:spotId', async (req, res) => {
                 include: [
                     // [Sequelize.fn("COUNT", Sequelize.col("Reviews.stars")), 'numReviews'],
                     // [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), 'avgStarRating']
-                    [Sequelize.literal("COUNT(Reviews.stars)::numeric"),'numReviews'],
-                    [Sequelize.literal("AVG(Reviews.stars)::numeric"),'avgStarRating']
+                    [Sequelize.literal("COUNT(Reviews.stars)::numeric"), 'numReviews'],
+                    [Sequelize.literal("AVG(Reviews.stars)::numeric"), 'avgStarRating']
                 ]
             },
             group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", "Owner.id"]
