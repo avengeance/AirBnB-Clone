@@ -36,9 +36,7 @@ router.get('/current', async (req, res) => {
     const userId = req.user.id
     const user = await Review.findByPk(userId)
     if (user) {
-        const allReviews = await Review.Scope.({
-            method: ['previewImage', req.user.id]
-        }).findAll({
+        const allReviews = await Review.scope({method: ['previewImage', req.user.id]}).findAll({
             attributes: [
                 'id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt'
             ],
