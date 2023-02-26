@@ -52,9 +52,24 @@ module.exports = (sequelize, DataTypes) => {
           ]
           // group: 'Reviews.spotId',
         }
+      },
+      previewImage(userId) {
+        const { User, Spot, ReviewImage, SpotImage } = require('./index.js')
+        return {
+          where: { userId: userId },
+          include: [
+            { model: User, attributes: ['id', 'firstName', 'lastName'] },
+            {
+              model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
+                'lat', 'lng', 'name', 'price'],
+              include: [{ model: SpotImage, attributes: ['url'], as: 'previewImage' }],
+            },
+            { model: ReviewImage, attributes: ['id', 'url'] },
+          ]
       }
     }
+  }
   });
-  return Review;
+return Review;
 };
 // [Sequelize.col('url'), 'previewImage',]
