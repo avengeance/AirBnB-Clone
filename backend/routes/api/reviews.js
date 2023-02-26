@@ -28,7 +28,7 @@ router.get('/current', async (req, res) => {
     const user = await Review.findByPk(userId)
     if (user) {
         const allReviews = await Review.scope({
-            method: ['includeUserSpotReviewimages', req.user.id],
+            method: ['includeUserSpotReviewImages', req.user.id],
         }).findAll({})
         return res.json({ "Reviews": allReviews })
     }
