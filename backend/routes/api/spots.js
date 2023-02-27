@@ -107,21 +107,52 @@ router.get('/current', async (req, res) => {
     //     { group: ['Reviews.spotId', 'Spot.id', "SpotImages.url", 'SpotImages.id', 'Owner.id'] })
     // return res.json({ "Spots": allSpots })
 
+    // const userId = req.user.id
+    // const allSpots = await Spot.findAll({
+    //     where: { ownerId: userId },
+    //     attributes: [
+    //         'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
+    //         'name', 'description', 'price',
+    //         [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',]
+    //         [Sequelize.col('SpotImages.url'), 'previewImage']
+    //     ],
+    //     include: [
+    //         { model: SpotImage, attributes: ['url'] },
+    //         { model: Review, attributes: [] }
+    //     ],
+    //     group: ['Reviews.spotId', 'Spot.id', "SpotImages.url", 'SpotImages.id', 'Owner.id']
+    // })
+    // return res.status(200).json({ "Spots": allSpots })
+
+    // router.get('/current', requireAuth, async (req, res) => {
     const userId = req.user.id
     const allSpots = await Spot.findAll({
         where: { ownerId: userId },
-        attributes: [
-            'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
-            'name', 'description', 'price',
-            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',]
-            [Sequelize.col('SpotImages.url'), 'previewImage']
-        ],
         include: [
             { model: SpotImage, attributes: [] },
             { model: Review, attributes: [] }
         ],
+        attributes: [
+            'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
+            'name', 'description', 'price', 'createdAt', 'updatedAt',
+            // {
+            //     include: [
+            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+            [Sequelize.col('SpotImages.url'), 'previewImage']
+            //     ]
+            // }
+        ],
+        group: ['Spot.id', 'SpotImages.id', "Reviews.spotId"]
     })
-    return res.status(200).json({ "Spots": allSpots })
+    if (allSpots) {
+        return res.status(200).json({ "Spots": allSpots })
+    } else {
+        res.status(400).json({
+            "message": 'Current user has no spots',
+            'statusCode': 404
+        })
+    }
+
 })
 
 
