@@ -65,9 +65,9 @@ router.post(
       validationErrors.errors.lastName = "Last Name is required"
     }
 
-    if (Object.values(validationErrors.errors)) {
-      return res.json(validationErrors)
-    }
+    // if (Object.values(validationErrors.errors)) {
+    //   return res.json(validationErrors)
+    // }
     
 
 
