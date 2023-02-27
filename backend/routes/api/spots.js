@@ -117,6 +117,7 @@ router.get('/current', async (req, res) => {
         attributes: [
             'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
             'name', 'description', 'price',
+            [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating',]
             [Sequelize.col('SpotImages.url'), 'previewImage']
         ]
     })
