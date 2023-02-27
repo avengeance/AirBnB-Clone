@@ -112,7 +112,7 @@ router.get('/current', async (req, res) => {
         where: { ownerId: userId },
         include: [
             { model: SpotImage, attributes: [] },
-            { model: Review, attributes: ['stars'] }
+            { model: Review, attributes: [] }
         ],
         attributes: [
             'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
