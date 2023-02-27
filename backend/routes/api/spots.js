@@ -472,7 +472,7 @@ router.get('/', async (req, res) => {
         })
     } else if (maxLat && maxLat > 90) {
         return res.status(400).json({
-            'message': "Minimum latitude is invalid",
+            'message': "Maximum latitude is invalid",
             "statusCode": 400
         })
     } else if (minLng && minLng < -180) {
