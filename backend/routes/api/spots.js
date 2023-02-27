@@ -154,7 +154,7 @@ router.get('/:spotId', async (req, res) => {
             group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", "Owner.id"]
         },
     )
-    if (spotId) {
+    if (spot) {
         return res.status(200).json(spot)
     } else {
         return res.status(404).json({
