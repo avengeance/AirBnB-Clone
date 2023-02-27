@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Spot',
     scopes: {
       includePrevAvg(userId) {
-        const { Review, SpotImage } = require('./index.js')
+        const { Review, SpotImage, User } = require('./index.js')
         return {
           where: { ownerId: userId },
           include: [
