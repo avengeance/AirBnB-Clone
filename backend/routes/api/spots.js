@@ -511,7 +511,7 @@ router.get('/', async (req, res) => {
 
             }
         })
-        res.status(200).json({ "Spots": spots })
+        res.status(200).json({ "Spots": spots, page, size })
     }
     if (page < 0) {
         return res.status(400).json({
