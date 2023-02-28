@@ -202,6 +202,7 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const ownerId = req.user.id
 
+
     const newSpot = await Spot.create({
         ownerId,
         address,
@@ -214,6 +215,35 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
         description,
         price
     })
+
+    if (newSpot) {
+        const spots = allSpots.map(spot => {
+            spot = spot.toJSON()
+            const lat = parseFloat(spot.lat)
+            const lng = parseFloat(spot.lng)
+            const price = parseFloat(spot.price)
+            const avgRating = parseFloat(spot.avgRating)
+            return {
+                id: spot.id,
+                ownerId: spot.ownerId,
+                address: spot.address,
+                city: spot.city,
+                state: spot.state,
+                country: spot.county,
+                lat,
+                lng,
+                name: spot.name,
+                description: spot.description,
+                price,
+                createdAt: spot.createdAt,
+                updatedAt: spot.updatedAt,
+                avgRating,
+                previewImage: spot.previewImage
+            }
+        })
+        return res.status(201).json({ "Spots": spots })
+
+    }
     return res.status(201).json(newSpot)
 
 })
