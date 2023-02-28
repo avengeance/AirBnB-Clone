@@ -117,7 +117,7 @@ router.get('/current', async (req, res) => {
             //     ]
             // }
         ],
-        group: ['Spot.id', 'SpotImages.id', "Reviews.spotId"]
+        group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", 'Reviews.id']
     })
     if (allSpots) {
         const spots = allSpots.map(spot => {
