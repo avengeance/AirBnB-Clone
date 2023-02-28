@@ -120,7 +120,31 @@ router.get('/current', async (req, res) => {
         group: ['Spot.id', 'SpotImages.id', "Reviews.spotId"]
     })
     if (allSpots) {
-        return res.status(200).json({ "Spots": allSpots })
+        const spots = allSpots.map(spot => {
+            spot = spot.toJSON()
+            const lat = parseFloat(spot.lat)
+            const lng = parseFloat(spot.lng)
+            const price = parseFloat(spot.price)
+            const avgRating = parseFloat(spot.avgRating)
+            return {
+                id: spot.id,
+                ownerId: spot.ownerId,
+                address: spot.address,
+                city: spot.city,
+                state: spot.state,
+                country: spot.county,
+                lat,
+                lng,
+                name: spot.name,
+                description: spot.description,
+                price,
+                createdAt: spot.createdAt,
+                updatedAt: spot.updatedAt,
+                avgRating,
+                previewImage: spot.previewImage
+            }
+        })
+        return res.status(200).json({ "Spots": spots })
     } else {
         res.status(400).json({
             "message": 'Current user has no spots',
