@@ -485,8 +485,34 @@ router.get('/', async (req, res) => {
             "message": "Spot doesn't exist",
             "statusCode": 404
         })
-    }
+    } else {
+        const spots = allSpots.map(spot => {
+            spot = spot.toJSON()
+            const lat = parseFloat(spot.lat)
+            const lng = parseFloat(spot.lng)
+            const price = parseFloat(spot.price)
+            const avgRating = parseFloat(spot.avgRating)
+            return {
+                id: spot.id,
+                ownerId: spot.ownerId,
+                address: spot.address,
+                city: spot.city,
+                state: spot.state,
+                country: spot.county,
+                lat,
+                lng,
+                name: spot.name,
+                description: spot.description,
+                price,
+                createdAt: spot.createdAt,
+                updatedAt: spot.updatedAt,
+                avgRating,
+                previewImage: spot.previewImage
 
+            }
+        })
+        res.status(200).json({ "Spots": spots })
+    }
     if (page < 0) {
         return res.status(400).json({
             'message': "Page must be greater than or equal to 1",
