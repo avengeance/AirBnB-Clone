@@ -486,7 +486,7 @@ router.get('/', async (req, res) => {
             "statusCode": 404
         })
     } else {
-        const spots = allSpots.map(spot => {
+        const spots = results.map(spot => {
             spot = spot.toJSON()
             const lat = parseFloat(spot.lat)
             const lng = parseFloat(spot.lng)
