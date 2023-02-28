@@ -217,7 +217,7 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
     })
 
     if (newSpot) {
-        const spots = allSpots.map(spot => {
+        const spots = newSpot.map(spot => {
             spot = spot.toJSON()
             const lat = parseFloat(spot.lat)
             const lng = parseFloat(spot.lng)
