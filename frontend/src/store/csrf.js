@@ -1,32 +1,25 @@
-import Cookies from "js-cookie";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import sessionReducer from "./session";
 
-export async function csrfFetch(url, options = {}) {
-    // set options.method to 'GET' if there is no method specified
-    options.method = options.method || "GET";
-    // set options.headers to an empty object if there is no headers specified
-    options.headers = options.headers || {};
+const rootReducer = combineReducers({
+    // add reducer functions here
+    session: sessionReducer
+});
 
-    // if the options.method is not 'GET', then set the "Content-Type" header to
-    // "application/json", and set the "XSRF-TOKEN" header to the value of the 
-    // "XSRF-TOKEN" cookie
-    if (options.method.toUpperCase() !== 'GET') {
-        options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
-        options.headers['XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
-    }
+let enhancer;
 
-    // call the default window's fetch with the url and the options passed in
-    const res = await window.fetch(url, options);
-
-    // if the response's status is 400 or above, then throw an error with the
-    // error being the response
-    if (res.status >= 400) throw res
-
-    // if the response status code is under 400, then return the response to the
-    // next promise chain
-    return res
+if (process.env.NODE_ENV === "production") {
+    enhancer = applyMiddleware(thunk);
+} else {
+    const logger = require("redux-logger").default;
+    const composeEnhancers =
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
-// call this to get the "XSRF-TOKEN" cookie, should only be used in development
-export function restoreCSRF() {
-    return csrfFetch('/api/csrf/restore');
-}
+const configureStore = (preloadedState) => {
+    return createStore(rootReducer, preloadedState, enhancer);
+};
+
+export default configureStore;
