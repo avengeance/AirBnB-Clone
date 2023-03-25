@@ -1,7 +1,5 @@
-//this file will contain all the actions specific to the session user's information and the session user's Redux reducer
 import { csrfFetch } from "./csrf";
 
-//create two POJO action creators; one that will set the session user and another that will remove
 const SET_USER = `session/SET_USER`;
 const REMOVE_USER = `session/REMOVE_USER`;
 
@@ -14,9 +12,6 @@ const removeUser = () => ({
     type: REMOVE_USER,
 })
 
-//will need to call the API to log in then set the session user from the response, so add a thunk action for the POST /api/session
-//make sure to use the custom csrfFetch function
-//the POST /api/session route expects the request body to have a key of credential with an existing username or email to have a key of credential with an existing username or email and a key of password
 export const login = (user) => async (dispatch) => {
     const { credential, password } = user;
 
@@ -27,18 +22,37 @@ export const login = (user) => async (dispatch) => {
             password
         })
     })
-    //after the response from the AJAX call comes back, parse the JSON body of the response
     const data = await response.json();
-    //and dispatch the action for setting the session user to the user in the response's body
     dispatch(setUser(data.user));
     return response;
 }
 
-//if there is no session user, then the session slice of state should look like `{user: null}`
-//aka, the initial state
+export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+};
+
+export const signup = (user) => async (dispatch) => {
+    const { username, firstName, lastName, email, password } = user;
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+  };
+
 const initialState = { user: null };
 
-//session reducer that will hold the current session user's information
 const sessionReducer = (state = initialState, action) => {
     let newState = { ...state };
     switch (action.type) {
