@@ -1,0 +1,17 @@
+When testing the Signup form page, the next state in the console was displaying
+everything but, createdAt and updatedAt
+
+This is what needed to show:
+{
+  session: {
+    user: {
+      createdAt: "<Some date time format>",
+      email: "<new email>",
+      id: "<new id>",
+      updatedAt: "<Some date time format>",
+      username: "<new password>",
+      firstName: "<new first name>",
+      lastName: "<new last name>",
+    }
+  }
+}

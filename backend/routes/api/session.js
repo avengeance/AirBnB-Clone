@@ -40,14 +40,16 @@ router.post(
     }
 
     await setTokenCookie(res, user);
+    const { id, username, email, firstName, lastName, createdAt, updatedAt } = user;
 
     return res.json({
-      user
+      user: { id, firstName, lastName, email, username, createdAt, updatedAt }
     });
+    next();
   }
 );
 
-// Log out
+// Log out  
 router.delete(
   '/',
   (_req, res) => {
