@@ -26,10 +26,10 @@ function ProfileButton({ user }) {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
-    // const logout = (e) => {
-    //     e.preventDefault();
-    //     dispatch(sessionActions.logout());
-    // };
+    const logout = (e) => {
+        e.preventDefault();
+        dispatch(sessionActions.logout());
+    };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
@@ -42,9 +42,9 @@ function ProfileButton({ user }) {
                 <li>{user.username}</li>
                 <li>{user.firstName} {user.lastName}</li>
                 <li>{user.email}</li>
-                {/* <li>
+                <li>
                     <button onClick={logout}>Log Out</button>
-                </li> */}
+                </li>
             </ul>
         </>
     );
