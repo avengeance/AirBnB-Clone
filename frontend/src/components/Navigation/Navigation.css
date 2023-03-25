@@ -3,16 +3,17 @@ Simple css to get the dropdown working. need to make stylistic choices to make s
 */
 
 .profile-dropdown {
-    /* position: absolute; */
-    top: 30px;
-    /* adjust as needed to position the menu below the button */
-    right: 0;
-    width: 200px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border: 1px solid;
+    border-radius: 0;
+    box-shadow: 0px 0px 10px #888;
+    font-size: 1rem;
+    background-color: #444;
     padding: 10px;
+    right: 20px;
+    width: auto;
+    text-align: left;
+    margin: 2px 0 5px 0;
 }
 
 .profile-dropdown.hidden {
