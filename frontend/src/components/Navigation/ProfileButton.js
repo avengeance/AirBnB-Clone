@@ -41,8 +41,15 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button onClick={openMenu}>
-                <i className="fas fa-user-circle" />
+            <button onClick={openMenu} id='profile-button' style={{ backgroundColor: 'transparent' }}>
+                <i className="fas fa-bars" style={{
+                    fontSize: '14px',
+                    paddingRight: '12px',
+                    paddingLeft: '5px',
+                }} />
+                <i className="fas fa-user-circle" style={{
+                    fontSize: '30px',
+                }} />
             </button>
             <ul className={ulClassName} ref={ulRef}>
                 {user ? (
@@ -56,16 +63,20 @@ function ProfileButton({ user }) {
                     </>
                 ) : (
                     <>
-                        <OpenModalMenuItem
-                            itemText="Log In"
-                            onItemClick={closeMenu}
-                            modalComponent={<LoginFormModal />}
-                        />
+                        <div className="login-button">
+                            <OpenModalMenuItem
+                                itemText="Log In"
+                                onItemClick={closeMenu}
+                                modalComponent={<LoginFormModal />}
+                            />
+                        </div>
+                        <div className="signup-button">
                         <OpenModalMenuItem
                             itemText="Sign Up"
                             onItemClick={closeMenu}
                             modalComponent={<SignupFormModal />}
                         />
+                        </div>
                     </>
                 )}
             </ul>
