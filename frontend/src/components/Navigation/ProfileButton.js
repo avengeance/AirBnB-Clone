@@ -29,7 +29,11 @@ function ProfileButton({ user }) {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
-    const closeMenu = () => setShowMenu(false);
+    const closeMenu = () => {
+        if (ulRef.current) {
+            setShowMenu(false);
+        }
+    }
 
     const logout = (e) => {
         e.preventDefault();

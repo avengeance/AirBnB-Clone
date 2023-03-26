@@ -49,7 +49,7 @@ li {
     top: 50px;
     width: 200px;
     text-align: start;
-    /* margin: 2px 0 5px 0; */
+    border: 1px solid red;
 }
 
 .profile-dropdown.hidden {
