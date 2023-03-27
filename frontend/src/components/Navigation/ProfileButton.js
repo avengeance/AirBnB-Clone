@@ -11,8 +11,7 @@ function ProfileButton({ user }) {
     const ulRef = useRef();
 
     const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
+        setShowMenu((prev) => !prev);
     };
 
     useEffect(() => {

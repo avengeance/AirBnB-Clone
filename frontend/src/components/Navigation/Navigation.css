@@ -34,7 +34,7 @@ li {
     opacity: 0.6;
 }
 
-.profile-dropdown {
+#profile-dropdown {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -49,10 +49,9 @@ li {
     top: 50px;
     width: 200px;
     text-align: start;
-    border: 1px solid red;
 }
 
-.profile-dropdown.hidden {
+#profile-dropdown.hidden {
     display: none;
 }
 
@@ -85,6 +84,10 @@ li {
 
 .login-button:hover {
     background-color: #ddd;
+}
+
+.login-button:hover>button {
+    color: blue;
 }
 
 .signup-button {
