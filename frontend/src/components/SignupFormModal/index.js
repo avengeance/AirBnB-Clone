@@ -35,7 +35,7 @@ function SignupFormModal() {
     const validConfirmPassword = confirmPassword.length >= MIN_CONFIRM_PASSWORD_LENGTH;
 
 
-
+    // small bug in which the passwords need to not match in order for the other errors to populate
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
@@ -65,6 +65,8 @@ function SignupFormModal() {
         <div className="signup-modal">
             <h1 id="signup-text">Sign Up</h1>
             <form onSubmit={handleSubmit} className='signup-form'>
+                 {/* don't forget about the console log here */}
+                {/* {console.log(errors.length)} */}
                 {errors.length > 0 && (
                     <ul className="error-list">
                         {errors.map((error, idx) => <li key={idx}>{error}</li>)}

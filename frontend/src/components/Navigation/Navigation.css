@@ -8,8 +8,18 @@ li {
     justify-content: space-evenly;
 }
 
-#home-button {
+/* #home-button {
     position: absolute;
+} */
+
+.home-button {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.navigation-header{
+    border: 1px solid black;
 }
 
 .profile-button {
@@ -20,7 +30,7 @@ li {
 }
 
 #profile-button {
-    position: absolute;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,6 +42,10 @@ li {
     padding: 1px;
     border-radius: 50px;
     opacity: 0.6;
+}
+
+#profile-button:hover {
+    cursor: pointer;
 }
 
 #profile-dropdown {
