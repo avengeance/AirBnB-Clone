@@ -1,0 +1,8 @@
+.spot-tile-container{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid green;
+}
+.spot-tile{
+    border: 1px solid black;
+}

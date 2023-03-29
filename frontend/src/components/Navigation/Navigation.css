@@ -1,5 +1,8 @@
 ul {
     list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 li {
@@ -8,26 +11,30 @@ li {
     justify-content: space-evenly;
 }
 
-/* #home-button {
-    position: absolute;
-} */
 
 .home-button {
     position: relative;
     display: flex;
     justify-content: flex-start;
+    width: 50%;
+    right: 40px;
 }
 
 .navigation-header{
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
 }
 
 .profile-button {
     position: relative;
     display: flex;
     justify-content: flex-end;
-    padding-right: 40px;
+    padding-right: 25px;
+    width: 40%;
 }
+
 
 #profile-button {
     position: relative;
@@ -59,7 +66,7 @@ li {
     font-size: 12px;
     padding-top: 10px;
     padding-bottom: 10px;
-    right: -35px;
+    right: 0px;
     top: 50px;
     width: 200px;
     text-align: start;

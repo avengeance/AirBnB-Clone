@@ -1,9 +1,9 @@
 import React from "react";
+import {useParams} from "react-router-dom";
 
-function Spot({ Spot }) {
-    if (!Spot) {
-        return null;
-    }
+function Spot() {
+    const { spotId } = useParams();
+    
     return (
         <div className="spot" key={Spot.id}>
             <h2>{Spot.name}</h2>
