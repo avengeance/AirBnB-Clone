@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Spots from "./components/Spots";
+import Spot from './components/Spots/SpotDetail.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ function App() {
           {/* Add a new route for the homepage and render the Spots component */}
           <Route exact path="/">
             <Spots />
+          </Route>
+          <Route path="/spots/:spotId" spot={Spot}>
+            <Spot />
           </Route>
         </Switch>
       )

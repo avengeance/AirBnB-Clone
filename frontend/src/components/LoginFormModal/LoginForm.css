@@ -54,13 +54,15 @@
     align-items: center;
     margin-top: 25px;
 }
-#li-logout{
+
+#li-logout {
     display: flex;
     right: 13px;
     padding-top: 10px;
     width: 100%;
 }
-#logout-button{
+
+#logout-button {
     display: flex;
     justify-content: center;
     background-color: red;
@@ -68,30 +70,35 @@
     width: 100px;
     border-radius: 10px;
 }
+
 #profile-dropdown {
     display: flex;
     width: 175px;
 }
-#username{
+
+#username {
     display: flex;
     justify-content: center;
     font-weight: bold;
     padding: 5px;
     padding-right: 20px;
 }
-#firstname{
+
+#firstname {
     display: flex;
     justify-content: center;
     font-weight: bold;
     padding: 5px;
 }
-#email{
+
+#email {
     display: flex;
     justify-content: center;
     font-weight: bold;
     padding: 5px;
 }
-#manage-spots{
+
+#manage-spots {
     display: flex;
     justify-content: center;
     padding: 5px;

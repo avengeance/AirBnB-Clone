@@ -20,11 +20,14 @@ li {
     right: 40px;
 }
 
-.navigation-header{
+.navigation-header {
     display: flex;
     flex-direction: column;
     width: 100%;
-    
+    padding: 10px;
+    margin-bottom: 50px;
+    /* border: 1px solid black; */
+
 }
 
 .profile-button {
@@ -33,8 +36,8 @@ li {
     justify-content: flex-end;
     padding-right: 25px;
     width: 40%;
+    /* border: 1px solid green; */
 }
-
 
 #profile-button {
     position: relative;
@@ -70,6 +73,8 @@ li {
     top: 50px;
     width: 200px;
     text-align: start;
+    background-color: white;
+    /* border: 1px solid black; */
 }
 
 #profile-dropdown.hidden {

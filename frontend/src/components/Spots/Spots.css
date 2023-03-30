@@ -1,8 +1,68 @@
-.spot-tile-container{
+.spot-tile-container {
     display: flex;
     flex-direction: row;
-    border: 1px solid green;
+    justify-content: space-evenly;
+    /* border: 1px solid green; */
 }
-.spot-tile{
+
+.spot-tile {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 20%;
+    height: 300px;
+    /* border: 1px solid black; */
+}
+
+/* .spot-tile:hover::before {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 14px;
+  } */
+
+.spot-tile:hover {
+    cursor: pointer;
+}
+
+#spot-tile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+#spot-city-state {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    /* border: 1px solid black; */
+}
+
+#spot-tile-price {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 12px;
+    /* border: 1px solid black; */
+}
+
+#tile-price {
+    font-size: small;
+    font-weight: bold;
+    padding-right: 5px;
+    /* border: 1px solid black; */
+}
+
+#spot-tooltip {
+    position: absolute;
+}
+
+/* .spot-detail{
     border: 1px solid black;
-}
+} */

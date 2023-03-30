@@ -71,7 +71,7 @@ function ProfileButton({ user }) {
                     </>
                 ) : (
                     <>
-                        <div className="login-button">
+                        <div className="login-button" >
                             <OpenModalMenuItem
                                 itemText="Log In"
                                 onItemClick={closeMenu}
