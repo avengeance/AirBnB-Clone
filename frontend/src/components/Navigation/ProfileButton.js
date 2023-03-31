@@ -4,14 +4,23 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { NavLink } from 'react-router-dom';
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
 
+    // a state variable so it can keep track of whether or new the button should be shown
+    const [showCreateButton, setShowCreateButton] = useState(false);
+
     const openMenu = () => {
         setShowMenu((prev) => !prev);
+    };
+
+    // funciton to toggle the create button
+    const toggleCreateButton = () => {
+        setShowCreateButton((prev) => !prev);
     };
 
     useEffect(() => {
@@ -42,8 +51,16 @@ function ProfileButton({ user }) {
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
+
     return (
         <>
+            {user && (
+                <button onClick={toggleCreateButton} id='create-spot-button' style={{ backgroundColor: 'transparent' }}>
+                    <NavLink exact to="/spots/new">
+                        Create a New Spot!
+                    </NavLink>
+                </button>
+            )}
             <button onClick={openMenu} id='profile-button' style={{ backgroundColor: 'transparent' }}>
                 <i className="fas fa-bars" style={{
                     fontSize: '14px',

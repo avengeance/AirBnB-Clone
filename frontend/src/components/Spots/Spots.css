@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    /* border: 1px solid green; */
 }
 
 .spot-tile {
@@ -11,22 +10,7 @@
     flex-direction: column;
     width: 20%;
     height: 300px;
-    /* border: 1px solid black; */
 }
-
-/* .spot-tile:hover::before {
-    content: attr(title);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 5px;
-    border-radius: 5px;
-    white-space: nowrap;
-    font-size: 14px;
-  } */
 
 .spot-tile:hover {
     cursor: pointer;
@@ -42,27 +26,83 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    /* border: 1px solid black; */
 }
 
 #spot-tile-price {
     display: flex;
     justify-content: flex-start;
     font-size: 12px;
-    /* border: 1px solid black; */
 }
 
 #tile-price {
     font-size: small;
     font-weight: bold;
     padding-right: 5px;
-    /* border: 1px solid black; */
 }
 
 #spot-tooltip {
     position: absolute;
 }
 
-.spot-name-loc-detail{
+.spot-name-loc-detail {
     border: 1px solid black;
+}
+
+#spot-box {
+    display: flex;
+    justify-content: center;
+}
+
+.create-spot-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* height: 250px; */
+    width: 450px;
+    /* border: 1px solid black; */
+}
+
+#form-location {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    border-bottom: 2px solid lightgray;
+    /* border: 1px solid black; */
+}
+
+#form-location p {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+#city-state-label {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+#city-label {
+    width: 300px;
+}
+
+#state-label {
+    width: 150px;
+}
+
+#lat-long-label {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    /* border: 1px solid black; */
+}
+#lat-label {
+    width: 45%;
+    /* border: 1px solid black; */
+}
+#long-label {
+    width: 45%;
+    /* border: 1px solid black; */
 }

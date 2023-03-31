@@ -26,6 +26,7 @@ li {
     width: 100%;
     padding: 10px;
     margin-bottom: 50px;
+    border-bottom: 2px solid lightgray;
     /* border: 1px solid black; */
 
 }
@@ -126,4 +127,14 @@ li {
 
 .signup-button:hover {
     background-color: #ddd;
+}
+
+#create-spot-button{
+    display: flex;
+    align-self: center;
+    border: 0;
+    width: 140px;
+    color: blue;
+    text-decoration: none !important;
+    
 }
