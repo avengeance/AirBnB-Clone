@@ -1,17 +1,18 @@
-When testing the Signup form page, the next state in the console was displaying
-everything but, createdAt and updatedAt
+Profile button:
+1. When logged into a user, when pressing the logout if there are elements underneath it
+the logout button will not be pressed but instead the element that was underneath the button
 
-This is what needed to show:
-{
-  session: {
-    user: {
-      createdAt: "<Some date time format>",
-      email: "<new email>",
-      id: "<new id>",
-      updatedAt: "<Some date time format>",
-      username: "<new password>",
-      firstName: "<new first name>",
-      lastName: "<new last name>",
-    }
-  }
-}
+Spot Tiles:
+1. Spot images are not loading onto the Tiles
+2. Tooltip hoover the spot name does not appear nor hold underneath the cursor
+3. Average star ratings are not fetching
+
+Spot Detail:
+1. Not loading (not able to fetch data)
+
+Create spot
+1. Description text box the cursor appears inside the center left of the text input box
+2. When created a CreateSpot comoponent the route /spots/new does not load it goes to the
+spot detail page
+
+

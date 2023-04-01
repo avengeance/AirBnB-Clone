@@ -53,6 +53,9 @@
     justify-content: center;
 }
 
+
+/* Create spot form */
+
 .create-spot-form {
     display: flex;
     flex-direction: column;
@@ -65,9 +68,27 @@
 #form-location {
     display: flex;
     flex-direction: column;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     border-bottom: 2px solid lightgray;
     /* border: 1px solid black; */
+}
+
+.form-div {
+    font-weight: bold;
+    padding-bottom: 20px;
+    /* border: 5px solid red; */
+    border-bottom: 2px solid lightgray;
+}
+
+.form-div,
+p {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    font-size: smaller;
+    font-weight: bold;
+    padding-top: 0;
+    margin: 0;
 }
 
 #form-location p {
@@ -76,6 +97,19 @@
     padding-bottom: 5px;
     font-size: smaller;
     font-weight: bold;
+    padding-top: 0;
+    margin: 0;
+}
+
+
+#question-text {
+    margin: 0;
+}
+
+#description {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 #city-state-label {
@@ -96,13 +130,42 @@
     display: flex;
     justify-content: space-between;
     margin: 0;
-    /* border: 1px solid black; */
 }
+
 #lat-label {
     width: 45%;
-    /* border: 1px solid black; */
 }
+
 #long-label {
     width: 45%;
-    /* border: 1px solid black; */
+}
+
+#description-label {
+    width: 100%;
+}
+
+#description-input::placeholder {
+    position: absolute;
+    text-align: left;
+    vertical-align: top;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.image-input {
+    margin-bottom: 15px;
+}
+
+#form-submit-button {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+    width: 25%;
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid black;
 }
