@@ -1,8 +1,48 @@
 .spot-name-loc-detail {
-    border: 1px solid black;
+    /* border: 1px solid red; */
 }
 
 #spot-box {
     display: flex;
     justify-content: center;
+}
+
+#spot-detail-info {
+    /* border: 1px solid green; */
+}
+
+#rating-review-box {
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid blue;
+}
+
+#rating-review {
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+    border: 1px solid black;
+}
+
+#price {
+    display: flex;
+    justify-content: flex-start;
+    font-size: larger;
+    width: 50%;
+    /* border: 1px solid black; */
+}
+
+#stars-review {
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+    border: 1px solid orange;
+}
+
+#stars {
+    /* border: 1px solid black; */
+}
+
+#reviews {
+    /* border: 1px solid black; */
 }

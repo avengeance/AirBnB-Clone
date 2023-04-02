@@ -50,7 +50,7 @@ function Spots() {
                     <div id='spot-city-state'>{spot.city}, {spot.state}
                         <div title={spot.name} >
                             <i className="fas fa-star"></i>
-                            {spot.reviews && spot.reviews.length === 0 ? 'New' : (spot.averageRating ? spot.averageRating.toFixed(1) : "New")}
+                            {spot.numReviews && spot.numReviews.length === 0 ? 'New' : (spot.avgRating ? spot.avgRating.toFixed(1) : "New")}
                         </div>
                     </div>
                     <div id='spot-tile-price'>
