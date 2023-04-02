@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import * as spotActions from '../../store/spots'
 import './Spots.css'
 
 function Spots() {
     // Create a state to store all of the spots
+    // const spots = useSelector(state => state.spots.spots.Spots)
     const [spots, setSpots] = useState([])
+    const dispatch = useDispatch()
 
     // Create a useEffect to fetch the spots data from your backend API
     useEffect(() => {

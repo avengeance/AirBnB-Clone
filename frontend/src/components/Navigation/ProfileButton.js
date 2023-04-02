@@ -4,12 +4,13 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
+    const history = useHistory();
 
     // a state variable so it can keep track of whether or new the button should be shown
     const [showCreateButton, setShowCreateButton] = useState(false);
@@ -38,7 +39,7 @@ function ProfileButton({ user }) {
     }, [showMenu]);
 
     const closeMenu = () => {
-        if (ulRef.current) {
+        if (ulRef.current.contains) {
             setShowMenu(false);
         }
     }
@@ -47,6 +48,8 @@ function ProfileButton({ user }) {
         e.preventDefault();
         dispatch(sessionActions.logout());
         closeMenu();
+        // navigates to the homepage
+        history.push('/');
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -79,7 +82,11 @@ function ProfileButton({ user }) {
                         <li id="email">{user.email}</li>
                         {/* Make an edit so that this links to the users spots
                         <li>Manage Spots{user.manageSpots}</li> */}
-                        <li id="manage-spots">Manage Spots</li>
+                        <li id="manage-spots">
+                            <NavLink to={`/users/${user.id}/spots`}>
+                                Manage Spots
+                            </NavLink>
+                        </li>
                         <li id="li-logout">
                             <button onClick={logout}
                                 id="logout-button"

@@ -1,6 +1,7 @@
 Profile button:
 1. When logged into a user, when pressing the logout if there are elements underneath it
 the logout button will not be pressed but instead the element that was underneath the button
+2. Manage spots needs to redirect to Spots owned by the user
 
 Spot Tiles:
 1. Spot images are not loading onto the Tiles
@@ -12,7 +13,8 @@ Spot Detail:
 
 Create spot
 1. Description text box the cursor appears inside the center left of the text input box
-2. When created a CreateSpot comoponent the route /spots/new does not load it goes to the
-spot detail page
+2. Validation errors are not appearing when invalid inputs are made
 
 
+Sign up modal
+1. Small bug in which the passwords need to not match in order for the other errors to populate
