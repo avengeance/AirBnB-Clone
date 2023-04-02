@@ -1,7 +1,13 @@
 import { csrfFetch } from "./csrf";
 
+const GET_CURRENT_SPOT = 'spots/get'
 const GET_SPOTS = 'spots/all';
 const CREATE_SPOT = 'spots/create';
+
+const getCurrentSpot = (spot) => ({
+    type: GET_CURRENT_SPOT,
+    payload: spot
+})
 
 const getSpots = (spots) => ({
     type: GET_SPOTS,
@@ -19,8 +25,18 @@ export const getSpotsThunk = () => async (dispatch) => {
     });
     const data = await res.json();
     dispatch(getSpots(data));
-    return res
+    return data
 }
+
+export const getCurrentSpotThunk = (spotId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'GET',
+    });
+    const data = await res.json();
+    dispatch(getCurrentSpot(data));
+    return data
+}
+
 export const createSpotThunk = (
     country,
     address,
@@ -63,6 +79,11 @@ const initialState = { spots: [] }
 const spotReducer = (state = initialState, action) => {
     let newState = { ...state }
     switch (action.type) {
+        case GET_CURRENT_SPOT:
+            return {
+                ...newState,
+                currentSpot: action.payload
+            }
         case GET_SPOTS:
             return {
                 ...newState,

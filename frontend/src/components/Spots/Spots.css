@@ -48,6 +48,8 @@ body{
     position: absolute;
 }
 
+/* Spot detail */
+
 .spot-name-loc-detail {
     border: 1px solid black;
 }
