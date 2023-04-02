@@ -73,6 +73,7 @@ function SpotDetail() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const [currentSpot, setCurrentSpot] = useState(null);
+  const [reviews,setReviews] = useState([]);
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -93,9 +94,17 @@ function SpotDetail() {
       .catch(err => console.log(err));
   }, [dispatch, spotId]);
 
+
   function handleClick() {
     alert('Feature coming soon');
   }
+
+  useEffect(() => {
+    fetch('/api/:spotId/reviews')
+      .then(res => res.json())
+      .then(data => setReviews(data))
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <div>
@@ -143,6 +152,16 @@ function SpotDetail() {
                 <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
               </div>
             </div>
+          </div>
+          <div id='review-map'>
+          {/* <ul>
+        {reviews.map(review => (
+          <li key={review.id}>
+            <p>{review.review}</p>
+            <p>{review.stars} stars</p>
+          </li>
+        ))}
+      </ul> */}
           </div>
         </div>
       ) : (

@@ -6,7 +6,6 @@ the logout button will not be pressed but instead the element that was underneat
 Spot Tiles:
 1. Spot images are not loading onto the Tiles
 2. Tooltip hoover the spot name does not appear nor hold underneath the cursor
-3. Average star ratings are not fetching
 
 Spot Detail:
 1. Not loading (not able to fetch data)
