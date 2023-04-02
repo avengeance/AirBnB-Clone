@@ -66,6 +66,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as spotActions from '../../store/spots'
+import './SpotDetail.css'
 
 
 function SpotDetail() {
@@ -84,16 +85,24 @@ function SpotDetail() {
     <div>
       {currentSpot ? (
         <div className="spot-name-loc-detail">
-                   <h2>{currentSpot?.name}</h2>
-                   <h3>
-                    Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
-                   </h3>
-                   <div>
-                    <img src={currentSpot?.imageUrl} alt={currentSpot?.name} />
-                  </div>
-                   <p>{currentSpot?.description}</p>
-                   <p>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
-                 </div>
+          <h2>{currentSpot?.name}</h2>
+          <h3>
+            Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
+          </h3>
+          <div>
+            <img src={currentSpot?.imageUrl} alt={currentSpot?.name} />
+          </div>
+          <p>{currentSpot?.description}</p>
+          <p>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
+          <div>
+            <div id='price'>
+              <p>Price: ${currentSpot?.price}</p><span>/ night</span>
+            </div>
+            <div id='stars'>
+              <p>⭐️{currentSpot?.stars}</p>
+            </div>
+          </div>
+        </div>
       ) : (
         <p>Loading...</p>
       )}

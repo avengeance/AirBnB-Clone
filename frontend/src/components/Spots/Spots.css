@@ -48,13 +48,3 @@ body{
     position: absolute;
 }
 
-/* Spot detail */
-
-.spot-name-loc-detail {
-    border: 1px solid black;
-}
-
-#spot-box {
-    display: flex;
-    justify-content: center;
-}
