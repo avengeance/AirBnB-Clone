@@ -75,39 +75,72 @@ function SpotDetail() {
   const [currentSpot, setCurrentSpot] = useState(null);
 
   useEffect(() => {
+    const reserveBtn = document.getElementById('reserve');
+    if (reserveBtn) {
+      reserveBtn.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      if (reserveBtn) {
+        reserveBtn.removeEventListener('click', handleClick);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(spotActions.getCurrentSpotThunk(spotId))
       .then(currentSpot => setCurrentSpot(currentSpot))
       .catch(err => console.log(err));
   }, [dispatch, spotId]);
 
+  function handleClick() {
+    alert('Feature coming soon');
+  }
 
   return (
     <div>
       {currentSpot ? (
-        <div className="spot-name-loc-detail">
-          <div id='spot-detail-info'>
-            <h2>{currentSpot?.name}</h2>
-            <h3>
-              Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
-            </h3>
-            <div>
-              <img src={currentSpot?.imageUrl} alt={currentSpot?.name} />
-            </div>
-            <p>{currentSpot?.description}</p>
-            <p>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
-          </div>
-          <div id='rating-review-box'>
-            <div id='rating-review'>
-              <div id='price'>
-                <p>Price: ${currentSpot?.price} /night</p>
+        <div>
+          <div className="spot-name-loc-detail">
+            <div id='spot-detail-info'>
+              <h2>{currentSpot?.name}</h2>
+              <h3>
+                Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
+              </h3>
+              <div>
+                <img src={currentSpot?.imageUrl} alt={currentSpot?.name} />
               </div>
-              <div id='stars-review'>
-                <div id='stars'>
-                  <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p>
+              <p>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
+              <p>{currentSpot?.description}</p>
+            </div>
+            <div id='rating-review-box'>
+              <div id='test'>
+                <div id='rating-review'>
+                  <div id='price'>
+                    <p>Price: ${currentSpot?.price} /night</p>
+                  </div>
+                  <div id='stars-review'>
+                    <div id='stars'>
+                      <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p>
+                    </div>
+                    <div id='reviews'>
+                      <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                    </div>
+                  </div>
                 </div>
-                <div id='reviews'>
-                  <p>{currentSpot?.numReviews?.length} {currentSpot?.numReviews?.length === 1 ? 'Review' : 'Reviews'}</p>
+                <div id='reserve-button'>
+                  <button id='reserve' onClick={handleClick}>Reserve</button>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div id='reviews-box'>
+            <div id='stars-review'>
+              <div id='stars'>
+                <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p>
+              </div>
+              <div id='reviews'>
+                <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
               </div>
             </div>
           </div>

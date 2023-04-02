@@ -14,21 +14,32 @@
 #rating-review-box {
     display: flex;
     justify-content: flex-end;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
+}
+
+#test {
+    border-radius: 10px;
+    height: 150px;
+    border: 3px solid black;
 }
 
 #rating-review {
     display: flex;
     justify-content: space-between;
     width: 450px;
-    border: 1px solid black;
+    height: fit-content;
+    margin-top: 20px;
+    /* padding-top: 10px; */
+    /* border: 3px solid green; */
 }
 
 #price {
     display: flex;
     justify-content: flex-start;
-    font-size: larger;
+    font-size: x-large;
     width: 50%;
+    height: fit-content;
+    padding-left: 20px;
     /* border: 1px solid black; */
 }
 
@@ -36,13 +47,37 @@
     display: flex;
     justify-content: space-evenly;
     width: 50%;
-    border: 1px solid orange;
+    height: fit-content;
+    font-size: x-large;
+    /* border: 1px solid orange; */
 }
 
-#stars {
-    /* border: 1px solid black; */
+#reserve-button {
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid red; */
 }
 
-#reviews {
-    /* border: 1px solid black; */
+#reserve {
+    width: 75%;
+    height: 50px;
+    margin-top: 15px;
+    background-color: red;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+}
+
+
+#reviews-box {
+    display: flex;
+    justify-content: flex-start;
+    border: 2px solid blue;
+}
+
+#reviews-box #stars-review {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 10px;
+    width: 25%;
+    /* border: 2px solid blue; */
 }
