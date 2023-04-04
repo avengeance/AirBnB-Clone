@@ -67,21 +67,36 @@
     box-shadow: 4px 4px 0px 0px #000000;
 }
 
+.centered-dot {
+    font-weight: bold;
+    font-size: x-large;
+}
 
 #reviews-box {
     display: flex;
     justify-content: flex-start;
-    border: 2px solid blue;
+    margin-top: 15px;
+    border-top: 2px solid lightgray;
+    /* border: 2px solid blue; */
 }
 
 #reviews-box #stars-review {
     display: flex;
     justify-content: space-evenly;
     padding-top: 10px;
-    width: 25%;
+    width: 15%;
     /* border: 2px solid blue; */
 }
 
-#review-map{
+#review-map {
+    display: flex;
+    height: 250px;
+
     border: 2px solid red;
+}
+
+#first-name {
+    display: flex;
+    font-weight: bold;
+    border: 2px solid blue;
 }

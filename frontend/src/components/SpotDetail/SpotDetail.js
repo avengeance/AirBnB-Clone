@@ -73,7 +73,9 @@ function SpotDetail() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const [currentSpot, setCurrentSpot] = useState(null);
-  const [reviews,setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
+
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -99,12 +101,18 @@ function SpotDetail() {
     alert('Feature coming soon');
   }
 
+  // useEffect(() => {
+  //   fetch('/api/:spotId/reviews')
+  //     .then(res => res.json())
+  //     .then(data => setReviews(data))
+  //     .catch(err => console.log(err));
+  // }, []);
+
   useEffect(() => {
-    fetch('/api/:spotId/reviews')
-      .then(res => res.json())
-      .then(data => setReviews(data))
+    dispatch(spotActions.getReviewsThunk(spotId))
+      .then(reviews => setReviews(reviews.Reviews))
       .catch(err => console.log(err));
-  }, []);
+  }, [dispatch, spotId])
 
   return (
     <div>
@@ -130,11 +138,19 @@ function SpotDetail() {
                   </div>
                   <div id='stars-review'>
                     <div id='stars'>
-                      <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p>
+                      {currentSpot?.numReviews > 0 ?
+                        <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                        <p>⭐️New</p>
+                      }
                     </div>
-                    <div id='reviews'>
-                      <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
-                    </div>
+                    {currentSpot?.numReviews > 0 &&
+                      <>
+                        <div className='centered-dot'><p>·</p></div>
+                        <div id='reviews'>
+                          <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                        </div>
+                      </>
+                    }
                   </div>
                 </div>
                 <div id='reserve-button'>
@@ -146,22 +162,29 @@ function SpotDetail() {
           <div id='reviews-box'>
             <div id='stars-review'>
               <div id='stars'>
-                <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p>
+                {currentSpot?.numReviews > 0 ?
+                  <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                  <p>⭐️New</p>
+                }
               </div>
-              <div id='reviews'>
-                <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
-              </div>
+              {currentSpot?.numReviews > 0 &&
+                <>
+                  <div className='centered-dot'><p>·</p></div>
+                  <div id='reviews'>
+                    <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                  </div>
+                </>
+              }
             </div>
           </div>
           <div id='review-map'>
-          {/* <ul>
-        {reviews.map(review => (
-          <li key={review.id}>
-            <p>{review.review}</p>
-            <p>{review.stars} stars</p>
-          </li>
-        ))}
-      </ul> */}
+            {Array.isArray(reviews) && reviews.map(review => (
+              <div key={review.id}>
+                <p id='first-name'>{review.firstName}</p>
+                <p>{review.createdAt}</p>
+                <p>{review.review}</p>
+              </div>
+            ))}
           </div>
         </div>
       ) : (

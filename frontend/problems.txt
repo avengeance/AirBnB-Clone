@@ -1,6 +1,8 @@
 Profile button:
 1. When logged into a user, when pressing the logout if there are elements underneath it
 the logout button will not be pressed but instead the element that was underneath the button
+(stop propigation prevent default)
+
 2. Manage spots needs to redirect to Spots owned by the user
 
 Spot Tiles:
@@ -8,7 +10,7 @@ Spot Tiles:
 2. Tooltip hoover the spot name does not appear nor hold underneath the cursor
 
 Spot Detail:
-1. Not loading (not able to fetch data)
+1. Images are not loading.
 
 Create spot
 1. Description text box the cursor appears inside the center left of the text input box
