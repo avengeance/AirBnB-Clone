@@ -6,14 +6,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    /* border: 1px solid black; */
 }
 
 .spot-tile {
     display: flex;
     position: relative;
     flex-direction: column;
-    width: 20%;
-    height: 300px;
+    width: 250px;
+    height: 275px;
+    /* border: 1px solid black; */
 }
 
 .spot-tile:hover {
@@ -24,6 +26,7 @@ body {
     width: 250px;
     height: 250px;
     border-radius: 10px;
+    /* border: 1px solid black; */
 }
 
 #spot-city-state {

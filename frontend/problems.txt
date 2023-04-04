@@ -11,6 +11,7 @@ Spot Tiles:
 
 Spot Detail:
 1. Images are not loading.
+2. Fix so that the review rating box is inline with the hosted by and location text
 
 Create spot
 1. Description text box the cursor appears inside the center left of the text input box

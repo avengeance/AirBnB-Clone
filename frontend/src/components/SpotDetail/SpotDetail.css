@@ -11,10 +11,38 @@
     /* border: 1px solid green; */
 }
 
+.spot-image {
+    display: flex;
+    width: 700px;
+    height: 500px;
+    border: 1px solid black;
+}
+
+#hosted {
+    font-size: x-large;
+    padding: 10px;
+    width: 50%;
+    border: 1px solid black;
+}
+
+#description {
+    width: 50%;
+    font-size: large;
+    padding-left: 10px;
+    border: 1px solid black;
+}
+
+#rat-rev-box {
+    display: flex;
+    justify-content: flex-end;
+    border: 3px solid black;
+}
+
 #rating-review-box {
     display: flex;
     justify-content: flex-end;
-    /* border: 1px solid blue; */
+    width: 45%;
+    border: 1px solid blue;
 }
 
 #test {
@@ -91,12 +119,22 @@
 #review-map {
     display: flex;
     height: 250px;
-
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 
 #first-name {
-    display: flex;
     font-weight: bold;
-    border: 2px solid blue;
+    color: black;
+    padding: 0px;
+    padding-bottom: 5px;
+    /* border: 2px solid blue; */
+}
+
+#createdAt {
+    color: lightgray;
+    /* border:1px solid red; */
+}
+
+#review-description {
+    /* border: 1px solid green; */
 }
