@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import * as spotActions from '../../store/spots'
 import './Spots.css'
 
 function Spots() {
     // Create a state to store all of the spots
+    // const spots = useSelector(state => state.spots.spots.Spots)
     const [spots, setSpots] = useState([])
+    const dispatch = useDispatch()
 
     // Create a useEffect to fetch the spots data from your backend API
     useEffect(() => {
@@ -41,12 +45,11 @@ function Spots() {
                         tooltip.textContent = ''; // Clear the tooltip text when the mouse leaves the tile
                     }}
                     onClick={() => window.location.href = `/spots/${spot.id}`}>
-                    <img src={spot.imageUrl} alt={spot.name} id='spot-tile-image' />
-                    {/* {console.log(spot.imageUrl)} */}
+                    <img src={spot.previewImage} alt={spot.name} id='spot-tile-image' />
                     <div id='spot-city-state'>{spot.city}, {spot.state}
                         <div title={spot.name} >
                             <i className="fas fa-star"></i>
-                            {spot.reviews && spot.reviews.length === 0 ? 'New' : (spot.averageRating ? spot.averageRating.toFixed(1) : "New")}
+                            {spot.numReviews && spot.numReviews.length === 0 ? 'New' : (spot.avgRating ? spot.avgRating.toFixed(1) : "New")}
                         </div>
                     </div>
                     <div id='spot-tile-price'>

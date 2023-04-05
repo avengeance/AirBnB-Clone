@@ -129,12 +129,16 @@ li {
     background-color: #ddd;
 }
 
-#create-spot-button{
+#create-spot-button {
     display: flex;
     align-self: center;
     border: 0;
     width: 140px;
     color: blue;
     text-decoration: none !important;
-    
+
+}
+
+li>#manage-spots {
+    text-decoration: none;
 }

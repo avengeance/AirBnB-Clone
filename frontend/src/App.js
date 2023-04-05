@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+
 import * as sessionActions from "./store/session";
+import * as spotActions from "./store/spots";
 import Navigation from "./components/Navigation";
 import Spots from "./components/Spots";
-import Spot from './components/Spots/SpotDetail.js';
+// import Spot from './components/Spots/SpotDetail.js';
+import SpotDetail from "./components/SpotDetail/SpotDetail";
+import CreateSpot from "./components/CreateSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -12,6 +16,8 @@ function App() {
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(spotActions.getSpotsThunk());
+    setIsLoaded(true);
   }, [dispatch]);
 
 
@@ -24,8 +30,11 @@ function App() {
           <Route exact path="/">
             <Spots />
           </Route>
-          <Route path="/spots/:spotId" spot={Spot}>
-            <Spot />
+          <Route exact path="/spots/new">
+            <CreateSpot />
+          </Route>
+          <Route path="/spots/:spotId" spot={SpotDetail}>
+            <SpotDetail />
           </Route>
         </Switch>
       )

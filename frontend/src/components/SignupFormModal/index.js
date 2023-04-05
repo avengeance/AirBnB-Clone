@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 
 function SignupFormModal() {
+    const history = useHistory();
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -65,7 +67,7 @@ function SignupFormModal() {
         <div className="signup-modal">
             <h1 id="signup-text">Sign Up</h1>
             <form onSubmit={handleSubmit} className='signup-form'>
-                 {/* don't forget about the console log here */}
+                {/* don't forget about the console log here */}
                 {/* {console.log(errors.length)} */}
                 {errors.length > 0 && (
                     <ul className="error-list">
@@ -120,7 +122,7 @@ function SignupFormModal() {
                     <input
                         type="text"
                         value={username}
-                        onChange={(e) => { 
+                        onChange={(e) => {
                             setUsername(e.target.value)
                             // checkUsername(e.target.value) 
                         }}
