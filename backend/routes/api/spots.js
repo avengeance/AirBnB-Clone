@@ -180,7 +180,8 @@ router.get('/:spotId', async (req, res) => {
             attributes: {
                 include: [
                     [Sequelize.fn("COUNT", Sequelize.col("Reviews.stars")), 'numReviews'],
-                    [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), 'avgStarRating']
+                    [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), 'avgStarRating'],
+                    
                 ]
             },
             group: ['Spot.id', 'SpotImages.id', "Reviews.spotId", "Owner.id"]
