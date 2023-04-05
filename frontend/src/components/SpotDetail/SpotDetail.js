@@ -11,6 +11,7 @@ function SpotDetail() {
   const [currentSpot, setCurrentSpot] = useState(null);
   const [reviews, setReviews] = useState([]);
 
+
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
     if (reserveBtn) {
@@ -41,6 +42,8 @@ function SpotDetail() {
       .catch(err => console.log(err));
   }, [dispatch, spotId])
 
+  // console.log('This is the current spot: ', currentSpot);
+
   return (
     <div>
       {currentSpot ? (
@@ -52,37 +55,48 @@ function SpotDetail() {
                 Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
               </h3>
               <div className='spot-image'>
-                <img src={currentSpot?.SpotImages} alt={currentSpot?.name} />
+                <div id='main-spot-image'>
+                  <img src={currentSpot?.SpotImages.find(image => image.preview === true).url} alt={currentSpot?.name} />
+                </div>
+                <div className='spot-image-overlay'>
+                  {currentSpot?.SpotImages.filter(image => image.preview !== true).map((image, index) => (
+                    <img key={index} id={`spotImage${index + 1}`} src={image.url} alt={currentSpot?.name} />
+                  ))}
+                </div>
               </div>
-              <p id='hosted'>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
-              <p id='description'>{currentSpot?.description}</p>
-            </div>
-            <div id='rat-rev-box'>
-              <div id='rating-review-box'>
-                <div id='test'>
-                  <div id='rating-review'>
-                    <div id='price'>
-                      <p>Price: ${currentSpot?.price} /night</p>
-                    </div>
-                    <div id='stars-review'>
-                      <div id='stars'>
-                        {currentSpot?.numReviews > 0 ?
-                          <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
-                          <p>⭐️New</p>
-                        }
-                      </div>
-                      {currentSpot?.numReviews > 0 &&
-                        <>
-                          <div className='centered-dot'><p>·</p></div>
-                          <div id='reviews'>
-                            <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+              <div id='hosted-description-rating-box'>
+                <div id='hosted-description'>
+                  <p id='hosted'>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
+                  <p id='description'>{currentSpot?.description}</p>
+                </div>
+                <div id='rat-rev-box'>
+                  <div id='rating-review-box'>
+                    <div id='test'>
+                      <div id='rating-review'>
+                        <div id='price'>
+                          <p>Price: ${currentSpot?.price} /night</p>
+                        </div>
+                        <div id='stars-review'>
+                          <div id='stars'>
+                            {currentSpot?.numReviews > 0 ?
+                              <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                              <p>⭐️New</p>
+                            }
                           </div>
-                        </>
-                      }
+                          {currentSpot?.numReviews > 0 &&
+                            <>
+                              <div className='centered-dot'><p>·</p></div>
+                              <div id='reviews'>
+                                <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                              </div>
+                            </>
+                          }
+                        </div>
+                      </div>
+                      <div id='reserve-button'>
+                        <button id='reserve' onClick={handleClick}>Reserve</button>
+                      </div>
                     </div>
-                  </div>
-                  <div id='reserve-button'>
-                    <button id='reserve' onClick={handleClick}>Reserve</button>
                   </div>
                 </div>
               </div>
@@ -113,7 +127,7 @@ function SpotDetail() {
                 .map(review => (
                   <div key={review.id}>
                     <p id='first-name'>{review.User.firstName}</p>
-                    <p id='createdAt'>{new Date(review.createdAt).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
+                    <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
                     <p id='review-description'>{review.review}</p>
                   </div>
                 ))}

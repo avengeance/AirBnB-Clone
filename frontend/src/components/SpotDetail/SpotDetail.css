@@ -13,36 +13,64 @@
 
 .spot-image {
     display: flex;
-    width: 700px;
-    height: 500px;
+    padding-bottom: 10px;
+    /* border: 1px solid orange; */
+}
+
+#main-spot-image {
+    display: flex;
+    width: 675px;
+    height: 450px;
+    /* border: 1px solid black; */
+}
+
+.spot-image-overlay {
+    display: flex;
+    /* justify-content: flex-end;
+    align-content: flex-start; */
+    width: 500px;
     border: 1px solid black;
 }
 
+
 #hosted {
     font-size: x-large;
-    padding: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     width: 50%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 #description {
     width: 50%;
     font-size: large;
     padding-left: 10px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+}
+
+#hosted-description {
+    display: flex;
+    width: 600px;
+    flex-direction: column;
+}
+
+#hosted-description-rating-box {
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid green; */
 }
 
 #rat-rev-box {
     display: flex;
     justify-content: flex-end;
-    border: 3px solid black;
+    /* border: 3px solid black; */
 }
 
 #rating-review-box {
     display: flex;
     justify-content: flex-end;
     width: 45%;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
 }
 
 #test {
@@ -118,7 +146,8 @@
 
 #review-map {
     display: flex;
-    height: 250px;
+    flex-direction: column;
+    height: 100%;
     /* border: 2px solid red; */
 }
 
@@ -132,6 +161,8 @@
 
 #createdAt {
     color: lightgray;
+    padding: 0px;
+    padding-bottom: 5px;
     /* border:1px solid red; */
 }
 
