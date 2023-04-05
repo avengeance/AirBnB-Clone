@@ -1,0 +1,110 @@
+.login-modal {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: inline-block;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 300px;
+}
+
+#login-text {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    height: 50px;
+}
+
+#username-email {
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    padding-bottom: 10px;
+}
+
+#password {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+#login-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    height: 50px;
+}
+
+#div-login-submit {
+    display: flex;
+    justify-content: center;
+}
+
+.error-list {
+    margin-top: 10px;
+    padding: 10px;
+    color: red;
+    font-size: x-small;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.demo-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+#li-logout {
+    display: flex;
+    right: 13px;
+    padding-top: 10px;
+    width: 100%;
+}
+
+#logout-button {
+    display: flex;
+    justify-content: center;
+    background-color: red;
+    color: white;
+    width: 100px;
+    border-radius: 10px;
+}
+
+#profile-dropdown {
+    display: flex;
+    width: 175px;
+}
+
+#username {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    padding: 5px;
+    padding-right: 20px;
+}
+
+#firstname {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+#email {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+#manage-spots {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    padding-right: 20px;
+    width: 80%;
+    font-weight: bold;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}

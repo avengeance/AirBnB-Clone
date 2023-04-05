@@ -1,21 +1,144 @@
-/*
-Simple css to get the dropdown working. need to make stylistic choices to make sure this works properly
-*/
-
-.profile-dropdown {
-    position: relative;
-    border: 1px solid;
-    border-radius: 0;
-    box-shadow: 0px 0px 10px #888;
-    font-size: 1rem;
-    background-color: #444;
-    padding: 10px;
-    right: 20px;
-    width: auto;
-    text-align: left;
-    margin: 2px 0 5px 0;
+ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
-.profile-dropdown.hidden {
+li {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+.home-button {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+    right: 40px;
+}
+
+.navigation-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 50px;
+    border-bottom: 2px solid lightgray;
+    /* border: 1px solid black; */
+
+}
+
+.profile-button {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 25px;
+    width: 40%;
+    /* border: 1px solid green; */
+}
+
+#profile-button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    border: 1px lightgray solid;
+    width: 75px;
+    height: 42px;
+    margin: 1px;
+    padding: 1px;
+    border-radius: 50px;
+    opacity: 0.6;
+}
+
+#profile-button:hover {
+    cursor: pointer;
+}
+
+#profile-dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #888;
+    font-size: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    right: 0px;
+    top: 50px;
+    width: 200px;
+    text-align: start;
+    background-color: white;
+    /* border: 1px solid black; */
+}
+
+#profile-dropdown.hidden {
     display: none;
+}
+
+.logo-link {
+    order: 1;
+    display: inline-block;
+    width: 175px;
+    height: 75px;
+    background-image: url("../../images/airbnb-logo.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.logo-image {
+    order: 2;
+    position: absolute;
+    display: flex;
+    width: 175px;
+    height: 75px;
+    /* border: 1px solid red; */
+}
+
+.login-button {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    margin-left: 0;
+}
+
+.login-button:hover {
+    background-color: #ddd;
+}
+
+.login-button:hover>button {
+    color: blue;
+}
+
+.signup-button {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    margin-left: 0;
+}
+
+.signup-button:hover {
+    background-color: #ddd;
+}
+
+#create-spot-button {
+    display: flex;
+    align-self: center;
+    border: 0;
+    width: 140px;
+    color: blue;
+    text-decoration: none !important;
+
+}
+
+li>#manage-spots {
+    text-decoration: none;
 }
