@@ -11,6 +11,9 @@ function SpotDetail() {
   const [currentSpot, setCurrentSpot] = useState(null);
   const [reviews, setReviews] = useState([]);
 
+  const user = useSelector(state => state.session.user);
+  const spot = currentSpot
+
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -121,7 +124,7 @@ function SpotDetail() {
             </div>
           </div>
           <div id='review-map'>
-            {Array.isArray(reviews) &&
+            {Array.isArray(reviews) && reviews.length > 0 ? (
               reviews
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // sort reviews by date (newest to oldest)
                 .map(review => (
@@ -130,7 +133,14 @@ function SpotDetail() {
                     <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
                     <p id='review-description'>{review.review}</p>
                   </div>
-                ))}
+                ))
+            ) : user.loggedIn && user.id !== spot.ownerId ? (
+
+              <p id='no-reviews'>Be the first to post a review!</p>
+            ) : (
+              // render nothing if user is not logged in or is the owner of the spot
+              null
+            )}
           </div>
         </div>
       ) : (
