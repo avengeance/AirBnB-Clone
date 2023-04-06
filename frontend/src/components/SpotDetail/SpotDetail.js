@@ -14,7 +14,7 @@ function SpotDetail() {
   const user = useSelector(state => state.session.user);
   const spot = currentSpot
 
-  console.log('This is user: ',user)
+  // console.log('This is user: ',user)
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -83,9 +83,9 @@ function SpotDetail() {
                         <div id='stars-review'>
                           <div id='stars'>
                             {currentSpot?.numReviews > 0 ?
-                            (typeof currentSpot?.avgStarRating === 'number' ?
-                              <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
-                              <p>⭐️New</p>) :
+                              (typeof currentSpot?.avgStarRating === 'number' ?
+                                <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                                <p>⭐️New</p>) :
                               null
                             }
                           </div>
