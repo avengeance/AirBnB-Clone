@@ -8,7 +8,7 @@ import './CreateSpot.css';
 function CreateSpot() {
     const { spotId } = useParams();
 
-    const [spot,setSpot ] = useState([])
+    const [spot, setSpot] = useState([])
 
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
@@ -243,11 +243,11 @@ function CreateSpot() {
                                     required
                                 />
                                 {spot.title === '' && (
-                                <span style={{
-                                    color: "red",
-                                }}>
-                                    Name is required
-                                </span>
+                                    <span style={{
+                                        color: "red",
+                                    }}>
+                                        Name is required
+                                    </span>
                                 )}
                             </label>
                         </div>
@@ -273,11 +273,11 @@ function CreateSpot() {
                                     required
                                 />
                                 {spot.price === '' && (
-                                <span style={{
-                                    color: "red",
-                                }}>
-                                    Price is required
-                                </span>
+                                    <span style={{
+                                        color: "red",
+                                    }}>
+                                        Price is required
+                                    </span>
                                 )}
                             </label>
                         </div>
@@ -305,11 +305,11 @@ function CreateSpot() {
                                     required
                                 />
                                 {spot.image === '' && (
-                                <span style={{
-                                    color:'red'
-                                }}>
-                                    Preview image is required
-                                </span>
+                                    <span style={{
+                                        color: 'red'
+                                    }}>
+                                        Preview image is required
+                                    </span>
                                 )}
                                 <input
                                     type="text"

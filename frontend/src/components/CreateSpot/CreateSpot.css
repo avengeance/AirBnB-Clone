@@ -59,8 +59,13 @@ p {
 
 #description {
     margin: 0;
+    font-size: medium;
+    font-weight: normal;
+    width: 100%;
     padding-top: 10px;
     padding-bottom: 20px;
+    padding-left: 0;
+    /* border: 1px solid red; */
 }
 
 #city-state-label {
