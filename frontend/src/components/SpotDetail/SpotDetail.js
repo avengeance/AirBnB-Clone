@@ -14,6 +14,7 @@ function SpotDetail() {
   const user = useSelector(state => state.session.user);
   const spot = currentSpot
 
+  console.log('This is user: ',user)
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -135,7 +136,6 @@ function SpotDetail() {
                   </div>
                 ))
             ) : user.loggedIn && user.id !== spot.ownerId ? (
-
               <p id='no-reviews'>Be the first to post a review!</p>
             ) : (
               // render nothing if user is not logged in or is the owner of the spot

@@ -14,14 +14,14 @@
 .spot-image {
     display: flex;
     padding-bottom: 10px;
-    border: 1px solid orange;
+    /* border: 1px solid orange; */
 }
 
 #main-spot-image {
     display: flex;
     width: 675px;
     height: 450px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .spot-image-overlay {
@@ -31,7 +31,7 @@
     width: 500px;
     height: 450px;
     border-radius: 20px;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 
 #spotImage1 {
