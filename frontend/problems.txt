@@ -20,3 +20,7 @@ Create spot
 
 Sign up modal
 1. Small bug in which the passwords need to not match in order for the other errors to populate
+
+Reviews
+1. Fix seeders so that a review cannot be posted by the person who also owns the spot. Place code to address this issue as well
+
