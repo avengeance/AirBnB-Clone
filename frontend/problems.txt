@@ -10,8 +10,8 @@ Spot Tiles:
 2. Tooltip hoover the spot name does not appear nor hold underneath the cursor
 
 Spot Detail:
-1. Images are not loading.
-2. Fix so that the review rating box is inline with the hosted by and location text
+1. for live deployment fix the css for rating review in the review list
+2. fix the avgStarRating to display the correct average
 
 Create spot
 1. Description text box the cursor appears inside the center left of the text input box
@@ -23,4 +23,3 @@ Sign up modal
 
 Reviews
 1. Fix seeders so that a review cannot be posted by the person who also owns the spot. Place code to address this issue as well
-

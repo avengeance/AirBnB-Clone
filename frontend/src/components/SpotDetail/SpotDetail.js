@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PostReviewModal from '../PostReviewModal';
 import * as spotActions from '../../store/spots'
 import './SpotDetail.css'
 
@@ -14,7 +15,7 @@ function SpotDetail() {
   const user = useSelector(state => state.session.user);
   const spot = currentSpot
 
-  // console.log('This is user: ',user)
+  const ulRef = useRef();
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -40,13 +41,15 @@ function SpotDetail() {
     alert('Feature coming soon');
   }
 
+  function handleReserve() {
+    alert('Feature coming soon');
+  }
+
   useEffect(() => {
     dispatch(spotActions.getReviewsThunk(spotId))
       .then(reviews => setReviews(reviews.Reviews))
       .catch(err => console.log(err));
   }, [dispatch, spotId])
-
-  // console.log('This is the current spot: ', currentSpot);
 
   return (
     <div>
@@ -60,7 +63,7 @@ function SpotDetail() {
               </h3>
               <div className='spot-image'>
                 <div id='main-spot-image'>
-                  <img src={currentSpot?.SpotImages.find(image => image.preview === true).url} alt={currentSpot?.name} />
+                  <img id='preview-image' src={currentSpot?.SpotImages.find(image => image.preview === true).url} alt={currentSpot?.name} />
                 </div>
                 <div className='spot-image-overlay'>
                   {currentSpot?.SpotImages.filter(image => image.preview !== true).map((image, index) => (
@@ -83,10 +86,11 @@ function SpotDetail() {
                         <div id='stars-review'>
                           <div id='stars'>
                             {currentSpot?.numReviews > 0 ?
-                              (typeof currentSpot?.avgStarRating === 'number' ?
-                                <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
-                                <p>⭐️New</p>) :
-                              null
+                              // (typeof currentSpot?.avgStarRating === 'number' ?
+                              <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                              <p>⭐️New</p>
+                              //   ) :
+                              // null
                             }
                           </div>
                           {currentSpot?.numReviews > 0 &&
@@ -112,10 +116,11 @@ function SpotDetail() {
             <div id='stars-review'>
               <div id='stars'>
                 {currentSpot?.numReviews > 0 ?
-                  (typeof currentSpot?.avgStarRating === 'number' ?
-                    <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
-                    <p>⭐️New</p>) :
-                  null
+                  // (typeof currentSpot?.avgStarRating === 'number' ?
+                  <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                  <p>⭐️New</p>
+                  //   ) :
+                  // null
                 }
               </div>
               {currentSpot?.numReviews > 0 &&
@@ -127,6 +132,11 @@ function SpotDetail() {
                 </>
               }
             </div>
+          </div>
+          <div className='post-review'>
+            {/* {user.loggedIn && user.id !== spot.ownerId && !user.hasPostedReview(spot.id) ? ( */}
+              <button id='post-review' onClick={handleReserve}>Post Your Review</button>
+            {/* ) : null} */}
           </div>
           <div id='review-map'>
             {Array.isArray(reviews) && reviews.length > 0 ? (
