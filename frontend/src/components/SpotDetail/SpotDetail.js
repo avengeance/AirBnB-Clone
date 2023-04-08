@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useModal } from '../../context/Modal';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import PostReviewModal from '../PostReviewModal';
 import * as spotActions from '../../store/spots'
 import './SpotDetail.css'
@@ -16,6 +18,8 @@ function SpotDetail() {
   const spot = currentSpot
 
   const ulRef = useRef();
+
+  const { closeModal } = useModal();
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -41,8 +45,17 @@ function SpotDetail() {
     alert('Feature coming soon');
   }
 
-  function handleReserve() {
-    alert('Feature coming soon');
+  function handlePostReview() {
+    // alert('Reserve button');
+    // <OpenModalMenuItem
+    //   itemText="Post Review"
+    //   modalComponent={<PostReviewModal />}
+    //   onItemClick={() => {
+    //     // alert('Post Review button clicked');
+    //     console.log('Post Review button clicked');
+    //   }}
+    //   />
+    // openModal(<PostReviewModal/>)
   }
 
   useEffect(() => {
@@ -134,9 +147,7 @@ function SpotDetail() {
             </div>
           </div>
           <div className='post-review'>
-            {/* {user.loggedIn && user.id !== spot.ownerId && !user.hasPostedReview(spot.id) ? ( */}
-              <button id='post-review' onClick={handleReserve}>Post Your Review</button>
-            {/* ) : null} */}
+            <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
           </div>
           <div id='review-map'>
             {Array.isArray(reviews) && reviews.length > 0 ? (
@@ -149,12 +160,15 @@ function SpotDetail() {
                     <p id='review-description'>{review.review}</p>
                   </div>
                 ))
-            ) : user.loggedIn && user.id !== spot.ownerId ? (
-              <p id='no-reviews'>Be the first to post a review!</p>
-            ) : (
-              // render nothing if user is not logged in or is the owner of the spot
-              null
-            )}
+            ) :
+              // user.loggedIn && user.id !== spot.ownerId ? (
+              //   <p id='no-reviews'>Be the first to post a review!</p>
+              // ) 
+              // : 
+              (
+                // render nothing if user is not logged in or is the owner of the spot
+                null
+              )}
           </div>
         </div>
       ) : (

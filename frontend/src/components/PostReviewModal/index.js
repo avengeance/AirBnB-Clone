@@ -16,14 +16,27 @@ function PostReviewModal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
+        return dispatch(sessionActions.addReviewThunk({ spotId, review }))
+          .then(closeModal)
+          .catch(
+            async (res) => {
+              const data = await res.json();
+              if (data && data.errors) {
+                setErrors(data.errors);
+              }
+              else {
+                setErrors(["Inputs are invalid"]);
+              }
+            }
+          )
 
-        try {
-            await dispatch(sessionActions.addReviewThunk({ spotId, review }));
-            closeModal();
-        } catch (err) {
-            const errorRes = await err.json();
-            setErrors(errorRes.errors);
-        }
+        // try {
+        //     await dispatch(sessionActions.addReviewThunk({ spotId, review }));
+        //     closeModal();
+        // } catch (err) {
+        //     const errorRes = await err.json();
+        //     setErrors(errorRes.errors);
+        // }
     };
 
     return (

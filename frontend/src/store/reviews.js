@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_REVIEWS = "reviews/all";
+const ADD_REVIEW = "reviews/add";
 
 const getReviews = (reviews) => ({
     type: GET_REVIEWS,
