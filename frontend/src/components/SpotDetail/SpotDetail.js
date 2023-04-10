@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import OpenModalButton from '../OpenModalButton';
 import PostReviewModal from '../PostReviewModal';
 import * as spotActions from '../../store/spots'
 import './SpotDetail.css'
@@ -20,6 +20,7 @@ function SpotDetail() {
   const ulRef = useRef();
 
   const { closeModal } = useModal();
+  const { openModal } = useModal();
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -47,15 +48,17 @@ function SpotDetail() {
 
   function handlePostReview() {
     // alert('Reserve button');
-    // <OpenModalMenuItem
-    //   itemText="Post Review"
-    //   modalComponent={<PostReviewModal />}
-    //   onItemClick={() => {
-    //     // alert('Post Review button clicked');
-    //     console.log('Post Review button clicked');
-    //   }}
-    //   />
+    <OpenModalButton
+      itemText="Post Review"
+      modalComponent={<PostReviewModal />}
+      onItemClick={() => {
+        // alert('Post Review button clicked');
+        openModal(<PostReviewModal/>)
+        console.log('Post Review button click');
+      }}
+      />
     // openModal(<PostReviewModal/>)
+    console.log('Post Review button clicked');
   }
 
   useEffect(() => {

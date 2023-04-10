@@ -16,6 +16,7 @@ Spot Detail:
 Create spot
 1. Description text box the cursor appears inside the center left of the text input box
 2. Validation errors are not appearing when invalid inputs are made
+3. When creating a spot I'm getting a POST bad request at line csrf.js:17
 
 
 Sign up modal

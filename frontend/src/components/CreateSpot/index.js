@@ -292,7 +292,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        const file = e.target.files[0];
+                                        const file = e.target.files && e.target.files?.[0];
                                         console.log('This is file',file)
                                         if (file && (file.name.endsWith(".jpg") || file.name.endsWith(".png") || file.name.endsWith(".jpeg"))) {
                                             setSpotImage(file);
