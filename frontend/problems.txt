@@ -27,3 +27,8 @@ Reviews
 Place code to address this issue as well
 2. When posting a review I'm getting another error where 
 csrf.js:17     POST http://localhost:3000/api/reviews 404 (Not Found)
+
+
+Post review modal
+1. Review text displays in the center left need to appear on the top left.
+2. Need to fix stars so that when highlited the stars to the left will highlight
