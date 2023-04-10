@@ -1,15 +1,8 @@
-.spot-name-loc-detail {
-    /* border: 1px solid red; */
-}
-
 #spot-box {
     display: flex;
     justify-content: center;
 }
 
-#spot-detail-info {
-    /* border: 1px solid green; */
-}
 
 .spot-image {
     display: flex;
@@ -23,7 +16,8 @@
     height: 450px;
     /* border: 1px solid black; */
 }
-#preview-image{
+
+#preview-image {
     width: 450px;
     height: 450px;
 }
@@ -156,7 +150,7 @@
     /* border: 1px solid red; */
 }
 
-.post-review{
+.post-review {
     padding-bottom: 20px;
     /* border: 1px solid black; */
 }
@@ -220,8 +214,4 @@
     padding: 0px;
     padding-bottom: 5px;
     /* border:1px solid red; */
-}
-
-#review-description {
-    /* border: 1px solid green; */
 }

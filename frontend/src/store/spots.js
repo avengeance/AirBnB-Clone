@@ -4,6 +4,7 @@ const GET_CURRENT_SPOT = 'spots/get'
 const GET_SPOTS = 'spots/all';
 const CREATE_SPOT = 'spots/create';
 const GET_REVIEWS = 'reviews/all';
+const USER_SPOTS = 'spots/user';
 
 const getCurrentSpot = (spot) => ({
     type: GET_CURRENT_SPOT,
@@ -20,9 +21,10 @@ const createSpot = (spot) => ({
     payload: spot
 })
 
-const getReviews = (reviews) => ({
-    type: GET_REVIEWS,
-    payload: reviews
+
+const userSpots = (spots) => ({
+    type: USER_SPOTS,
+    payload: spots
 })
 
 export const getSpotsThunk = () => async (dispatch) => {
@@ -80,12 +82,13 @@ export const createSpotThunk = (
     return res
 }
 
-export const getReviewsThunk = (spotId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+
+export const getUserSpotsThunk = () => async (dispatch) => {
+    const res = await csrfFetch('/api/spots/current', {
         method: 'GET',
     });
     const data = await res.json();
-    dispatch(getReviews(data));
+    dispatch(userSpots(data));
     return data
 }
 
@@ -109,11 +112,11 @@ const spotReducer = (state = initialState, action) => {
                 ...newState,
                 spots: [...state.spots, action.payload]
             }
-            case GET_REVIEWS:
-                return {
-                    ...newState,
-                    reviews: action.payload
-                }
+        case USER_SPOTS:
+            return {
+                ...newState,
+                spots: action.payload
+            }
         default:
             return state;
     }

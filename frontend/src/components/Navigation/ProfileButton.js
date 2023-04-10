@@ -83,7 +83,7 @@ function ProfileButton({ user }) {
                         {/* Make an edit so that this links to the users spots
                         <li>Manage Spots{user.manageSpots}</li> */}
                         <li id="manage-spots">
-                            <NavLink to={`/users/${user.id}/spots`}>
+                            <NavLink to={`/spots/current`}>
                                 Manage Spots
                             </NavLink>
                         </li>

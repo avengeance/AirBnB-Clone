@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../context/Modal';
-import OpenModalButton from '../OpenModalButton';
-import PostReviewModal from '../PostReviewModal';
 import * as spotActions from '../../store/spots'
+import * as reviewActions from '../../store/reviews'
+import * as sessionActions from '../../store/session'
+
+import { useModal } from '../../context/Modal'
 import './SpotDetail.css'
+import PostReviewModal from '../PostReviewModal';
 
 
 function SpotDetail() {
@@ -13,14 +15,9 @@ function SpotDetail() {
   const dispatch = useDispatch();
   const [currentSpot, setCurrentSpot] = useState(null);
   const [reviews, setReviews] = useState([]);
-
   const user = useSelector(state => state.session.user);
-  const spot = currentSpot
 
-  const ulRef = useRef();
-
-  const { closeModal } = useModal();
-  const { openModal } = useModal();
+  const { setModalContent } = useModal();
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -47,22 +44,14 @@ function SpotDetail() {
   }
 
   function handlePostReview() {
-    // alert('Reserve button');
-    <OpenModalButton
-      itemText="Post Review"
-      modalComponent={<PostReviewModal />}
-      onItemClick={() => {
-        // alert('Post Review button clicked');
-        openModal(<PostReviewModal/>)
-        console.log('Post Review button click');
-      }}
-      />
-    // openModal(<PostReviewModal/>)
-    console.log('Post Review button clicked');
+    const modalContent = <PostReviewModal onReviewSubmit={handlePostReview} />;
+    setModalContent(modalContent);
   }
 
+
+
   useEffect(() => {
-    dispatch(spotActions.getReviewsThunk(spotId))
+    dispatch(reviewActions.getReviewsThunk(spotId))
       .then(reviews => setReviews(reviews.Reviews))
       .catch(err => console.log(err));
   }, [dispatch, spotId])
@@ -79,17 +68,17 @@ function SpotDetail() {
               </h3>
               <div className='spot-image'>
                 <div id='main-spot-image'>
-                  <img id='preview-image' src={currentSpot?.SpotImages.find(image => image.preview === true).url} alt={currentSpot?.name} />
+                  <img id='preview-image' src={currentSpot?.SpotImages?.find(image => image.preview === true).url} alt={currentSpot?.name} />
                 </div>
                 <div className='spot-image-overlay'>
-                  {currentSpot?.SpotImages.filter(image => image.preview !== true).map((image, index) => (
+                  {currentSpot?.SpotImages?.filter(image => image.preview !== true).map((image, index) => (
                     <img key={index} id={`spotImage${index + 1}`} src={image.url} alt={currentSpot?.name} />
                   ))}
                 </div>
               </div>
               <div id='hosted-description-rating-box'>
                 <div id='hosted-description'>
-                  <p id='hosted'>Hosted by: {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}</p>
+                  <p id='hosted'>Hosted by: {currentSpot.Owner?.firstName} {currentSpot.Owner?.lastName}</p>
                   <p id='description'>{currentSpot?.description}</p>
                 </div>
                 <div id='rat-rev-box'>
@@ -149,9 +138,12 @@ function SpotDetail() {
               }
             </div>
           </div>
+
           <div className='post-review'>
             <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
           </div>
+
+
           <div id='review-map'>
             {Array.isArray(reviews) && reviews.length > 0 ? (
               reviews

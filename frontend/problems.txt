@@ -23,4 +23,7 @@ Sign up modal
 1. Small bug in which the passwords need to not match in order for the other errors to populate
 
 Reviews
-1. Fix seeders so that a review cannot be posted by the person who also owns the spot. Place code to address this issue as well
+1. Fix seeders so that a review cannot be posted by the person who also owns the spot. 
+Place code to address this issue as well
+2. When posting a review I'm getting another error where 
+csrf.js:17     POST http://localhost:3000/api/reviews 404 (Not Found)
