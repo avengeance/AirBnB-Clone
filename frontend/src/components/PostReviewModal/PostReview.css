@@ -82,7 +82,7 @@ body {
     color: #ffc107;
 }
 
-.star-rating label:hover~label,
-.star-rating input:checked+label~label {
+.star-rating input:checked~label:hover,
+.star-rating input:checked~label:hover~label {
     color: #ccc;
 }
