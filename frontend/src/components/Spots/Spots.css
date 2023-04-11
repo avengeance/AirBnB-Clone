@@ -14,8 +14,8 @@ body {
     position: relative;
     flex-direction: column;
     width: 250px;
-    height: 275px;
-    /* border: 1px solid black; */
+    /* height: 290px;
+    border: 1px solid black; */
 }
 
 .spot-tile:hover {

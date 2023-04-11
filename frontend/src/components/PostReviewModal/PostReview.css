@@ -18,12 +18,15 @@ body {
     position: relative;
 }
 
+.review-label {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+}
+
 #review-input {
-    display: flex;
-    align-items: flex-start;
     width: 98%;
     height: 100px;
-    top: 0;
     background-color: lightgray;
 }
 
@@ -62,7 +65,7 @@ body {
     cursor: pointer;
 }
 
-#star-rating-div{
+#star-rating-div {
     display: flex;
     justify-content: center;
 }

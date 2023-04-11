@@ -34,11 +34,11 @@ function App() {
           <Route exact path="/spots/new">
             <CreateSpot />
           </Route>
-          <Route path="/spots/:spotId" spot={SpotDetail}>
-            <SpotDetail />
-          </Route>
-          <Route exact path='/spots/current'>
+          <Route exact path='/spots/current' component={UserSpots}>
             <UserSpots />
+          </Route>
+          <Route exact path="/spots/:spotId" spot={SpotDetail}>
+            <SpotDetail />
           </Route>
         </Switch>
       )

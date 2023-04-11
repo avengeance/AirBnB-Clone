@@ -59,12 +59,12 @@ function PostReviewModal() {
                     )}
                     <label id="review-label" className="review-label">
                         <input
+                            placeholder="Leave your review here..."
+                            onChange={(e) => setReview(e.target.value)}
                             type="text"
                             id="review-input"
                             name="review"
                             value={review}
-                            onChange={(e) => setReview(e.target.value)}
-                            placeholder="Leave your review here..."
                             required
                             className="review-input"
                         />
@@ -72,11 +72,11 @@ function PostReviewModal() {
                     <div id="star-rating-div">
                         <div className="star-rating">
                             <label htmlFor="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
                             </label>
                             <input
                                 type="range"

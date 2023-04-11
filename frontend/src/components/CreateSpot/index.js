@@ -42,7 +42,7 @@ function CreateSpot() {
             description,
             title,
             price,
-            spotImage,
+            // spotImage,
             spotPreviewImage,
         }
         return dispatch(SpotActions.createSpotThunk(payload)).catch(

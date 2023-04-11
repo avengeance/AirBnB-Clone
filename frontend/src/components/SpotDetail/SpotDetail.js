@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentSpotThunk } from '../../store/spots';
 import * as spotActions from '../../store/spots'
 import * as reviewActions from '../../store/reviews'
 import * as sessionActions from '../../store/session'
@@ -16,6 +17,8 @@ function SpotDetail() {
   const [currentSpot, setCurrentSpot] = useState(null);
   const [reviews, setReviews] = useState([]);
   const user = useSelector(state => state.session.user);
+  // const currentSpots = useSelector(state => state.spots.currentSpot);
+
 
   const { setModalContent } = useModal();
 
@@ -138,11 +141,13 @@ function SpotDetail() {
               }
             </div>
           </div>
-
-          <div className='post-review'>
-            <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
-          </div>
-
+          {user && !reviews.some(review => review.userId === user.id) && user.id !== currentSpot?.userId ? (
+            <div className='post-review'>
+              <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
+            </div>
+          ) : (
+            null
+          )}
 
           <div id='review-map'>
             {Array.isArray(reviews) && reviews.length > 0 ? (

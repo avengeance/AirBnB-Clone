@@ -17,6 +17,8 @@ Create spot
 1. Description text box the cursor appears inside the center left of the text input box
 2. Validation errors are not appearing when invalid inputs are made
 3. When creating a spot I'm getting a POST bad request at line csrf.js:17
+4. Lat and Lng are currently set as Required even though the front end states otherwise.
+Backend validation is preventing the spot from being created if the Lat and Lng are not set.
 
 
 Sign up modal
@@ -33,3 +35,10 @@ Post review modal
 1. Review text displays in the center left need to appear on the top left.
 2. Need to fix stars so that when highlited the stars to the left will highlight
 3. 
+
+
+reviews.map(review => {
+    return (
+        <Review key={review.id} review={review} />
+    )
+})
