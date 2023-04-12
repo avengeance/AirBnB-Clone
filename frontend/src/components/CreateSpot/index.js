@@ -20,6 +20,7 @@ function CreateSpot() {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [spotPreviewImage, setSpotPreviewImage] = useState('');
+    const [preview, setPreview] = useState(false);
     const [spotImage, setSpotImage] = useState('');
     const [errors, setErrors] = useState([]);
 
@@ -28,6 +29,11 @@ function CreateSpot() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+
+    const updateSpotImage = (value, preview) => {
+        setSpot({ ...spot, image: value });
+        setPreview(preview);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -297,7 +303,7 @@ function CreateSpot() {
                                         // if (file && (file.name.endsWith(".jpg") || file.name.endsWith(".png") || file.name.endsWith(".jpeg"))) {
                                         //     setSpotImage(file);
                                         // }
-                                        setSpotImage(e.target.value);
+                                        setSpotImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
                                     }}
                                     style={({
                                         width: "98%",
