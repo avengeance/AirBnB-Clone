@@ -54,6 +54,11 @@ function SpotDetail() {
 
 
   useEffect(() => {
+    if (!spotId) {
+      console.error('No spotId');
+      return
+    }
+
     dispatch(reviewActions.getReviewsThunk(spotId))
       .then(reviews => setReviews(reviews.Reviews))
       .catch(err => console.log(err));
@@ -69,7 +74,7 @@ function SpotDetail() {
               <h3>
                 Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
               </h3>
-              <div className='spot-image'>
+              {/* <div className='spot-image'>
                 <div id='main-spot-image'>
                   <img id='preview-image' src={currentSpot?.SpotImages?.find(image => image.preview === true).url} alt={currentSpot?.name} />
                 </div>
@@ -78,7 +83,23 @@ function SpotDetail() {
                     <img key={index} id={`spotImage${index + 1}`} src={image.url} alt={currentSpot?.name} />
                   ))}
                 </div>
+              </div> */}
+
+              <div className='spot-image'>
+                <div id='main-spot-image'>
+                  {currentSpot?.SpotImages?.find(image => image.preview === true) ?
+                    <img id='preview-image' src={currentSpot.SpotImages.find(image => image.preview === true).url} alt={currentSpot.name} />
+                    : null
+                  }
+                </div>
+                <div className='spot-image-overlay'>
+                  {currentSpot?.SpotImages?.filter(image => image.preview !== true).map((image, index) => (
+                    <img key={index} id={`spotImage${index + 1}`} src={image.url} alt={currentSpot.name} />
+                  ))}
+                </div>
               </div>
+
+
               <div id='hosted-description-rating-box'>
                 <div id='hosted-description'>
                   <p id='hosted'>Hosted by: {currentSpot.Owner?.firstName} {currentSpot.Owner?.lastName}</p>

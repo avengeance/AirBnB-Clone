@@ -45,10 +45,9 @@ function CreateSpot() {
             // spotImage,
             spotPreviewImage,
         }
-        return dispatch(SpotActions.createSpotThunk(payload)).catch(
+        return dispatch(SpotActions.createSpotThunk(payload)).then((spot) => { history.push(`/spots/${spot.id}`) }).catch(
             async (res) => {
                 const data = await res.json();
-                console.log('this is data', data)
                 if (data.errors) {
                     setErrors(data.errors);
                 }
