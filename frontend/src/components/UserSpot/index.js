@@ -1,14 +1,21 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as spotActions from '../../store/spots';
+import './UserSpots.css';
+
 function UserSpots() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const [spots, setSpots] = useState([]);
 
     useEffect(() => {
-        dispatch(spotActions.getUserSpotsThunk(user.id))
-            .then(spots => {
-                const userSpots = spots.Spots
-                setSpots(userSpots)
-            })
+        if (user) {
+            dispatch(spotActions.getUserSpotsThunk(user.id))
+                .then(spots => {
+                    const userSpots = spots.Spots
+                    setSpots(userSpots)
+                })
+        }
 
     }, [])
 
@@ -35,8 +42,15 @@ function UserSpots() {
                             </div>
                         </div>
                         <div id='spot-tile-price'>
-                            <div id='tile-price'>{spot.price}</div>
+                            <div id='tile-price'>${spot.price}</div>
                             night
+                        </div>
+                        <div id='update-spot-container'>
+                            <button id='update-spot-button' onClick={() => window.location.href = `/spots/${spots.id}/edit`}>
+                                Update
+                            </button>
+                        </div>
+                        <div id='delete-spot-button'>
                         </div>
                     </div>
                 ))}

@@ -31,7 +31,7 @@ function CreateSpot() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors([]);
+        // setErrors([]);
         const payload = {
             country,
             address,
@@ -48,7 +48,8 @@ function CreateSpot() {
         return dispatch(SpotActions.createSpotThunk(payload)).catch(
             async (res) => {
                 const data = await res.json();
-                if (data && data.errors) {
+                console.log('this is data', data)
+                if (data.errors) {
                     setErrors(data.errors);
                 }
             }

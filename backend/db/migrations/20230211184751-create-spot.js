@@ -48,7 +48,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-      name: {
+      title: {
         type: Sequelize.STRING,
         allowNull: false
       },
