@@ -40,6 +40,9 @@ function App() {
           <Route exact path="/spots/:spotId" spot={SpotDetail}>
             <SpotDetail />
           </Route>
+          {/* <Route exact path="/spots/:spotId/edit">
+
+          </Route> */}
         </Switch>
       )
       }
