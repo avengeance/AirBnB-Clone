@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -114,7 +114,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       queryFilter() {
         return {
-          attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt',
+          attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'title', 'description', 'price', 'createdAt', 'updatedAt',
             [Sequelize.literal(`(SELECT ROUND(AVG(stars), 1) FROM ${schema ? `"${schema}"."Reviews"` : 'Reviews'} WHERE "Reviews"."spotId" = "Spot"."id")`
             ),
               'avgRating',

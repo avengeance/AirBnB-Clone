@@ -20,6 +20,7 @@ function CreateSpot() {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [spotPreviewImage, setSpotPreviewImage] = useState('');
+    const [preview, setPreview] = useState(false);
     const [spotImage, setSpotImage] = useState('');
     const [errors, setErrors] = useState([]);
 
@@ -29,9 +30,14 @@ function CreateSpot() {
     const history = useHistory();
 
 
+    const updateSpotImage = (value, preview) => {
+        setSpot({ ...spot, image: value });
+        setPreview(preview);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors([]);
+        // setErrors([]);
         const payload = {
             country,
             address,
@@ -42,13 +48,13 @@ function CreateSpot() {
             description,
             title,
             price,
-            spotImage,
+            // spotImage,
             spotPreviewImage,
         }
-        return dispatch(SpotActions.createSpotThunk(payload)).catch(
+        return dispatch(SpotActions.createSpotThunk(payload)).then((spot) => { history.push(`/spots/${spot.id}`) }).catch(
             async (res) => {
                 const data = await res.json();
-                if (data && data.errors) {
+                if (data.errors) {
                     setErrors(data.errors);
                 }
             }
@@ -292,10 +298,12 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        const file = e.target.files[0];
-                                        if (file && (file.name.endsWith(".jpg") || file.name.endsWith(".png") || file.name.endsWith(".jpeg"))) {
-                                            setSpotImage(file);
-                                        }
+                                        // const file = e.target.files && e.target.files?.[0];
+                                        // console.log('This is file',file)
+                                        // if (file && (file.name.endsWith(".jpg") || file.name.endsWith(".png") || file.name.endsWith(".jpeg"))) {
+                                        //     setSpotImage(file);
+                                        // }
+                                        setSpotImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
                                     }}
                                     style={({
                                         width: "98%",

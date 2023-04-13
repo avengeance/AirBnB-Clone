@@ -1,0 +1,91 @@
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+.review-modal {
+    height: 350px;
+    width: 500px;
+    padding: 10px;
+}
+
+
+#post-review-text {
+    display: flex;
+    justify-content: center;
+}
+
+#review-label {
+    position: relative;
+}
+
+.review-label {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+}
+
+#review-input {
+    width: 98%;
+    height: 100px;
+    background-color: lightgray;
+}
+
+.modal-buttons {
+    display: flex;
+    padding-top: 10px;
+    justify-content: center;
+}
+
+#submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 40px;
+    background-color: red;
+    color: white;
+    box-shadow: 5px 5px 0px 1px black;
+}
+
+#submit-button:disabled {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid lightgrey;
+    width: 90%;
+    height: 40px;
+    background-color: white;
+    color: lightgray;
+    box-shadow: 5px 5px 0px 0.5px lightgray;
+}
+
+.star-rating {
+    display: inline-block;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#star-rating-div {
+    display: flex;
+    justify-content: center;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    display: inline-block;
+    color: #ccc;
+    padding: 0.5rem;
+}
+
+.star-rating label:hover,
+.star-rating input:checked+label {
+    color: #ffc107;
+}
+
+.star-rating input:checked~label:hover,
+.star-rating input:checked~label:hover~label {
+    color: #ccc;
+}

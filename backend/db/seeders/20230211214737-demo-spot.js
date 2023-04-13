@@ -18,7 +18,7 @@ module.exports = {
         country: 'United States',
         lat: 34.052235,
         lng: -118.243683,
-        name: 'Mansion',
+        title: 'Mansion',
         description: 'A big mansion',
         price: 500,
       }, {
@@ -29,7 +29,7 @@ module.exports = {
         country: 'United States',
         lat: 40.71276,
         lng: -74.005974,
-        name: 'Medium sized house',
+        title: 'Medium sized house',
         description: 'A nice house in the big city',
         price: 250,
       }, {
@@ -40,7 +40,7 @@ module.exports = {
         country: 'United States',
         lat: 30.267153,
         lng: -97.743057,
-        name: 'Small house',
+        title: 'Small house',
         description: 'A small house to gather and explore the city',
         price: 125,
       },
@@ -52,7 +52,7 @@ module.exports = {
         country: 'United States1',
         lat: 34.052235,
         lng: -118.243683,
-        name: 'Mansion1',
+        title: 'Mansion1',
         description: 'A big mansion1',
         price: 500,
       }

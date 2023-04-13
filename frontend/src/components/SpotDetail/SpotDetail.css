@@ -1,15 +1,8 @@
-.spot-name-loc-detail {
-    /* border: 1px solid red; */
-}
-
 #spot-box {
     display: flex;
     justify-content: center;
 }
 
-#spot-detail-info {
-    /* border: 1px solid green; */
-}
 
 .spot-image {
     display: flex;
@@ -19,9 +12,14 @@
 
 #main-spot-image {
     display: flex;
-    width: 675px;
+    width: 450px;
     height: 450px;
     /* border: 1px solid black; */
+}
+
+#preview-image {
+    width: 450px;
+    height: 450px;
 }
 
 .spot-image-overlay {
@@ -35,40 +33,40 @@
 }
 
 #spotImage1 {
-    width: 229px;
-    height: 222px;
+    width: 162px;
+    height: 226px;
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 20px;
 }
 
 #spotImage2 {
-    width: 229px;
-    height: 222px;
+    width: 162px;
+    height: 226px;
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 20px;
 }
 
 #spotImage3 {
-    width: 229px;
-    height: 222px;
+    width: 162px;
+    height: 226px;
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 20px;
 }
 
 #spotImage4 {
-    width: 229px;
-    height: 222px;
+    width: 162px;
+    height: 226px;
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 20px;
 }
 
 #spotImage5 {
-    width: 229px;
-    height: 222px;
+    width: 162px;
+    height: 226px;
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 20px;
@@ -142,7 +140,7 @@
     justify-content: space-evenly;
     width: 50%;
     height: fit-content;
-    font-size: x-large;
+    font-size: large;
     /* border: 1px solid orange; */
 }
 
@@ -150,6 +148,20 @@
     display: flex;
     justify-content: center;
     /* border: 1px solid red; */
+}
+
+.post-review {
+    padding-bottom: 20px;
+    /* border: 1px solid black; */
+}
+
+#post-review {
+    width: 20%;
+    height: 30px;
+    margin-top: 15px;
+    background-color: darkgrey;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
 }
 
 #reserve {
@@ -163,7 +175,7 @@
 
 .centered-dot {
     font-weight: bold;
-    font-size: x-large;
+    font-size: large;
 }
 
 #reviews-box {
@@ -178,7 +190,7 @@
     display: flex;
     justify-content: space-evenly;
     padding-top: 10px;
-    width: 15%;
+    width: 25%;
     /* border: 2px solid blue; */
 }
 
@@ -202,8 +214,4 @@
     padding: 0px;
     padding-bottom: 5px;
     /* border:1px solid red; */
-}
-
-#review-description {
-    /* border: 1px solid green; */
 }

@@ -36,7 +36,7 @@ const validateSpotError = [
         .notEmpty()
         .isFloat({ min: -180, max: 180 })
         .withMessage("Longitude is not valid"),
-    check('name')
+    check('title')
         .exists({ checkFalsy: true })
         .notEmpty()
         .isLength({ max: 49 })
@@ -109,7 +109,7 @@ router.get('/current', async (req, res) => {
         ],
         attributes: [
             'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng',
-            'name', 'description', 'price', 'createdAt', 'updatedAt',
+            'title', 'description', 'price', 'createdAt', 'updatedAt',
             // {
             //     include: [
             [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
@@ -135,7 +135,7 @@ router.get('/current', async (req, res) => {
                 country: spot.county,
                 lat,
                 lng,
-                name: spot.name,
+                title: spot.title,
                 description: spot.description,
                 price,
                 createdAt: spot.createdAt,
@@ -200,7 +200,7 @@ router.get('/:spotId', async (req, res) => {
 
 // Create a spot
 router.post('/', requireAuth, validateSpotError, async (req, res) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const { address, city, state, country, lat, lng, title, description, price } = req.body
     const ownerId = req.user.id
 
     const newSpot = await Spot.create({
@@ -211,7 +211,7 @@ router.post('/', requireAuth, validateSpotError, async (req, res) => {
         country,
         lat,
         lng,
-        name,
+        title,
         description,
         price
     })
@@ -256,7 +256,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, title, description, price } = req.body;
     if (!spot) {
         return res.status(404).json({
             "message": "Spot couldn't be found",
@@ -276,7 +276,7 @@ router.put('/:spotId', requireAuth, validateSpotError, async (req, res) => {
             country,
             lat,
             lng,
-            name,
+            title,
             description,
             price,
         });
@@ -502,7 +502,7 @@ router.get('/', async (req, res) => {
                 country: spot.county,
                 lat,
                 lng,
-                name: spot.name,
+                title: spot.title,
                 description: spot.description,
                 price,
                 createdAt: spot.createdAt,

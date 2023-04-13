@@ -45,7 +45,9 @@ function Spots() {
                         tooltip.textContent = ''; // Clear the tooltip text when the mouse leaves the tile
                     }}
                     onClick={() => window.location.href = `/spots/${spot.id}`}>
-                    <img src={spot.previewImage} alt={spot.name} id='spot-tile-image' />
+                    {/* <div className='spot-tile-image'> */}
+                        <img src={spot.previewImage} alt={spot.name} id='spot-tile-image' />
+                    {/* </div> */}
                     <div id='spot-city-state'>{spot.city}, {spot.state}
                         <div title={spot.name} >
                             <i className="fas fa-star"></i>

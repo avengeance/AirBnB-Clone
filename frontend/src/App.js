@@ -9,6 +9,8 @@ import Spots from "./components/Spots";
 // import Spot from './components/Spots/SpotDetail.js';
 import SpotDetail from "./components/SpotDetail/SpotDetail";
 import CreateSpot from "./components/CreateSpot";
+import UserSpots from "./components/UserSpot";
+import EditSpot from "./components/EditSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,7 +35,13 @@ function App() {
           <Route exact path="/spots/new">
             <CreateSpot />
           </Route>
-          <Route path="/spots/:spotId" spot={SpotDetail}>
+          <Route exact path='/spots/current' component={UserSpots}>
+            <UserSpots />
+          </Route>
+          <Route exact path="/spots/:spotId/edit">
+            <EditSpot />
+          </Route>
+          <Route exact path="/spots/:spotId" spot={SpotDetail}>
             <SpotDetail />
           </Route>
         </Switch>

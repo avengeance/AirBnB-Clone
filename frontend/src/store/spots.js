@@ -3,7 +3,8 @@ import { csrfFetch } from "./csrf";
 const GET_CURRENT_SPOT = 'spots/get'
 const GET_SPOTS = 'spots/all';
 const CREATE_SPOT = 'spots/create';
-const GET_REVIEWS = 'reviews/all';
+const USER_SPOTS = 'spots/user';
+const EDIT_SPOT = 'spots/edit';
 
 const getCurrentSpot = (spot) => ({
     type: GET_CURRENT_SPOT,
@@ -20,9 +21,15 @@ const createSpot = (spot) => ({
     payload: spot
 })
 
-const getReviews = (reviews) => ({
-    type: GET_REVIEWS,
-    payload: reviews
+
+const userSpots = (spots) => ({
+    type: USER_SPOTS,
+    payload: spots
+})
+
+const editSpot = (spot) => ({
+    type: EDIT_SPOT,
+    payload: spot
 })
 
 export const getSpotsThunk = () => async (dispatch) => {
@@ -44,19 +51,41 @@ export const getCurrentSpotThunk = (spotId) => async (dispatch) => {
 }
 
 export const createSpotThunk = (
-    country,
-    address,
-    city,
-    state,
-    lat,
-    lng,
-    description,
-    title,
-    price,
-    spotPreviewImage
+    spot
 ) => async (dispatch) => {
+    const { country, address, city, state, lat, lng, description, title, price, spotPreviewImage } = spot
     const res = await csrfFetch('/api/spots', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+                spot
+        ),
+    });
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(createSpot(data));
+        return res
+    }
+}
+
+
+export const getUserSpotsThunk = () => async (dispatch) => {
+    const res = await csrfFetch('/api/spots/current', {
+        method: 'GET',
+    });
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(userSpots(data));
+        return data
+    }
+}
+
+export const editSpotThunk = (spotId, spot) => async (dispatch) => {
+    const { country, address, city, state, lat, lng, description, title, price, spotPreviewImage } = spot;
+    const res = await csrfFetch(`/api/spots/${spotId}/edit`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -75,19 +104,14 @@ export const createSpotThunk = (
             }
         ),
     });
-    const data = await res.json();
-    dispatch(createSpot(data));
-    return res
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(editSpot(data));
+        return data
+    }
+    // console.log(res.url)
 }
 
-export const getReviewsThunk = (spotId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-        method: 'GET',
-    });
-    const data = await res.json();
-    dispatch(getReviews(data));
-    return data
-}
 
 const initialState = { spots: [] }
 
@@ -109,11 +133,16 @@ const spotReducer = (state = initialState, action) => {
                 ...newState,
                 spots: [...state.spots, action.payload]
             }
-            case GET_REVIEWS:
-                return {
-                    ...newState,
-                    reviews: action.payload
-                }
+        case USER_SPOTS:
+            return {
+                ...newState,
+                spots: action.payload
+            }
+        case EDIT_SPOT:
+            return {
+                ...newState,
+                spots: action.payload
+            }
         default:
             return state;
     }
