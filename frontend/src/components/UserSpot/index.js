@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import { getUserSpotsThunk } from '../../store/spots';
 import * as spotActions from '../../store/spots';
 import './UserSpots.css';
 
@@ -9,15 +10,16 @@ function UserSpots() {
     const [spots, setSpots] = useState([]);
 
     useEffect(() => {
-        if (user) {
-            dispatch(spotActions.getUserSpotsThunk(user.id))
-                .then(spots => {
-                    const userSpots = spots.Spots
-                    setSpots(userSpots)
-                })
-        }
+        const getUserSpots = async () => {
+            const response = await dispatch(spotActions.getUserSpotsThunk(user.id));
+            setSpots(response.Spots);
+        };
 
-    }, [])
+        if (user) {
+            getUserSpots();
+        }
+    }, [dispatch, user]);
+
 
     return (
         <div>
@@ -46,7 +48,10 @@ function UserSpots() {
                             night
                         </div>
                         <div id='update-spot-container'>
-                            <button id='update-spot-button' onClick={() => window.location.href = `/spots/${spots.id}/edit`}>
+                            <button id='update-spot-button' onClick={(e) => {
+                                e.preventDefault();
+                                window.location.href = `/spots/${spots.id}/edit`
+                            }}>
                                 Update
                             </button>
                         </div>
