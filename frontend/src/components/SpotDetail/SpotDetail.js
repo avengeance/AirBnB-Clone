@@ -16,6 +16,8 @@ function SpotDetail() {
   const dispatch = useDispatch();
   const [currentSpot, setCurrentSpot] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [spot, setSpot] = useState(null);
+  const [preview, setPreview] = useState(null);
   const user = useSelector(state => state.session.user);
   // const currentSpots = useSelector(state => state.spots.currentSpot);
 
@@ -52,6 +54,20 @@ function SpotDetail() {
   }
 
 
+
+  useEffect(() => {
+    if (!spotId) {
+      console.error('No spotId');
+      return
+    }
+
+    dispatch(spotActions.getCurrentSpotThunk(spotId))
+      .then((spot) => {
+        setSpot(spot);
+        setPreview(spot.image);
+      })
+      .catch((err) => console.log(err));
+  }, [dispatch, spotId]);
 
   useEffect(() => {
     if (!spotId) {
