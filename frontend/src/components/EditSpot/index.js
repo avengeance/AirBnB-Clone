@@ -175,7 +175,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserSpotsThunk, editSpotThunk } from "../../store/spots";
 import { useParams, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as spotActions from "../../store/spots";
+import './EditSpot.css';
 
 const EditSpot = () => {
     const dispatch = useDispatch();
@@ -235,7 +237,7 @@ const EditSpot = () => {
             spotImage,
         }
         await dispatch(spotActions.editSpotThunk(payload, spotId)).then((spot) => {
-            history.push(`/spots/${spot.id}`)
+            history.push(`/spots/${spot.id}/edit`)
         });
     }
 

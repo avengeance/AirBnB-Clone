@@ -131,11 +131,11 @@ function SpotDetail() {
                         <div id='stars-review'>
                           <div id='stars'>
                             {currentSpot?.numReviews > 0 ?
-                              // (typeof currentSpot?.avgStarRating === 'number' ?
-                              <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
-                              <p>⭐️New</p>
-                              //   ) :
-                              // null
+                              (typeof currentSpot?.avgStarRating === 'number' ?
+                                <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                                <p>⭐️New</p>
+                              ) :
+                              null
                             }
                           </div>
                           {currentSpot?.numReviews > 0 &&
