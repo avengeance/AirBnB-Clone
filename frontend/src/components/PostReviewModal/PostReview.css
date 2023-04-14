@@ -80,12 +80,18 @@ body {
     padding: 0.5rem;
 }
 
-.star-rating label:hover,
+/* .star-rating label:hover,
 .star-rating input:checked+label {
     color: #ffc107;
-}
+} */
 
-.star-rating input:checked~label:hover,
+/* .star-rating input:checked~label:hover,
 .star-rating input:checked~label:hover~label {
     color: #ccc;
+} */
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #ffd700;
 }

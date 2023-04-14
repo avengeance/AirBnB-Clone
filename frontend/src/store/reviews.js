@@ -14,7 +14,7 @@ const addReview = (review) => ({
 })
 
 export const getReviewsThunk = (spotId) => async (dispatch) => {
-    const res = await csrfFetch(`/api//spots/${spotId}/reviews`, {
+    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'GET',
     });
     const data = await res.json();
@@ -22,13 +22,20 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
     return data
 }
 
-export const addReviewThunk = (review, spotId) => async (dispatch) => {
+export const addReviewThunk = (review, spotId, stars) => async (dispatch) => {
+    stars = Number(stars)
     const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
-        body: JSON.stringify(review),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ review, stars }),
     });
-    const data = await res.json();
-    dispatch(addReview(data));
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(addReview(data));
+        return data
+    }
 }
 
 const instialState = {
@@ -44,10 +51,8 @@ const reviewsReducer = (state = instialState, action) => {
                 reviews: action.payload
             }
         case ADD_REVIEW:
-            return {
-                ...newState,
-                reviews: [...state.reviews, action.payload]
-            }
+            newState.reviews[action.payload.id] = action.payload
+            return newState
         default:
             return state;
     }

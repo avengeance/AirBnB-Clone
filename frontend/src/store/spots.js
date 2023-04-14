@@ -50,18 +50,14 @@ export const getCurrentSpotThunk = (spotId) => async (dispatch) => {
     return data
 }
 
-export const createSpotThunk = (
-    spot
-) => async (dispatch) => {
+export const createSpotThunk = (spot) => async (dispatch) => {
     const { country, address, city, state, lat, lng, description, id, title, price, spotPreviewImage } = spot
     const res = await csrfFetch('/api/spots', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(
-            spot
-        ),
+        body: JSON.stringify(spot),
     });
     if (res.ok) {
         const data = await res.json();
