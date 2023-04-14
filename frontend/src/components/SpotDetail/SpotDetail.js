@@ -95,17 +95,6 @@ function SpotDetail() {
               <h3>
                 Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
               </h3>
-              {/* <div className='spot-image'>
-                <div id='main-spot-image'>
-                  <img id='preview-image' src={currentSpot?.SpotImages?.find(image => image.preview === true).url} alt={currentSpot?.name} />
-                </div>
-                <div className='spot-image-overlay'>
-                  {currentSpot?.SpotImages?.filter(image => image.preview !== true).map((image, index) => (
-                    <img key={index} id={`spotImage${index + 1}`} src={image.url} alt={currentSpot?.name} />
-                  ))}
-                </div>
-              </div> */}
-
               <div className='spot-image'>
                 <div id='main-spot-image'>
                   {currentSpot?.SpotImages?.find(image => image.preview === true) ?
@@ -186,6 +175,7 @@ function SpotDetail() {
           {user && !reviews.some(review => review.userId === user.id) && user.id !== currentSpot?.userId ? (
             <div className='post-review'>
               <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
+              <p id='no-reviews'>Be the first to post a review!</p>
             </div>
           ) : (
             null

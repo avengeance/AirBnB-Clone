@@ -215,3 +215,12 @@
     padding-bottom: 5px;
     /* border:1px solid red; */
 }
+
+#no-reviews {
+    color: black;
+    font-size: x-large;
+    margin-top: 15px;
+    padding: 0px;
+    padding-bottom: 5px;
+    /* border:1px solid red; */
+}

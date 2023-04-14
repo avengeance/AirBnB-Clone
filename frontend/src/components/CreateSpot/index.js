@@ -35,7 +35,7 @@ function CreateSpot() {
         setPreview(preview);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // setErrors([]);
         const payload = {
@@ -50,12 +50,10 @@ function CreateSpot() {
             price,
             SpotImages: [{ url: spotPreviewImage }]
         }
-        return dispatch(SpotActions.createSpotThunk(payload))
+        await dispatch(SpotActions.createSpotThunk(payload))
             .then((spot) => {
-                console.log('Received spot object:', spot);
                 const newSpotId = spot.id
                 const url = `/spots/${newSpotId}`
-                console.log('Redirecting to:', url);
                 history.push(url);
             })
             .catch(async (res) => {
@@ -76,7 +74,7 @@ function CreateSpot() {
                 <div>
                     <form className="form" onSubmit={handleSubmit}>
                         <div id="form-location" className="form-div">
-                            <label id="country-label"><p>Country</p>
+                            <label id="country-label">Country<p className="errors">{errors.country}</p>
                                 <input type="text"
                                     id="country-input"
                                     name="country"
@@ -89,17 +87,9 @@ function CreateSpot() {
                                         width: "98%",
                                         backgroundColor: "lightgrey"
                                     })}
-                                    required
                                 />
-                                {spot.country === '' && (
-                                    <span style={{
-                                        color: "red",
-                                    }}>
-                                        Country is required
-                                    </span>
-                                )}
                             </label>
-                            <label id='street-label'><p>Street Address</p>
+                            <label id='street-label'>Street Address<p className="errors">{errors.address}</p>
                                 <input type="text"
                                     id="street-input"
                                     name="street"
@@ -112,18 +102,10 @@ function CreateSpot() {
                                         width: "98%",
                                         backgroundColor: "lightgrey"
                                     })}
-                                    required
                                 />
-                                {spot.address === '' && (
-                                    <span style={{
-                                        color: "red",
-                                    }}>
-                                        Address is required
-                                    </span>
-                                )}
                             </label>
                             <div id="city-state-label">
-                                <label id='city-label'><p>City</p>
+                                <label id='city-label'>City<p className="errors">{errors.city}</p>
                                     <input type="text"
                                         id="city-input"
                                         name="city"
@@ -136,17 +118,9 @@ function CreateSpot() {
                                             width: "90%",
                                             backgroundColor: "lightgrey"
                                         }}
-                                        required
                                     />,
-                                    {spot.city === '' && (
-                                        <span style={{
-                                            color: "red",
-                                        }}>
-                                            City is required
-                                        </span>
-                                    )}
                                 </label>
-                                <label id='state-label'><p>State</p>
+                                <label id='state-label'>State<p className="errors">{errors.state}</p>
                                     <input type="text"
                                         id="state-input"
                                         name="state"
@@ -159,19 +133,11 @@ function CreateSpot() {
                                             width: "94%",
                                             backgroundColor: "lightgrey"
                                         })}
-                                        required
                                     />
-                                    {spot.state === '' && (
-                                        <span style={{
-                                            color: "red",
-                                        }}>
-                                            State is required
-                                        </span>
-                                    )}
                                 </label>
                             </div>
                             <div id="lat-long-label">
-                                <label id='lat-label'><p>Latitude</p>
+                                <label id='lat-label'>Latitude<p className="errors">{errors.lat}</p>
                                     <input type="text"
                                         id="lat-input"
                                         name="lat"
@@ -186,7 +152,7 @@ function CreateSpot() {
                                         })}
                                     />,
                                 </label>
-                                <label id='long-label'><p>Longitude</p>
+                                <label id='long-label'>Longitude<p className="errors">{errors.lng}</p>
                                     <input type="text"
                                         id="long-input"
                                         name="long"
@@ -206,11 +172,10 @@ function CreateSpot() {
                         <div id="form-description" className="form-div">
                             <label id="description-label">
                                 <h3>Describe your place to guests</h3>
-                                <p>
+                                <h4>
                                     Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.
-                                </p>
-                                <input
-                                    type="text"
+                                </h4>
+                                <textarea
                                     id="description-input"
                                     name="description"
                                     value={spot?.description}
@@ -218,27 +183,20 @@ function CreateSpot() {
                                         setDescription(e.target.value);
                                     }}
                                     placeholder="Please write at least 30 characters"
+                                    rows='10'
                                     style={({
                                         width: "98%",
-                                        height: "100px",
                                         backgroundColor: "lightgrey",
                                     })}
-                                    required
                                 />
-                                {spot.description?.length < 30 && (
-                                    <span style={{
-                                        color: "red",
-                                    }}>
-                                        Description must be at least 30 characters
-                                    </span>
-                                )}
+                                <p className="errors">{errors.description}</p>
                             </label>
                         </div>
                         <div id="form-title" className="form-div">
                             <label
                                 id="title-label">
                                 <h3>Create a title for your spot</h3>
-                                <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                                <h4>Catch guests' attention with a spot title that highlights what makes your place special.</h4>
                                 <input
                                     type="text"
                                     id="title-input"
@@ -252,23 +210,16 @@ function CreateSpot() {
                                         width: "98%",
                                         backgroundColor: "lightgrey"
                                     })}
-                                    required
                                 />
-                                {spot.title === '' && (
-                                    <span style={{
-                                        color: "red",
-                                    }}>
-                                        Name is required
-                                    </span>
-                                )}
+                                <p className="errors">{errors.title}</p>
                             </label>
                         </div>
                         <div id="form-price" className="form-div">
                             <label id="price-label">
                                 <h3>Set a base price for your spot</h3>
-                                <p>
+                                <h4>
                                     Competitive pricing can help your listing stand out and rank higher in search results.
-                                </p>
+                                </h4>
                                 <input
                                     type="text"
                                     id="price-input"
@@ -277,20 +228,13 @@ function CreateSpot() {
                                     onChange={(e) => {
                                         setPrice(e.target.value);
                                     }}
-                                    placeholder="Price per night (USD)"
+                                    placeholder="$ Price per night (USD)"
                                     style={({
                                         width: "98%",
                                         backgroundColor: "lightgrey"
                                     })}
-                                    required
                                 />
-                                {spot.price === '' && (
-                                    <span style={{
-                                        color: "red",
-                                    }}>
-                                        Price is required
-                                    </span>
-                                )}
+                                <p className="errors">{errors.price}</p>
                             </label>
                         </div>
                         <div id="form-image" className="form-div">
@@ -304,11 +248,6 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        // const file = e.target.files && e.target.files?.[0];
-                                        // console.log('This is file',file)
-                                        // if (file && (file.name.endsWith(".jpg") || file.name.endsWith(".png") || file.name.endsWith(".jpeg"))) {
-                                        //     setSpotImage(file);
-                                        // }
                                         setSpotImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
                                     }}
                                     style={({
@@ -316,15 +255,8 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey",
                                     })}
                                     placeholder="Preview Image URL"
-                                    required
                                 />
-                                {spot.image === '' && (
-                                    <span style={{
-                                        color: 'red'
-                                    }}>
-                                        Preview image is required
-                                    </span>
-                                )}
+                                <p className="errors">{errors.image}</p>
                                 <input
                                     type="text"
                                     className="image-input"
