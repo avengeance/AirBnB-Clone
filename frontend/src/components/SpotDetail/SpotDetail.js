@@ -39,7 +39,12 @@ function SpotDetail() {
 
   useEffect(() => {
     dispatch(spotActions.getCurrentSpotThunk(spotId))
-      .then(currentSpot => setCurrentSpot(currentSpot))
+      // .then(currentSpot => setCurrentSpot(currentSpot))
+      .then(currentSpot => {
+        if (currentSpot?.Owner?.id) {
+          setCurrentSpot(currentSpot);
+        }
+      })
       .catch(err => console.log(err));
   }, [dispatch, spotId]);
 
@@ -198,7 +203,7 @@ function SpotDetail() {
                   </div>
                 ))
             ) :
-              user && user.id !== spot.ownerId ? (
+              user && user.id !== currentSpot.Owner.id ? (
                 <p id='no-reviews'>Be the first to post a review!</p>
               )
                 :

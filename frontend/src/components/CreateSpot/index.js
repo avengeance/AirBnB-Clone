@@ -48,17 +48,23 @@ function CreateSpot() {
             description,
             title,
             price,
-            // spotImage,
-            spotPreviewImage,
+            SpotImages: [{ url: spotPreviewImage }]
         }
-        return dispatch(SpotActions.createSpotThunk(payload)).then((spot) => { history.push(`/spots/${spot.id}`) }).catch(
-            async (res) => {
+        return dispatch(SpotActions.createSpotThunk(payload))
+            .then((spot) => {
+                console.log('Received spot object:', spot);
+                const newSpotId = spot.id
+                const url = `/spots/${newSpotId}`
+                console.log('Redirecting to:', url);
+                history.push(url);
+            })
+            .catch(async (res) => {
                 const data = await res.json();
                 if (data.errors) {
                     setErrors(data.errors);
                 }
             }
-        )
+            )
     }
 
     return (
