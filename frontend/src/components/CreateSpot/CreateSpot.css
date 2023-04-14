@@ -125,3 +125,8 @@ p {
     margin: 20px;
     border: 1px solid black;
 }
+
+.errors {
+    color: red;
+    padding-top: 5px;
+}
