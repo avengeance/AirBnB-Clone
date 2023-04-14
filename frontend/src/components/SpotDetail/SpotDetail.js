@@ -161,11 +161,11 @@ function SpotDetail() {
             <div id='stars-review'>
               <div id='stars'>
                 {currentSpot?.numReviews > 0 ?
-                  // (typeof currentSpot?.avgStarRating === 'number' ?
-                  <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
-                  <p>⭐️New</p>
-                  //   ) :
-                  // null
+                  (typeof currentSpot?.avgStarRating === 'number' ?
+                    <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
+                    <p>⭐️New</p>
+                  ) :
+                  null
                 }
               </div>
               {currentSpot?.numReviews > 0 &&
@@ -198,14 +198,14 @@ function SpotDetail() {
                   </div>
                 ))
             ) :
-              // user.loggedIn && user.id !== spot.ownerId ? (
-              //   <p id='no-reviews'>Be the first to post a review!</p>
-              // ) 
-              // : 
-              (
-                // render nothing if user is not logged in or is the owner of the spot
-                null
-              )}
+              user && user.id !== spot.ownerId ? (
+                <p id='no-reviews'>Be the first to post a review!</p>
+              )
+                :
+                (
+                  // render nothing if user is not logged in or is the owner of the spot
+                  null
+                )}
           </div>
         </div>
       ) : (
