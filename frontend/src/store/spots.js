@@ -121,9 +121,7 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
         }
     });
     if (res.ok) {
-        const data = await res.json();
-        dispatch(deleteSpot(data));
-        return data
+        dispatch(deleteSpot(spotId));
     }
 }
 
@@ -158,8 +156,12 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case DELETE_SPOT:
-            delete newState.spots[action.spotId]
-            return newState
+            const newSpots = newState.Spots.filter(spot => spot.id !== action.spotId);
+            // newState.spots.spots.Spots = newSpots;
+            return {
+                ...newState,
+                spots: newSpots
+            }
         default:
             return state;
     }
