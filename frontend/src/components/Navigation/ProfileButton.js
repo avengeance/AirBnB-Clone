@@ -59,7 +59,7 @@ function ProfileButton({ user }) {
         <>
             {user && (
                 <button onClick={toggleCreateButton} id='create-spot-button' style={{ backgroundColor: 'transparent' }}>
-                    <NavLink exact to="/spots/new">
+                    <NavLink exact to="/spots/new" id="spot-button-link">
                         Create a New Spot!
                     </NavLink>
                 </button>
@@ -83,7 +83,7 @@ function ProfileButton({ user }) {
                         {/* Make an edit so that this links to the users spots
                         <li>Manage Spots{user.manageSpots}</li> */}
                         <li id="manage-spots">
-                            <NavLink to={`/spots/current`}>
+                            <NavLink to={`/spots/current`} id='manage-spot-link'>
                                 Manage Spots
                             </NavLink>
                         </li>

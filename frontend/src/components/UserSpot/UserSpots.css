@@ -75,3 +75,53 @@ h2 {
     box-shadow: 4px 4px 0px 0px #000000;
     /* border: 2px solid blue; */
 }
+
+#update-spot-button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 20px;
+    margin-top: 15px;
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+    /* border: 2px solid red; */
+}
+
+.delete-spot-button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 20px;
+    margin-top: 15px;
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+    /* border: 2px solid red; */
+}
+
+#delete-spot-container {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 20px;
+    margin-top: 15px;
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+}
+
+#update-delete-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    height: 100px;
+    /* border: 2px solid blue; */
+}
+

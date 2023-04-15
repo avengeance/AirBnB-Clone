@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { getUserSpotsThunk } from '../../store/spots';
 import { Link } from 'react-router-dom';
 import * as spotActions from '../../store/spots';
+import OpenModalButton from '../OpenModalButton';
+import DeleteModal from '../DeleteSpot';
 import './UserSpots.css';
 
 function UserSpots() {
@@ -53,10 +55,21 @@ function UserSpots() {
                                 <div id='tile-price'>${spot.price}</div>
                                 night
                             </div>
-                            <div id='update-spot-container'>
-                                <Link to={`/spots/${spot.id}/edit`} id='update-spot-button'>Update</Link>
-                            </div>
-                            <div id='delete-spot-button'>
+                            <div id='update-delete-container'>
+                                <div id='update-spot-container'>
+                                    <Link to={`/spots/${spot.id}/edit`} id='update-spot-button'>Update</Link>
+                                </div>
+                                <div id='delete-spot-container'>
+                                    <OpenModalButton
+                                        buttonText={'Delete'}
+                                        className='delete-spot-button'
+                                        modalComponent={<DeleteModal />}
+                                        style={{
+                                            backgroundColor: '#3A3A3A !important',
+                                        }}
+                                    />
+                                    {/* <Link to={`/spots/${spot.id}/delete`} id='delete-spot-button'>Delete</Link> */}
+                                </div>
                             </div>
                         </div>
                     ))}

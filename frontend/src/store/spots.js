@@ -5,6 +5,7 @@ const GET_SPOTS = 'spots/all';
 const CREATE_SPOT = 'spots/create';
 const USER_SPOTS = 'spots/user';
 const EDIT_SPOT = 'spots/edit';
+const DELETE_SPOT = 'spots/delete';
 
 const getCurrentSpot = (spot) => ({
     type: GET_CURRENT_SPOT,
@@ -29,6 +30,11 @@ const userSpots = (spots) => ({
 
 const editSpot = (spot) => ({
     type: EDIT_SPOT,
+    payload: spot
+})
+
+const deleteSpot = (spot) => ({
+    type: DELETE_SPOT,
     payload: spot
 })
 
@@ -105,9 +111,21 @@ export const editSpotThunk = (spotId, spot) => async (dispatch) => {
         dispatch(editSpot(data));
         return data
     }
-    // console.log(res.url)
 }
 
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(deleteSpot(data));
+        return data
+    }
+}
 
 const initialState = { spots: [] }
 
@@ -139,6 +157,9 @@ const spotReducer = (state = initialState, action) => {
                 ...newState,
                 spots: action.payload
             }
+        case DELETE_SPOT:
+            delete newState.spots[action.spotId]
+            return newState
         default:
             return state;
     }
