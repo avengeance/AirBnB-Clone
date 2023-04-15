@@ -38,7 +38,7 @@ function App() {
           <Route exact path='/spots/current' component={UserSpots}>
             <UserSpots />
           </Route>
-          <Route exact path="/spots/:spotId/edit" component={EditSpot}>
+          <Route path="/spots/:spotId/edit" component={EditSpot}>
             <EditSpot />
           </Route>
           <Route exact path="/spots/:spotId" spot={SpotDetail}>

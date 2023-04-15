@@ -9,24 +9,26 @@ import './EditSpot.css';
 const EditSpot = () => {
     const dispatch = useDispatch();
     const { spotId } = useParams();
-    const [currentSpot, setCurrentSpot] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [spot, setSpot] = useState(null);
+    const [spot, setSpot] = useState('');
     const user = useSelector(state => state.session.user);
     const history = useHistory();
+    const currentSpot = useSelector((state) => state.spots.currentSpot)
 
-    const [country, setCountry] = useState(spot.country);
-    const [address, setAddress] = useState(spot.address);
-    const [city, setCity] = useState(spot.city);
-    const [state, setState] = useState(spot.state);
-    const [lat, setLat] = useState(spot.lat);
-    const [lng, setLng] = useState(spot.lng);
-    const [description, setDescription] = useState(spot.description);
-    const [title, setTitle] = useState(spot.title);
-    const [price, setPrice] = useState(spot.price);
-    const [spotPreviewImage, setSpotPreviewImage] = useState(spot.spotPreviewImage);
-    const [preview, setPreview] = useState(false);
-    const [spotImage, setSpotImage] = useState(spot.spotImage);
+    console.log('this is current spot:', currentSpot)
+
+    const [country, setCountry] = useState(currentSpot.country);
+    const [address, setAddress] = useState(currentSpot.address);
+    const [city, setCity] = useState(currentSpot.city);
+    const [state, setState] = useState(currentSpot.state);
+    const [lat, setLat] = useState(currentSpot.lat);
+    const [lng, setLng] = useState(currentSpot.lng);
+    const [description, setDescription] = useState(currentSpot.description);
+    const [title, setTitle] = useState(currentSpot.title);
+    const [price, setPrice] = useState(currentSpot.price);
+    const [spotPreviewImage, setSpotPreviewImage] = useState('');
+    const [preview, setPreview] = useState('');
+    const [spotImage, setSpotImage] = useState('');
     const [errors, setErrors] = useState({});
 
     const updateCountry = (e) => { setCountry(e.target.value) };
@@ -43,7 +45,7 @@ const EditSpot = () => {
     const updatePreview = (e) => { setPreview(e.target.value) };
 
     useEffect(() => {
-        dispatch(spotActions.getUserSpotsThunk(spotId));
+        dispatch(spotActions.getCurrentSpotThunk(spotId));
     }, [dispatch]);
 
     const handleSubmit = async (e) => {
