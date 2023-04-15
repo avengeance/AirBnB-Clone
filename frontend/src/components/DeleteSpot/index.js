@@ -16,10 +16,15 @@ const DeleteModal = ({ spotId }) => {
 
     const deleteSpot = async () => {
         console.log('this is spots', spots)
+
         if (spots.length > 0) {
+
             const currentSpot = spots.find((spot) => spot.id === spotId)
+
             console.log('this is currentSpot', currentSpot)
-            await dispatch(spotActions.deleteSpotThunk(currentSpot.id));
+
+            await dispatch(spotActions.deleteSpotThunk(spotId));
+
             history.push('/spots/current');
         }
         setIsOpen(false)

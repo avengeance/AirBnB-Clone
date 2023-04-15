@@ -113,16 +113,26 @@ export const editSpotThunk = (spotId, spot) => async (dispatch) => {
     }
 }
 
+// export const deleteSpotThunk = (spotId) => async (dispatch) => {
+//     const res = await csrfFetch(`/api/spots/${spotId}`, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         }
+//     });
+//     if (res.ok) {
+//         dispatch(deleteSpot(spotId));
+//     }
+// }
+
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-    if (res.ok) {
-        dispatch(deleteSpot(spotId));
-    }
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE"
+    })
+    const data = await response.json();
+    console.log(data)
+    dispatch(deleteSpot(spotId))
+    return data
 }
 
 const initialState = { spots: [] }
