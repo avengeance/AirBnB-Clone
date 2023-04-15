@@ -28,9 +28,9 @@ function UserSpots() {
                 <h2>Manage Your Spots</h2>
                 {spots.length === 0 && (
                     <div id='create-spot-button'>
-                        <button onClick={() => window.location.href = '/create-spot'}>
+                        <Link to={`/spots/new`} id='spot-button'>
                             Create a New Spot
-                        </button>
+                        </Link>
                     </div>
                 )}
                 <div className='spot-tile-container'>

@@ -3,9 +3,11 @@ import React, { useState } from "react";
 function StarRating({ rating, onRatingChange }) {
     const [hoveredStar, setHoveredStar] = useState(0);
     const stars = [1, 2, 3, 4, 5];
+    const [errors, setErrors] = useState([]);
 
     const handleStarHover = (e) => {
-        setHoveredStar(Number(e.target.value));
+        const starValue = parseInt(e.target.value)
+        setHoveredStar(starValue);
     };
 
     const handleMouseLeave = () => {
@@ -29,13 +31,14 @@ function StarRating({ rating, onRatingChange }) {
                             console.log(e.target.value)
                             onRatingChange(e.target.value)
                         }}
-                    />
+                    /><p className="errors">{errors.star}</p>
                     <i
-                        className={`fas fa-star ${(hoveredStar || rating) >= star ? "active" : ""
-                            }`}
+                        className={`fas fa-star ${(hoveredStar || rating) >= star ? "active" : ""}`}
+
                     ></i>
+
                 </label>
-            ))}
+            ))}Stars
         </div>
     );
 }
