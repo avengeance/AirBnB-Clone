@@ -1,0 +1,42 @@
+.delete-spot-button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 20px;
+    margin-top: 15px;
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+    /* border: 2px solid red; */
+}
+
+.confirm-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 250px;
+    width: 300px;
+}
+
+.confirm-button {
+    width: 90%;
+    height: 40px;
+    background-color: red;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.deny-button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 40px;
+    background-color: #3a3a3a;
+    color: white;
+    box-shadow: 4px 4px 0px 0px #000000;
+}

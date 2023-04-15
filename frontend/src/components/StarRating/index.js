@@ -1,27 +1,44 @@
 import React, { useState } from "react";
 
-function StarRating({ starCount, value, onStarClick }) {
-    const [hoveredStars, setHoveredStars] = useState(0);
+function StarRating({ rating, onRatingChange }) {
+    const [hoveredStar, setHoveredStar] = useState(0);
+    const stars = [1, 2, 3, 4, 5];
+    const [errors, setErrors] = useState([]);
 
-    const stars = [];
-    for (let i = 0; i < starCount; i++) {
-        const isFilled = i < hoveredStars || i < value;
-        stars.push(
-            <i
-                key={i}
-                className={`fa${isFilled ? "s" : "r"} fa-star`}
-                onClick={() => onStarClick(i + 1)}
-                onMouseEnter={() => setHoveredStars(i + 1)}
-            ></i>
-        );
-    }
+    const handleStarHover = (e) => {
+        const starValue = parseInt(e.target.value)
+        setHoveredStar(starValue);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredStar(0);
+    };
 
     return (
-        <div
-            className="star-rating"
-            onMouseLeave={() => setHoveredStars(0)}
-        >
-            {stars}
+        <div className="star-rating">
+            {stars.map((star) => (
+                <label key={star}>
+                    <input
+                        type="range"
+                        name="rating"
+                        // min="1"
+                        // max="5"
+                        value={star}
+                        onMouseMove={handleStarHover}
+                        onMouseLeave={handleMouseLeave}
+                        checked={rating === star}
+                        onClick={(e) => {
+                            console.log(e.target.value)
+                            onRatingChange(e.target.value)
+                        }}
+                    /><p className="errors">{errors.star}</p>
+                    <i
+                        className={`fas fa-star ${(hoveredStar || rating) >= star ? "active" : ""}`}
+
+                    ></i>
+
+                </label>
+            ))}Stars
         </div>
     );
 }

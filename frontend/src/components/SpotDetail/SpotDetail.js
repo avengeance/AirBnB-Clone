@@ -193,10 +193,10 @@ function SpotDetail() {
                   </div>
                 ))
             ) :
-              user && user.id !== currentSpot.Owner.id ? (
-                <p id='no-reviews'>Be the first to post a review!</p>
-              )
-                :
+              // user && user.id !== currentSpot.Owner.id ? (
+                // <p id='no-reviews'>Be the first to post a review!</p>
+              // )
+                // :
                 (
                   // render nothing if user is not logged in or is the owner of the spot
                   null

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import StarRating from "../StarRating";
 import * as sessionActions from "../../store/reviews";
@@ -8,12 +8,13 @@ import "./PostReview.css";
 
 function PostReviewModal() {
     const dispatch = useDispatch();
+    const currentSpot = useSelector(state => state.spots.currentSpot)
     const { closeModal } = useModal();
     const [review, setReview] = useState("");
     const [rating, setRating] = useState(0);
     const [stars, setStars] = useState([]);
     const [errors, setErrors] = useState([]);
-    const { spotId } = useParams();
+    const params = useParams();
 
     const MIN_REVIEW_LENGTH = 10;
 
@@ -22,27 +23,15 @@ function PostReviewModal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
-        return dispatch(sessionActions.addReviewThunk({ spotId, review, rating }))
-            .then(closeModal)
-            .catch(
-                async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) {
-                        setErrors(data.errors);
-                    }
-                    else {
-                        setErrors(["Inputs are invalid"]);
-                    }
+        // console.log('this is the spotID:', spotId)
+        await dispatch(sessionActions.addReviewThunk(review, currentSpot.id, rating))
+            .then((data) => {
+                if (data && data.errors) {
+                    setErrors(data.errors);
+                } else {
+                    closeModal()
                 }
-            )
-
-        // try {
-        //     await dispatch(sessionActions.addReviewThunk({ spotId, review }));
-        //     closeModal();
-        // } catch (err) {
-        //     const errorRes = await err.json();
-        //     setErrors(errorRes.errors);
-        // }
+            })
     };
 
     return (
@@ -58,7 +47,7 @@ function PostReviewModal() {
                         </ul>
                     )}
                     <label id="review-label" className="review-label">
-                        <input
+                        <textarea
                             placeholder="Leave your review here..."
                             onChange={(e) => setReview(e.target.value)}
                             type="text"
@@ -71,24 +60,10 @@ function PostReviewModal() {
                     </label>
                     <div id="star-rating-div">
                         <div className="star-rating">
-                            <label htmlFor="stars">
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                            </label>
-                            <input
-                                type="range"
-                                id="stars"
-                                name="stars"
-                                min="1"
-                                max="5"
-                                value={stars}
-                                onChange={(e) => setStars(e.target.value)}
-                                className="star-rating-input"
+                            <StarRating
+                                rating={rating}
+                                onRatingChange={(newRating) => setRating(newRating)}
                             />
-                            <span>{stars} stars</span>
                         </div>
                     </div>
                     <div className="modal-buttons">
