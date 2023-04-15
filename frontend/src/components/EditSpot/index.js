@@ -13,19 +13,19 @@ const EditSpot = () => {
     const [spot, setSpot] = useState('');
     const user = useSelector(state => state.session.user);
     const history = useHistory();
-    const currentSpot = useSelector((state) => state.spots.currentSpot)
+    const currSpot = useSelector((state) => state.spots.currentSpot)
 
-    console.log('this is current spot:', currentSpot)
+    console.log('this is current spot:', currSpot)
 
-    const [country, setCountry] = useState(currentSpot.country);
-    const [address, setAddress] = useState(currentSpot.address);
-    const [city, setCity] = useState(currentSpot.city);
-    const [state, setState] = useState(currentSpot.state);
-    const [lat, setLat] = useState(currentSpot.lat);
-    const [lng, setLng] = useState(currentSpot.lng);
-    const [description, setDescription] = useState(currentSpot.description);
-    const [title, setTitle] = useState(currentSpot.title);
-    const [price, setPrice] = useState(currentSpot.price);
+    const [country, setCountry] = useState('text');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [lat, setLat] = useState('');
+    const [lng, setLng] = useState('');
+    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
     const [spotPreviewImage, setSpotPreviewImage] = useState('');
     const [preview, setPreview] = useState('');
     const [spotImage, setSpotImage] = useState('');
@@ -44,9 +44,42 @@ const EditSpot = () => {
     const updateSpotImage = (e) => { setSpotImage(e.target.value) };
     const updatePreview = (e) => { setPreview(e.target.value) };
 
+    // const selectedSpot = user.spot.find()
+    const allSpots = useSelector((state) => Object.values(state.spots.spots.Spots))
+    console.log("this is allSpots:", allSpots)
+
+    console.log('this is spotId:', spotId)
+    console.log('this is values:', (currSpot))
+
     useEffect(() => {
         dispatch(spotActions.getCurrentSpotThunk(spotId));
-    }, [dispatch]);
+    }, [dispatch, spotId]);
+
+    useEffect(() => {
+        if (currSpot) {
+            const currentSpot = {
+                country,
+                address,
+                city,
+                state,
+                lat,
+                lng,
+                description,
+                title,
+                price,
+            }
+            setCountry(currSpot.country)
+            setAddress(currSpot.address)
+            setCity(currSpot.city)
+            setState(currSpot.state)
+            setLat(currSpot.lat)
+            setLng(currSpot.lng)
+            setDescription(currSpot.description)
+            setTitle(currSpot.title)
+            setPrice(currSpot.price)
+        }
+
+    }, [currSpot])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,8 +98,9 @@ const EditSpot = () => {
             preview,
             spotImage,
         }
+        console.log('useEffect spotId:', spotId)
         await dispatch(spotActions.editSpotThunk(payload, spotId)).then((spot) => {
-            history.push(`/spots/${spot.id}/edit`)
+            history.push(`/spots/${spotId}/edit`)
         });
     }
 

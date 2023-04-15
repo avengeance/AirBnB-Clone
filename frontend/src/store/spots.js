@@ -84,9 +84,20 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
+// export const getUserCurrentSpotThunk = (spotId) => async (dispatch) => {
+//     const res = await csrfFetch(`/api/spots/current/${spotId}`, {
+//         method: 'GET',
+//     })
+//     if (res.ok) {
+//         const data = await res.json()
+//         dispatch(getCurrentSpot(data))
+//         return data
+//     }
+// }
+
 export const editSpotThunk = (spotId, spot) => async (dispatch) => {
     const { country, address, city, state, lat, lng, description, title, price, spotPreviewImage } = spot;
-    const res = await csrfFetch(`/api/spots/${spotId}/edit`, {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -161,10 +172,9 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case EDIT_SPOT:
-            return {
-                ...newState,
-                spots: action.payload
-            }
+            const index = newState.spots.findIndex(spot => spot.id === action.spot.id)
+            newState.spots[index] = action.spot;
+            return { ...newState }
         case DELETE_SPOT:
             const newSpots = newState.Spots.filter(spot => spot.id !== action.spotId);
             // newState.spots.spots.Spots = newSpots;
