@@ -95,8 +95,8 @@ export const getUserSpotsThunk = () => async (dispatch) => {
 //     }
 // }
 
-export const editSpotThunk = (spotId, spot) => async (dispatch) => {
-    const { country, address, city, state, lat, lng, description, title, price, spotPreviewImage } = spot;
+export const editSpotThunk = (spot, spotId) => async (dispatch) => {
+    const { country, address, city, state, lat, lng, description, title, price } = spot;
     const res = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'PUT',
         headers: {
@@ -113,7 +113,6 @@ export const editSpotThunk = (spotId, spot) => async (dispatch) => {
                 description,
                 title,
                 price,
-                spotPreviewImage
             }
         ),
     });
@@ -124,17 +123,6 @@ export const editSpotThunk = (spotId, spot) => async (dispatch) => {
     }
 }
 
-// export const deleteSpotThunk = (spotId) => async (dispatch) => {
-//     const res = await csrfFetch(`/api/spots/${spotId}`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         }
-//     });
-//     if (res.ok) {
-//         dispatch(deleteSpot(spotId));
-//     }
-// }
 
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
@@ -172,12 +160,12 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case EDIT_SPOT:
-            const index = newState.spots.findIndex(spot => spot.id === action.spot.id)
-            newState.spots[index] = action.spot;
-            return { ...newState }
+            return {
+                ...newState,
+                spots: action.payload
+            }
         case DELETE_SPOT:
             const newSpots = newState.Spots.filter(spot => spot.id !== action.spotId);
-            // newState.spots.spots.Spots = newSpots;
             return {
                 ...newState,
                 spots: newSpots

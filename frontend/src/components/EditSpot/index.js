@@ -9,15 +9,11 @@ import './EditSpot.css';
 const EditSpot = () => {
     const dispatch = useDispatch();
     const { spotId } = useParams();
-    const [reviews, setReviews] = useState([]);
-    const [spot, setSpot] = useState('');
-    const user = useSelector(state => state.session.user);
     const history = useHistory();
-    const currSpot = useSelector((state) => state.spots.currentSpot)
 
-    console.log('this is current spot:', currSpot)
+    const user = useSelector(state => state.session.user);
 
-    const [country, setCountry] = useState('text');
+    const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -26,57 +22,36 @@ const EditSpot = () => {
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
-    const [spotPreviewImage, setSpotPreviewImage] = useState('');
-    const [preview, setPreview] = useState('');
-    const [spotImage, setSpotImage] = useState('');
     const [errors, setErrors] = useState({});
 
-    const updateCountry = (e) => { setCountry(e.target.value) };
-    const updateAddress = (e) => { setAddress(e.target.value) };
-    const updateCity = (e) => { setCity(e.target.value) };
-    const updateState = (e) => { setState(e.target.value) };
-    const updateLat = (e) => { setLat(e.target.value) };
-    const updateLng = (e) => { setLng(e.target.value) };
-    const updateDescription = (e) => { setDescription(e.target.value) };
-    const updateTitle = (e) => { setTitle(e.target.value) };
-    const updatePrice = (e) => { setPrice(e.target.value) };
-    const updateSpotPreviewImage = (e) => { setSpotPreviewImage(e.target.value) };
-    const updateSpotImage = (e) => { setSpotImage(e.target.value) };
-    const updatePreview = (e) => { setPreview(e.target.value) };
-
-    // const selectedSpot = user.spot.find()
-    const allSpots = useSelector((state) => Object.values(state.spots.spots.Spots))
-    console.log("this is allSpots:", allSpots)
-
-    console.log('this is spotId:', spotId)
-    console.log('this is values:', (currSpot))
+    const currSpot = useSelector((state) => state.spots.currentSpot)
 
     useEffect(() => {
         dispatch(spotActions.getCurrentSpotThunk(spotId));
+        // if (currSpot) {
+        //     setCountry(currSpot.country)
+        //     setAddress(currSpot?.address || '')
+        //     setCity(currSpot?.city || '')
+        //     setState(currSpot?.state || '')
+        //     setLat(currSpot?.lat || '')
+        //     setLng(currSpot?.lng || '')
+        //     setDescription(currSpot?.description || '')
+        //     setTitle(currSpot?.title || '')
+        //     setPrice(currSpot?.price || '')
+        // }
     }, [dispatch, spotId]);
 
     useEffect(() => {
         if (currSpot) {
-            const currentSpot = {
-                country,
-                address,
-                city,
-                state,
-                lat,
-                lng,
-                description,
-                title,
-                price,
-            }
             setCountry(currSpot.country)
-            setAddress(currSpot.address)
-            setCity(currSpot.city)
-            setState(currSpot.state)
-            setLat(currSpot.lat)
-            setLng(currSpot.lng)
-            setDescription(currSpot.description)
-            setTitle(currSpot.title)
-            setPrice(currSpot.price)
+            setAddress(currSpot?.address || '')
+            setCity(currSpot?.city || '')
+            setState(currSpot?.state || '')
+            setLat(currSpot?.lat || '')
+            setLng(currSpot?.lng || '')
+            setDescription(currSpot?.description || '')
+            setTitle(currSpot?.title || '')
+            setPrice(currSpot?.price || '')
         }
 
     }, [currSpot])
@@ -84,7 +59,6 @@ const EditSpot = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const payload = {
-            ...spot,
             country,
             address,
             city,
@@ -94,14 +68,13 @@ const EditSpot = () => {
             description,
             title,
             price,
-            spotPreviewImage,
-            preview,
-            spotImage,
         }
-        console.log('useEffect spotId:', spotId)
-        await dispatch(spotActions.editSpotThunk(payload, spotId)).then((spot) => {
-            history.push(`/spots/${spotId}/edit`)
-        });
+        const data = await dispatch(spotActions.editSpotThunk(payload, spotId))
+        console.log('useEffect dispatch:', data)
+        if (data) {
+            history.push(`/spots/${spotId}`)
+
+        }
     }
 
     return (
@@ -112,7 +85,7 @@ const EditSpot = () => {
                     <label>Country<p className="errors">{errors.country}</p></label>
                     <input
                         value={country}
-                        onChange={updateCountry}
+                        onChange={(e) => setCountry(e.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="Country"
@@ -121,7 +94,7 @@ const EditSpot = () => {
                     <label>Address<p className="errors">{errors.address}</p></label>
                     <input
                         value={address}
-                        onChange={updateAddress}
+                        onChange={(e) => setAddress(e.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="Address"
@@ -130,7 +103,7 @@ const EditSpot = () => {
                     <label>City<p className="errors">{errors.city}</p></label>
                     <input
                         value={city}
-                        onChange={updateCity}
+                        onChange={(e) => setCity(e.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="City"
@@ -139,7 +112,7 @@ const EditSpot = () => {
                     <label>State<p className="errors">{errors.state}</p></label>
                     <input
                         value={state}
-                        onChange={updateState}
+                        onChange={(e) => setState(e.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="State"
@@ -148,7 +121,7 @@ const EditSpot = () => {
                     <label>Latitude<p className="errors">{errors.lat}</p></label>
                     <input
                         value={lat}
-                        onChange={updateLat}
+                        onChange={(e) => setLat(e.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="Latitude"
@@ -157,7 +130,7 @@ const EditSpot = () => {
                     <label>Longitude<p className="errors">{errors.lng}</p></label>
                     <input
                         value={lng}
-                        onChange={updateLng}
+                        onChange={(e) => setLng(e.target.value)}
                         type="text"
                         className="form-control"
                         placeholder="Longitude"
@@ -170,7 +143,7 @@ const EditSpot = () => {
                     <h4>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</h4>
                     <textarea
                         value={description}
-                        onChange={updateDescription}
+                        onChange={(e) => setDescription(e.target.value)}
                         className="form-control"
                         placeholder="Please write at least 30 characters"
                     />
@@ -182,7 +155,7 @@ const EditSpot = () => {
                     <h4>Catch guests attention with a spot title that highlights what makes your place special.</h4>
                     <input
                         value={title}
-                        onChange={updateTitle}
+                        onChange={(e) => (setTitle(e.target.value))}
                         type="text"
                         placeholder="Name of your spot"
                     />
@@ -194,7 +167,7 @@ const EditSpot = () => {
                     <h4>Competitive pricing can help your listing stand out and rank higher in search results.</h4>
                     $<input
                         value={price}
-                        onChange={updatePrice}
+                        onChange={(e) => setPrice(e.target.value)}
                         type="text"
                         placeholder="Price per night (USD)"
                     />
