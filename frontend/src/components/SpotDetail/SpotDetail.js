@@ -6,9 +6,12 @@ import * as spotActions from '../../store/spots'
 import * as reviewActions from '../../store/reviews'
 import * as sessionActions from '../../store/session'
 
+
 import { useModal } from '../../context/Modal'
 import './SpotDetail.css'
 import PostReviewModal from '../PostReviewModal';
+import DeleteReview from '../DeleteReview';
+import OpenModalButton from '../OpenModalButton';
 
 
 function SpotDetail() {
@@ -129,7 +132,7 @@ function SpotDetail() {
                                 <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
                                 <p>⭐️New</p>
                               ) :
-                              null
+                              <p>⭐️New</p>
                             }
                           </div>
                           {currentSpot?.numReviews > 0 &&
@@ -159,7 +162,7 @@ function SpotDetail() {
                     <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
                     <p>⭐️New</p>
                   ) :
-                  null
+                  <p>⭐️New</p>
                 }
               </div>
               {currentSpot?.numReviews > 0 &&
@@ -190,17 +193,26 @@ function SpotDetail() {
                     <p id='first-name'>{review.User.firstName}</p>
                     <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
                     <p id='review-description'>{review.review}</p>
+                    <div className='delete-review-container'>
+                      {review.User.id === user.id && (
+                        <OpenModalButton
+                          buttonText={'Delete'}
+                          className='delete-review-button'
+                          modalComponent={<DeleteReview reviewId={review.id} />}
+                        />
+                      )}
+                    </div>
                   </div>
                 ))
             ) :
               // user && user.id !== currentSpot.Owner.id ? (
-                // <p id='no-reviews'>Be the first to post a review!</p>
+              // <p id='no-reviews'>Be the first to post a review!</p>
               // )
-                // :
-                (
-                  // render nothing if user is not logged in or is the owner of the spot
-                  null
-                )}
+              // :
+              (
+                // render nothing if user is not logged in or is the owner of the spot
+                null
+              )}
           </div>
         </div>
       ) : (

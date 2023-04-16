@@ -12,16 +12,12 @@ const DeleteModal = ({ spotId }) => {
     const [isOpen, setIsOpen] = useState(true)
     const spots = useSelector((state) => (state.spots.spots.Spots));
 
-    console.log('this is spotId:', spotId)
 
     const deleteSpot = async () => {
-        console.log('this is spots', spots)
 
         if (spots.length > 0) {
 
             const currentSpot = spots.find((spot) => spot.id === spotId)
-
-            console.log('this is currentSpot', currentSpot)
 
             await dispatch(spotActions.deleteSpotThunk(spotId));
 

@@ -28,17 +28,7 @@ const EditSpot = () => {
 
     useEffect(() => {
         dispatch(spotActions.getCurrentSpotThunk(spotId));
-        // if (currSpot) {
-        //     setCountry(currSpot.country)
-        //     setAddress(currSpot?.address || '')
-        //     setCity(currSpot?.city || '')
-        //     setState(currSpot?.state || '')
-        //     setLat(currSpot?.lat || '')
-        //     setLng(currSpot?.lng || '')
-        //     setDescription(currSpot?.description || '')
-        //     setTitle(currSpot?.title || '')
-        //     setPrice(currSpot?.price || '')
-        // }
+
     }, [dispatch, spotId]);
 
     useEffect(() => {
