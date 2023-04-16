@@ -56,8 +56,8 @@ export const getCurrentSpotThunk = (spotId) => async (dispatch) => {
     return data
 }
 
-export const createSpotThunk = (spot) => async (dispatch) => {
-    const { country, address, city, state, lat, lng, description, id, title, price, spotPreviewImage } = spot
+export const createSpotThunk = (spot, images) => async (dispatch) => {
+    // const { country, address, city, state, lat, lng, description, id, title, price, spotPreviewImage } = spot
     const res = await csrfFetch('/api/spots', {
         method: 'POST',
         headers: {
@@ -67,7 +67,29 @@ export const createSpotThunk = (spot) => async (dispatch) => {
     });
     if (res.ok) {
         const data = await res.json();
-        dispatch(createSpot(data));
+
+        const imgRes = await Promise.all(
+            images.map((img) =>
+                csrfFetch(`/api/spots/${data.id}/images`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(img),
+                })
+            )
+        )
+
+        const imgUrl = await Promise.all(
+            imgRes.map(async (res) => {
+                if (res.ok) {
+                    const data = await res.json();
+                    return data.url
+                }
+            })
+        )
+
+        data.images = imgUrl.filter((url) => url !== null)
+
+        await dispatch(createSpot(data));
         return data
     }
 }
@@ -139,7 +161,8 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case CREATE_SPOT:
-            newState.spots[action.spotId] = action.spot
+            // newState.spots[action.spotId] = action.spot
+            newState.data = action.data
             return {
                 ...newState,
             }

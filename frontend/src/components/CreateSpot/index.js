@@ -20,15 +20,12 @@ function CreateSpot() {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
 
-    const [spotPreviewImage, setSpotPreviewImage] = useState({ url: '', preview: true });
-
-    const [firstImage, setFirstImage] = useState({ url: '', preview: false });
-    const [secondImage, setSecondImage] = useState({ url: '', preview: false });
-    const [thirdImage, setThirdImage] = useState({ url: '', preview: false });
-    const [fourthImage, setFourthImage] = useState({ url: '', preview: false });
-
-    const [preview, setPreview] = useState(false);
-    const [spotImage, setSpotImage] = useState('');
+    const [spotPreviewImage, setSpotPreviewImage] = useState('');
+    const [firstImage, setFirstImage] = useState('');
+    const [secondImage, setSecondImage] = useState('');
+    const [thirdImage, setThirdImage] = useState('');
+    const [fourthImage, setFourthImage] = useState('');
+    
     const [errors, setErrors] = useState([]);
 
     const dispatch = useDispatch();
@@ -46,20 +43,38 @@ function CreateSpot() {
             description,
             title,
             price,
-            SpotImages: [
-                { url: spotPreviewImage },
-                { url: firstImage.url },
-                { url: secondImage.url },
-                { url: thirdImage.url },
-                { url: fourthImage.url }
-            ]
+            spotPreviewImage,
+            firstImage,
+            secondImage,
+            thirdImage,
+            fourthImage
         }
 
+        const images = [spotPreviewImage, firstImage, secondImage, thirdImage, fourthImage];
+
+        const newSpotImages = images.map((img, idx) => ({
+            url: img,
+            preview: idx === 0,
+        }))
+
         try {
-            const spot = await dispatch(SpotActions.createSpotThunk(payload));
+            const spot = await dispatch(SpotActions.createSpotThunk(payload, newSpotImages));
             const newSpotId = spot.id;
             const url = `/spots/${newSpotId}`;
-            if(spot){
+            if (spot) {
+                setCountry('');
+                setAddress('');
+                setCity('');
+                setState('');
+                setDescription('');
+                setTitle('');
+                setPrice('');
+                setSpotPreviewImage('');
+                setFirstImage('');
+                setSecondImage('');
+                setThirdImage('');
+                setFourthImage('');
+                setErrors([]);
                 history.push(url);
             }
         } catch (error) {
@@ -250,7 +265,9 @@ function CreateSpot() {
                                     value={spotPreviewImage.url}
                                     name="image"
                                     onChange={(e) => {
-                                        setSpotPreviewImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
+                                        setSpotPreviewImage(e.target.value
+                                            // , spot?.SpotImages?.length === 0 ? true : false
+                                        );
                                     }}
                                     style={({
                                         width: "98%",
@@ -265,7 +282,7 @@ function CreateSpot() {
                                     name="image"
                                     value={firstImage.url}
                                     onChange={(e) => {
-                                        setFirstImage({ url: e.target.value, preview: false });
+                                        setFirstImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -278,7 +295,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        setSecondImage({ url: e.target.value, preview: false });
+                                        setSecondImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -291,7 +308,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        setThirdImage({ url: e.target.value, preview: false });
+                                        setThirdImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -304,7 +321,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        setFourthImage({ url: e.target.value, preview: false });
+                                        setFourthImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
