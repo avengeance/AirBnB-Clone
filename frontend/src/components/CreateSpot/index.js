@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -19,7 +19,9 @@ function CreateSpot() {
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
-    const [spotPreviewImage, setSpotPreviewImage] = useState('');
+
+    const [spotPreviewImage, setSpotPreviewImage] = useState({ url: '', preview: true });
+
     const [preview, setPreview] = useState(false);
     const [spotImage, setSpotImage] = useState('');
     const [errors, setErrors] = useState([]);
@@ -37,7 +39,6 @@ function CreateSpot() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setErrors([]);
         const payload = {
             country,
             address,
@@ -156,7 +157,7 @@ function CreateSpot() {
                                     <input type="text"
                                         id="long-input"
                                         name="long"
-                                        value={spot.long}
+                                        value={spot.lng}
                                         onChange={(e) => {
                                             setLng(e.target.value);
                                         }}
@@ -246,9 +247,10 @@ function CreateSpot() {
                                 <input
                                     type="text"
                                     className="image-input"
+                                    value={spotPreviewImage.url}
                                     name="image"
                                     onChange={(e) => {
-                                        setSpotImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
+                                        setSpotPreviewImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
                                     }}
                                     style={({
                                         width: "98%",
@@ -315,7 +317,7 @@ function CreateSpot() {
                             <button
                                 type="submit"
                                 className="submit-button">
-                                Create a Spot
+                                Create Spot
                             </button>
                         </div>
                     </form>

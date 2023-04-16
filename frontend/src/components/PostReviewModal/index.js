@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { useHistory } from "react-router-dom";
 import StarRating from "../StarRating";
 import * as sessionActions from "../../store/reviews";
 import "./PostReview.css";
@@ -14,6 +15,8 @@ function PostReviewModal() {
     const [rating, setRating] = useState(0);
     const [stars, setStars] = useState([]);
     const [errors, setErrors] = useState([]);
+
+    const history = useHistory();
     const params = useParams();
 
     const MIN_REVIEW_LENGTH = 10;
@@ -23,15 +26,17 @@ function PostReviewModal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
-        // console.log('this is the spotID:', spotId)
         await dispatch(sessionActions.addReviewThunk(review, currentSpot.id, rating))
-            .then((data) => {
-                if (data && data.errors) {
-                    setErrors(data.errors);
-                } else {
-                    closeModal()
-                }
-            })
+        history.push(`/spots/${currentSpot.id}`);
+        closeModal();
+        // .then((data) => {
+        //     if (data && data.errors) {
+        //         setErrors(data.errors);
+        //     } else {
+        //         history.push(`/spots/${currentSpot.id}`);
+        //         closeModal()
+        //     }
+        // })
     };
 
     return (

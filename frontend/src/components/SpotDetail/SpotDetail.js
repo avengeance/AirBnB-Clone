@@ -94,7 +94,7 @@ function SpotDetail() {
         <div>
           <div className="spot-name-loc-detail">
             <div id='spot-detail-info'>
-              <h2>{currentSpot?.name}</h2>
+              <h2>{currentSpot?.title}</h2>
               <h3>
                 Location: {currentSpot?.city}, {currentSpot?.state}, {currentSpot?.country}
               </h3>
@@ -205,10 +205,13 @@ function SpotDetail() {
                   </div>
                 ))
             ) :
+<<<<<<< Updated upstream
               // user && user.id !== currentSpot.Owner.id ? (
               // <p id='no-reviews'>Be the first to post a review!</p>
               // )
               // :
+=======
+>>>>>>> Stashed changes
               (
                 // render nothing if user is not logged in or is the owner of the spot
                 null
