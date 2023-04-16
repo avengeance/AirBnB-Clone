@@ -84,23 +84,7 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-// export const getUserCurrentSpotThunk = (spotId) => async (dispatch) => {
-//     const res = await csrfFetch(`/api/spots/current/${spotId}`, {
-//         method: 'GET',
-//     })
-//     if (res.ok) {
-//         const data = await res.json()
-//         dispatch(getCurrentSpot(data))
-//         return data
-//     }
-// }
 
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 export const editSpotThunk = (spot, spotId) => async (dispatch) => {
     const { country, address, city, state, lat, lng, description, title, price } = spot;
     const res = await csrfFetch(`/api/spots/${spotId}`, {
@@ -155,10 +139,9 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case CREATE_SPOT:
-            newState.spots[action.spot.id] = action.spot
+            newState.spots[action.spotId] = action.spot
             return {
                 ...newState,
-                // spots: [...state.spots, action.payload]
             }
         case USER_SPOTS:
             return {
