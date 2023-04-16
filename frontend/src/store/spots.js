@@ -106,7 +106,6 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
-
 export const editSpotThunk = (spot, spotId) => async (dispatch) => {
     const { country, address, city, state, lat, lng, description, title, price } = spot;
     const res = await csrfFetch(`/api/spots/${spotId}`, {
