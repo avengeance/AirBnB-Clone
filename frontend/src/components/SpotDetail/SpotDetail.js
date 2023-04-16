@@ -24,6 +24,8 @@ function SpotDetail() {
   const user = useSelector(state => state.session.user);
   // const currentSpots = useSelector(state => state.spots.currentSpot);
 
+  // const review = useSelector(state => state.reviews.reviews.Reviews);
+
 
   const { setModalContent } = useModal();
 
@@ -42,7 +44,7 @@ function SpotDetail() {
 
   useEffect(() => {
     dispatch(spotActions.getCurrentSpotThunk(spotId))
-      // .then(currentSpot => setCurrentSpot(currentSpot))
+      .then(currentSpot => setCurrentSpot(currentSpot))
       .then(currentSpot => {
         if (currentSpot?.Owner?.id) {
           setCurrentSpot(currentSpot);
@@ -175,7 +177,7 @@ function SpotDetail() {
               }
             </div>
           </div>
-          {user && !reviews.some(review => review.userId === user.id) && user.id !== currentSpot?.userId ? (
+          {user || reviews || !reviews.some(review => review.userId === user.id) || user.id !== currentSpot?.userId ? (
             <div className='post-review'>
               <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
               <p id='no-reviews'>Be the first to post a review!</p>
@@ -194,7 +196,7 @@ function SpotDetail() {
                     <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
                     <p id='review-description'>{review.review}</p>
                     <div className='delete-review-container'>
-                      {review.User.id === user.id && (
+                      {review.userId === user.id && (
                         <OpenModalButton
                           buttonText={'Delete'}
                           className='delete-review-button'
@@ -205,13 +207,11 @@ function SpotDetail() {
                   </div>
                 ))
             ) :
-<<<<<<< Updated upstream
+
               // user && user.id !== currentSpot.Owner.id ? (
               // <p id='no-reviews'>Be the first to post a review!</p>
               // )
               // :
-=======
->>>>>>> Stashed changes
               (
                 // render nothing if user is not logged in or is the owner of the spot
                 null

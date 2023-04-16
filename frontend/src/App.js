@@ -6,7 +6,6 @@ import * as sessionActions from "./store/session";
 import * as spotActions from "./store/spots";
 import Navigation from "./components/Navigation";
 import Spots from "./components/Spots";
-// import Spot from './components/Spots/SpotDetail.js';
 import SpotDetail from "./components/SpotDetail/SpotDetail";
 import CreateSpot from "./components/CreateSpot";
 import UserSpots from "./components/UserSpot";
@@ -28,7 +27,6 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          {/* Add a new route for the homepage and render the Spots component */}
           <Route exact path="/">
             <Spots />
           </Route>

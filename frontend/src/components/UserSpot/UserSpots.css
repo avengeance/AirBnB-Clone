@@ -9,17 +9,15 @@ h2 {
 .spot-tile-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
-    /* border: 1px solid black; */
 }
 
 .spot-tile {
     display: flex;
     position: relative;
     flex-direction: column;
-    width: 250px;
-    height: 275px;
-    /* border: 1px solid black; */
+    flex-basis: calc(25%-10px);
 }
 
 .spot-tile:hover {
@@ -30,7 +28,6 @@ h2 {
     width: 250px;
     height: 250px;
     border-radius: 10px;
-    /* border: 1px solid black; */
 }
 
 #spot-city-state {
@@ -73,7 +70,6 @@ h2 {
     text-decoration: none;
     color: #f2f2f2;
     box-shadow: 4px 4px 0px 0px #000000;
-    /* border: 2px solid blue; */
 }
 
 #update-spot-button {
@@ -87,7 +83,6 @@ h2 {
     background-color: #3a3a3a;
     color: white;
     box-shadow: 4px 4px 0px 0px #000000;
-    /* border: 2px solid red; */
 }
 
 .delete-spot-button {
@@ -101,7 +96,6 @@ h2 {
     background-color: #3a3a3a;
     color: white;
     box-shadow: 4px 4px 0px 0px #000000;
-    /* border: 2px solid red; */
 }
 
 #delete-spot-container {
@@ -122,6 +116,4 @@ h2 {
     justify-content: space-between;
     flex-wrap: wrap;
     height: 100px;
-    /* border: 2px solid blue; */
 }
-
