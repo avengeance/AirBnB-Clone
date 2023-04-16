@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { getUserSpotsThunk } from '../../store/spots';
 import { Link } from 'react-router-dom';
 import * as spotActions from '../../store/spots';
 import OpenModalButton from '../OpenModalButton';
@@ -10,6 +9,7 @@ import './UserSpots.css';
 function UserSpots() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
+    const currentSpot = useSelector(state => state.spots.Spots)
     const [spots, setSpots] = useState([]);
 
     useEffect(() => {
@@ -63,12 +63,11 @@ function UserSpots() {
                                     <OpenModalButton
                                         buttonText={'Delete'}
                                         className='delete-spot-button'
-                                        modalComponent={<DeleteModal />}
+                                        modalComponent={<DeleteModal spotId={spot.id} />}
                                         style={{
                                             backgroundColor: '#3A3A3A !important',
                                         }}
                                     />
-                                    {/* <Link to={`/spots/${spot.id}/delete`} id='delete-spot-button'>Delete</Link> */}
                                 </div>
                             </div>
                         </div>
