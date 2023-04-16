@@ -56,8 +56,8 @@ export const getCurrentSpotThunk = (spotId) => async (dispatch) => {
     return data
 }
 
-export const createSpotThunk = (spot) => async (dispatch) => {
-    const { country, address, city, state, lat, lng, description, id, title, price, spotPreviewImage } = spot
+export const createSpotThunk = (spot, images) => async (dispatch) => {
+    // const { country, address, city, state, lat, lng, description, id, title, price, spotPreviewImage } = spot
     const res = await csrfFetch('/api/spots', {
         method: 'POST',
         headers: {
@@ -67,7 +67,29 @@ export const createSpotThunk = (spot) => async (dispatch) => {
     });
     if (res.ok) {
         const data = await res.json();
-        dispatch(createSpot(data));
+
+        const imgRes = await Promise.all(
+            images.map((img) =>
+                csrfFetch(`/api/spots/${data.id}/images`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(img),
+                })
+            )
+        )
+
+        const imgUrl = await Promise.all(
+            imgRes.map(async (res) => {
+                if (res.ok) {
+                    const data = await res.json();
+                    return data.url
+                }
+            })
+        )
+
+        data.images = imgUrl.filter((url) => url !== null)
+
+        await dispatch(createSpot(data));
         return data
     }
 }
@@ -84,20 +106,7 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
-<<<<<<< Updated upstream
-// export const getUserCurrentSpotThunk = (spotId) => async (dispatch) => {
-//     const res = await csrfFetch(`/api/spots/current/${spotId}`, {
-//         method: 'GET',
-//     })
-//     if (res.ok) {
-//         const data = await res.json()
-//         dispatch(getCurrentSpot(data))
-//         return data
-//     }
-// }
 
-=======
->>>>>>> Stashed changes
 export const editSpotThunk = (spot, spotId) => async (dispatch) => {
     const { country, address, city, state, lat, lng, description, title, price } = spot;
     const res = await csrfFetch(`/api/spots/${spotId}`, {
@@ -152,9 +161,10 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case CREATE_SPOT:
+            // newState.spots[action.spotId] = action.spot
+            newState.data = action.data
             return {
                 ...newState,
-                spots: [...state.spots, action.payload]
             }
         case USER_SPOTS:
             return {

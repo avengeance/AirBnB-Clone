@@ -20,22 +20,16 @@ function CreateSpot() {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
 
-    const [spotPreviewImage, setSpotPreviewImage] = useState({ url: '', preview: true });
-
-    const [preview, setPreview] = useState(false);
-    const [spotImage, setSpotImage] = useState('');
+    const [spotPreviewImage, setSpotPreviewImage] = useState('');
+    const [firstImage, setFirstImage] = useState('');
+    const [secondImage, setSecondImage] = useState('');
+    const [thirdImage, setThirdImage] = useState('');
+    const [fourthImage, setFourthImage] = useState('');
+    
     const [errors, setErrors] = useState([]);
-
-
 
     const dispatch = useDispatch();
     const history = useHistory();
-
-
-    const updateSpotImage = (value, preview) => {
-        setSpot({ ...spot, image: value });
-        setPreview(preview);
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,21 +43,42 @@ function CreateSpot() {
             description,
             title,
             price,
-            SpotImages: [{ url: spotPreviewImage }]
+            spotPreviewImage,
+            firstImage,
+            secondImage,
+            thirdImage,
+            fourthImage
         }
-        await dispatch(SpotActions.createSpotThunk(payload))
-            .then((spot) => {
-                const newSpotId = spot.id
-                const url = `/spots/${newSpotId}`
+
+        const images = [spotPreviewImage, firstImage, secondImage, thirdImage, fourthImage];
+
+        const newSpotImages = images.map((img, idx) => ({
+            url: img,
+            preview: idx === 0,
+        }))
+
+        try {
+            const spot = await dispatch(SpotActions.createSpotThunk(payload, newSpotImages));
+            const newSpotId = spot.id;
+            const url = `/spots/${newSpotId}`;
+            if (spot) {
+                setCountry('');
+                setAddress('');
+                setCity('');
+                setState('');
+                setDescription('');
+                setTitle('');
+                setPrice('');
+                setSpotPreviewImage('');
+                setFirstImage('');
+                setSecondImage('');
+                setThirdImage('');
+                setFourthImage('');
+                setErrors([]);
                 history.push(url);
-            })
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data.errors) {
-                    setErrors(data.errors);
-                }
             }
-            )
+        } catch (error) {
+        }
     }
 
     return (
@@ -250,7 +265,9 @@ function CreateSpot() {
                                     value={spotPreviewImage.url}
                                     name="image"
                                     onChange={(e) => {
-                                        setSpotPreviewImage(e.target.value, spot?.SpotImages?.length === 0 ? true : false);
+                                        setSpotPreviewImage(e.target.value
+                                            // , spot?.SpotImages?.length === 0 ? true : false
+                                        );
                                     }}
                                     style={({
                                         width: "98%",
@@ -263,8 +280,9 @@ function CreateSpot() {
                                     type="text"
                                     className="image-input"
                                     name="image"
+                                    value={firstImage.url}
                                     onChange={(e) => {
-                                        setSpotImage(e.target.files[0]);
+                                        setFirstImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -277,7 +295,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        setSpotImage(e.target.files[0]);
+                                        setSecondImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -290,7 +308,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        setSpotImage(e.target.files[0]);
+                                        setThirdImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -303,7 +321,7 @@ function CreateSpot() {
                                     className="image-input"
                                     name="image"
                                     onChange={(e) => {
-                                        setSpotImage(e.target.files[0]);
+                                        setFourthImage(e.target.value);
                                     }}
                                     style={({
                                         width: "98%",
@@ -316,7 +334,9 @@ function CreateSpot() {
                         <div id="form-submit-button">
                             <button
                                 type="submit"
-                                className="submit-button">
+                                className="submit-button"
+                                onClick={handleSubmit}
+                            >
                                 Create Spot
                             </button>
                         </div>

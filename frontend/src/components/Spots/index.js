@@ -46,7 +46,7 @@ function Spots() {
                     }}
                     onClick={() => window.location.href = `/spots/${spot.id}`}>
                     {/* <div className='spot-tile-image'> */}
-                        <img src={spot.previewImage} alt={spot.name} id='spot-tile-image' />
+                    <img src={spot.previewImage} alt={spot.name} id='spot-tile-image' />
                     {/* </div> */}
                     <div id='spot-city-state'>{spot.city}, {spot.state}
                         <div title={spot.name} >
@@ -55,7 +55,7 @@ function Spots() {
                         </div>
                     </div>
                     <div id='spot-tile-price'>
-                        <div id='tile-price'>{spot.price}</div>
+                        <div id='tile-price'>${spot.price}</div>
                         night
                     </div>
                 </div>

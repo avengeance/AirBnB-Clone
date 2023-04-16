@@ -8,7 +8,6 @@ const DeleteReview = ({ reviewId }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const modalRef = useRef(null);
-    const [isOpen, setIsOpen] = useState(true)
 
     const spots = useSelector((state) => (state.spots.spots.Spots));
     const review = useSelector((state) => (state.reviews.reviews.Reviews));
@@ -21,11 +20,6 @@ const DeleteReview = ({ reviewId }) => {
             await dispatch(reviewActions.deleteReviewThunk(reviewId));
             history.push('/spots/current');
         }
-        // setIsOpen(false)
-        // e.preventDefault();
-        // const review = review.find(review => review.id === parseInt(reviewId))
-        // console.log('this is review', review)
-        // await dispatch(reviewActions.deleteReviewThunk(review)).then(closeModal);
     }
 
     function handleNoClick() {
@@ -34,7 +28,6 @@ const DeleteReview = ({ reviewId }) => {
 
     return (
         <>
-            {/* {isOpen && ( */}
             <form onSubmit={deleteReview}>
                 <div className="confirm-container" ref={modalRef}>
                     <h1 >Confirm Delete</h1>
@@ -45,8 +38,6 @@ const DeleteReview = ({ reviewId }) => {
                     </div>
                 </div>
             </form>
-            {/* )} */}
-            {/* {isOpen && null} */}
         </>
     )
 
