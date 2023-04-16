@@ -55,6 +55,7 @@ function CreateSpot() {
             .then((spot) => {
                 const newSpotId = spot.id
                 const url = `/spots/${newSpotId}`
+                console.log('this is url:', url)
                 history.push(url);
             })
             .catch(async (res) => {
@@ -316,7 +317,9 @@ function CreateSpot() {
                         <div id="form-submit-button">
                             <button
                                 type="submit"
-                                className="submit-button">
+                                className="submit-button"
+                                onClick={handleSubmit}
+                                >
                                 Create Spot
                             </button>
                         </div>

@@ -206,10 +206,13 @@ function SpotDetail() {
                 ))
             ) :
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
               // user && user.id !== currentSpot.Owner.id ? (
               // <p id='no-reviews'>Be the first to post a review!</p>
               // )
               // :
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
               (
