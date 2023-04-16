@@ -77,13 +77,10 @@ function ProfileButton({ user }) {
             <ul className={ulClassName} ref={ulRef} id='profile-dropdown'>
                 {user ? (
                     <>
-                        {/* <li id="username">{user.username}</li> */}
-                        <li id="firstname">Hello, {user.firstName} {user.lastName}</li>
-                        <li id="email">{user.email}</li>
-                        {/* Make an edit so that this links to the users spots
-                        <li>Manage Spots{user.manageSpots}</li> */}
+                        <li id="firstname">Hello, {user.firstName}</li>
+                        <li id="email">Email: {user.email}</li>
                         <li id="manage-spots">
-                            <NavLink to={`/spots/current`} id='manage-spot-link'>
+                            <NavLink to={`/spots/current`} id='manage-spot-link' style={{ textDecoration: 'none' }}>
                                 Manage Spots
                             </NavLink>
                         </li>

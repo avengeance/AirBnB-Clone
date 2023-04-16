@@ -84,6 +84,7 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
+<<<<<<< Updated upstream
 // export const getUserCurrentSpotThunk = (spotId) => async (dispatch) => {
 //     const res = await csrfFetch(`/api/spots/current/${spotId}`, {
 //         method: 'GET',
@@ -95,6 +96,8 @@ export const getUserSpotsThunk = () => async (dispatch) => {
 //     }
 // }
 
+=======
+>>>>>>> Stashed changes
 export const editSpotThunk = (spot, spotId) => async (dispatch) => {
     const { country, address, city, state, lat, lng, description, title, price } = spot;
     const res = await csrfFetch(`/api/spots/${spotId}`, {
