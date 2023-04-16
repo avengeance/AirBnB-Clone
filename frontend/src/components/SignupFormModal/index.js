@@ -6,7 +6,6 @@ import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 
 function SignupFormModal() {
-    const history = useHistory();
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -36,8 +35,6 @@ function SignupFormModal() {
     const validPassword = password.length >= MIN_PASSWORD_LENGTH;
     const validConfirmPassword = confirmPassword.length >= MIN_CONFIRM_PASSWORD_LENGTH;
 
-
-    // small bug in which the passwords need to not match in order for the other errors to populate
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
@@ -67,21 +64,11 @@ function SignupFormModal() {
         <div className="signup-modal">
             <h1 id="signup-text">Sign Up</h1>
             <form onSubmit={handleSubmit} className='signup-form'>
-                {/* don't forget about the console log here */}
-                {/* {console.log(errors.length)} */}
-                {errors.length > 0 && (
-                    <ul className="error-list">
-                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                        {/* conditional logic to check each input's validity and display the corresponding error message */}
-                        {!validFirstName && <li>The first name must be at least {MIN_FIRSTNAME_LENGTH} characters long.</li>}
-                        {!validLastName && <li>The last name must be at least {MIN_LASTNAME_LENGTH} characters long.</li>}
-                        {!validEmail && <li>The provided email is invalid.</li>}
-                        {!validUsername && <li>The username must be at least {MIN_USERNAME_LENGTH} characters long.</li>}
-                        {!usernameValid && <li>This username is already taken.</li>}
-                        {!validPassword && <li>The password must be at least {MIN_PASSWORD_LENGTH} characters long.</li>}
-                        {!validConfirmPassword && <li>The confirm password field must be the same as the password field.</li>}
-                    </ul>
-                )}
+            <ul >
+                {Object.values(errors).map((error, idx) => {
+                return (
+                    <li className='signup-errors' key={idx}>{error}</li>)})}
+            </ul>
                 <label className="form-input">
                     <input
                         type="text"
@@ -124,7 +111,6 @@ function SignupFormModal() {
                         value={username}
                         onChange={(e) => {
                             setUsername(e.target.value)
-                            // checkUsername(e.target.value) 
                         }}
                         required
                         placeholder="Username"

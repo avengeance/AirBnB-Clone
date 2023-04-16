@@ -30,3 +30,8 @@
     padding-top: 10px;
     height: 50px;
 }
+
+.signup-errors{
+    color: red;
+    font-size: small;
+}
