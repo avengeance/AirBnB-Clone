@@ -84,9 +84,20 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
-export const editSpotThunk = (spotId, spot) => async (dispatch) => {
-    const { country, address, city, state, lat, lng, description, title, price, spotPreviewImage } = spot;
-    const res = await csrfFetch(`/api/spots/${spotId}/edit`, {
+// export const getUserCurrentSpotThunk = (spotId) => async (dispatch) => {
+//     const res = await csrfFetch(`/api/spots/current/${spotId}`, {
+//         method: 'GET',
+//     })
+//     if (res.ok) {
+//         const data = await res.json()
+//         dispatch(getCurrentSpot(data))
+//         return data
+//     }
+// }
+
+export const editSpotThunk = (spot, spotId) => async (dispatch) => {
+    const { country, address, city, state, lat, lng, description, title, price } = spot;
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -102,7 +113,6 @@ export const editSpotThunk = (spotId, spot) => async (dispatch) => {
                 description,
                 title,
                 price,
-                spotPreviewImage
             }
         ),
     });
@@ -113,18 +123,14 @@ export const editSpotThunk = (spotId, spot) => async (dispatch) => {
     }
 }
 
+
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-    if (res.ok) {
-        const data = await res.json();
-        dispatch(deleteSpot(data));
-        return data
-    }
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE"
+    })
+    const data = await response.json();
+    dispatch(deleteSpot(spotId))
+    return data
 }
 
 const initialState = { spots: [] }
@@ -158,8 +164,11 @@ const spotReducer = (state = initialState, action) => {
                 spots: action.payload
             }
         case DELETE_SPOT:
-            delete newState.spots[action.spotId]
-            return newState
+            const newSpots = newState.Spots.filter(spot => spot.id !== action.spotId);
+            return {
+                ...newState,
+                spots: newSpots
+            }
         default:
             return state;
     }
