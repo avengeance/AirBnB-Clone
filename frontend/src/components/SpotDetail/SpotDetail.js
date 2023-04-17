@@ -137,7 +137,9 @@ function SpotDetail() {
                         <div id='stars-review'>
                           <div id='stars'>
                             {currentReviews?.length > 0 ?
-                              (typeof parseFloat(currentSpot?.avgStarRating) === 'number' ?
+                              (typeof parseFloat(currentSpot?.avgStarRating) === 'number'
+                              && !isNaN(currentSpot?.avgStarRating)
+                              ?
                                 <p>⭐️{parseFloat(currentSpot?.avgStarRating.toFixed(1))}</p> :
                                 <p>⭐️New</p>
                               ) :
