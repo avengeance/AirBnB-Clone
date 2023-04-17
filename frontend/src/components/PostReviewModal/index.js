@@ -34,7 +34,8 @@ function PostReviewModal() {
             .catch((error) => {
                 setErrors([...errors, errors.message])
             })
-        history.go(0)
+        await history.push(`/spots/${url}`)
+        console.log('This is currentSpot.id: ', currentSpot.id)
     };
 
     return (
