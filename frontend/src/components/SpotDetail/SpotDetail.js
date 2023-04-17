@@ -166,72 +166,71 @@ function SpotDetail() {
           <div id='reviews-box'>
             <div id='stars-review'>
               <div id='stars'>
-                <div id='stars'>
-                  {currentReviews?.length > 0 ?
-                    (typeof currentSpot?.avgStarRating === 'number' ?
-                      <p>⭐️{parseFloat(currentSpot?.avgStarRating.toFixed(1))}</p> :
-                      <p>⭐️New</p>
-                    ) :
+                {currentReviews?.length > 0 ?
+                  (typeof currentSpot?.avgStarRating === 'number' ?
+                    <p>⭐️{parseFloat(currentSpot?.avgStarRating.toFixed(1))}</p> :
                     <p>⭐️New</p>
-                  }
-                </div>
-                {currentReviews?.length > 0 &&
-                  <>
-                    <div className='centered-dot'><p>·</p></div>
-                    <div id='reviews'>
-                      <p>#{currentReviews?.length} {currentReviews.length === 1 ? 'Review' : 'Reviews'}</p>
-                    </div>
-                  </>
+                  ) :
+                  <p>⭐️New</p>
                 }
               </div>
-            </div>
-            {user && reviews && !reviews.some(review => review.userId === user.id) && user.id !== currentSpots?.ownerId ? (
-              <div className='post-review'>
-                <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
-                {reviews.length > 0 ? null : <p id='no-reviews'>Be the first to post a review!</p>}
-
-              </div>
-            ) : (
-              null
-            )}
-
-            <div id='review-map'>
-              {Array.isArray(reviews) && reviews.length > 0 ? (
-                reviews
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // sort reviews by date (newest to oldest)
-                  .map(review => (
-                    <div key={review.id}>
-                      <p id='first-name'>{review.User.firstName}</p>
-                      <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
-                      <p id='review-description'>{review.review}</p>
-                      <div className='delete-review-container'>
-                        {user && review.userId === user.id && (
-                          <OpenModalButton
-                            buttonText={'Delete'}
-                            className='delete-review-button'
-                            modalComponent={<DeleteReview reviewId={review.id} />}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  ))
-              ) :
-
-                // user && user.id !== currentSpot.Owner.id ? (
-                // <p id='no-reviews'>Be the first to post a review!</p>
-                // )
-                // :
-                (
-                  // render nothing if user is not logged in or is the owner of the spot
-                  null
-                )}
+              {currentReviews?.length > 0 &&
+                <>
+                  <div className='centered-dot'><p>·</p></div>
+                  <div id='reviews'>
+                    <p>#{currentReviews?.length} {currentReviews.length === 1 ? 'Review' : 'Reviews'}</p>
+                  </div>
+                </>
+              }
             </div>
           </div>
+          {user && reviews && !reviews.some(review => review.userId === user.id) && user.id !== currentSpots?.ownerId ? (
+            <div className='post-review'>
+              <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
+              {reviews.length > 0 ? null : <p id='no-reviews'>Be the first to post a review!</p>}
+
+            </div>
           ) : (
-          <p>Loading...</p>
-      )}
+            null
+          )}
+
+          <div id='review-map'>
+            {Array.isArray(reviews) && reviews.length > 0 ? (
+              reviews
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // sort reviews by date (newest to oldest)
+                .map(review => (
+                  <div key={review.id}>
+                    <p id='first-name'>{review.User.firstName}</p>
+                    <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
+                    <p id='review-description'>{review.review}</p>
+                    <div className='delete-review-container'>
+                      {user && review.userId === user.id && (
+                        <OpenModalButton
+                          buttonText={'Delete'}
+                          className='delete-review-button'
+                          modalComponent={<DeleteReview reviewId={review.id} />}
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))
+            ) :
+
+              // user && user.id !== currentSpot.Owner.id ? (
+              // <p id='no-reviews'>Be the first to post a review!</p>
+              // )
+              // :
+              (
+                // render nothing if user is not logged in or is the owner of the spot
+                null
+              )}
+          </div>
         </div>
-      );
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
 }
 
-      export default SpotDetail;
+export default SpotDetail;
