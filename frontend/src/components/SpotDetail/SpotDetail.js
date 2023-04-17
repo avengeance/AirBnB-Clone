@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as spotActions from '../../store/spots'
 import * as reviewActions from '../../store/reviews'
 
-
 import { useModal } from '../../context/Modal'
 import './SpotDetail.css'
 import PostReviewModal from '../PostReviewModal';
@@ -22,10 +21,6 @@ function SpotDetail() {
   const user = useSelector(state => state.session.user);
   const currentSpots = useSelector(state => state.spots.currentSpot);
   const currentReviews = useSelector(state => state.reviews.reviews.Reviews);
-
-
-  // const review = useSelector(state => state.reviews.reviews.Reviews);
-
 
   const { setModalContent } = useModal();
 
@@ -93,11 +88,6 @@ function SpotDetail() {
       .catch(err => console.log(err));
   }, [dispatch, spotId])
 
-  console.log("this is currentReviews: ", currentReviews);
-  console.log("This is currentSpot: ", currentSpot);
-  console.log('type of:', typeof currentSpot?.avgStarRating);
-
-
   return (
     <div>
       {currentSpot ? (
@@ -142,7 +132,7 @@ function SpotDetail() {
                                 <p>⭐️{parseFloat((currentSpot?.avgStarRating)).toFixed(1)}</p> :
                                 <p>⭐️New</p>
                               ) :
-                              <p>⭐️NewLast</p>
+                              <p>⭐️New</p>
                             }
                           </div>
                           {currentReviews?.length > 0 &&
@@ -168,8 +158,8 @@ function SpotDetail() {
             <div id='stars-review'>
               <div id='stars'>
                 {currentReviews?.length > 0 ?
-                  (typeof currentSpot?.avgStarRating === 'number' ?
-                    <p>⭐️{(currentSpot?.avgStarRating.toFixed(1))}</p> :
+                  (typeof parseFloat(currentSpot?.avgStarRating) === 'number' ?
+                    <p>⭐️{parseFloat((currentSpot?.avgStarRating)).toFixed(1)}</p> :
                     <p>⭐️New</p>
                   ) :
                   <p>⭐️New</p>
@@ -216,13 +206,7 @@ function SpotDetail() {
                   </div>
                 ))
             ) :
-
-              // user && user.id !== currentSpot.Owner.id ? (
-              // <p id='no-reviews'>Be the first to post a review!</p>
-              // )
-              // :
               (
-                // render nothing if user is not logged in or is the owner of the spot
                 null
               )}
           </div>
