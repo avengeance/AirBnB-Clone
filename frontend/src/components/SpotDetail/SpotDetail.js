@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentSpotThunk } from '../../store/spots';
 import * as spotActions from '../../store/spots'
 import * as reviewActions from '../../store/reviews'
-import * as sessionActions from '../../store/session'
 
 
 import { useModal } from '../../context/Modal'
@@ -30,6 +28,8 @@ function SpotDetail() {
 
 
   const { setModalContent } = useModal();
+
+  const history = useHistory();
 
   useEffect(() => {
     const reserveBtn = document.getElementById('reserve');
@@ -62,6 +62,7 @@ function SpotDetail() {
 
   function handlePostReview() {
     const modalContent = <PostReviewModal onReviewSubmit={handlePostReview} />;
+    history.push(`/spots/${spotId}`);
     setModalContent(modalContent);
   }
 

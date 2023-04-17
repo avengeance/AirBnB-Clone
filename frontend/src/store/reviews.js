@@ -83,8 +83,8 @@ const reviewsReducer = (state = instialState, action) => {
                 reviews: action.payload
             }
         case ADD_REVIEW:
-            newState.reviews[action.payload.id] = action.payload
-            return newState
+            newState.reviews = action.payload
+            return {...newState}
         case DELETE_REVIEW:
             const newReviews = newState.reviews.filter((review) => review.id !== action.reviewId)
             return {
