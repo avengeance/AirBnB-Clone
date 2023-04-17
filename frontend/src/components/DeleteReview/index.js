@@ -8,10 +8,6 @@ const DeleteReview = ({ reviewId }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const modalRef = useRef(null);
-<<<<<<< Updated upstream
-=======
-    const [isOpen, setIsOpen] = useState(true)
->>>>>>> Stashed changes
 
     const spots = useSelector((state) => (state.spots.spots.Spots));
     const review = useSelector((state) => (state.reviews.reviews.Reviews));
@@ -24,14 +20,6 @@ const DeleteReview = ({ reviewId }) => {
             await dispatch(reviewActions.deleteReviewThunk(reviewId));
             history.push('/spots/current');
         }
-<<<<<<< Updated upstream
-=======
-        // setIsOpen(false)
-        // e.preventDefault();
-        // const review = review.find(review => review.id === parseInt(reviewId))
-        // console.log('this is review', review)
-        // await dispatch(reviewActions.deleteReviewThunk(review)).then(closeModal);
->>>>>>> Stashed changes
     }
 
     function handleNoClick() {
@@ -40,10 +28,6 @@ const DeleteReview = ({ reviewId }) => {
 
     return (
         <>
-<<<<<<< Updated upstream
-=======
-            {/* {isOpen && ( */}
->>>>>>> Stashed changes
             <form onSubmit={deleteReview}>
                 <div className="confirm-container" ref={modalRef}>
                     <h1 >Confirm Delete</h1>
@@ -54,11 +38,6 @@ const DeleteReview = ({ reviewId }) => {
                     </div>
                 </div>
             </form>
-<<<<<<< Updated upstream
-=======
-            {/* )} */}
-            {/* {isOpen && null} */}
->>>>>>> Stashed changes
         </>
     )
 

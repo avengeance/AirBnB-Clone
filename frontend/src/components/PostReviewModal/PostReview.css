@@ -84,13 +84,6 @@ body {
 }
 
 
-
-/* .star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input:checked ~ label {
-  color: #ffd700;
-} */
-
 .star-rating label i.active {
     color: #ffd700;
 }

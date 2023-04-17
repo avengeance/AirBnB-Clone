@@ -19,21 +19,18 @@ function StarRating({ rating, onRatingChange }) {
             {stars.map((star) => (
                 <label key={star}>
                     <input
-                        type="range"
+                        type="radio"
                         name="rating"
-                        // min="1"
-                        // max="5"
                         value={star}
                         onMouseMove={handleStarHover}
                         onMouseLeave={handleMouseLeave}
                         checked={rating === star}
                         onClick={(e) => {
-                            console.log(e.target.value)
                             onRatingChange(e.target.value)
                         }}
                     /><p className="errors">{errors.star}</p>
                     <i
-                        className={`fas fa-star ${(hoveredStar || rating) >= star ? "active" : ""}`}
+                        className={`fas fa-star ${(hoveredStar || rating) <= star ? "active" : ""}`}
 
                     ></i>
 

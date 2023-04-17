@@ -177,7 +177,7 @@ function SpotDetail() {
               }
             </div>
           </div>
-          {user || reviews || !reviews.some(review => review.userId === user.id) || user.id !== currentSpot?.userId ? (
+          {user && reviews && !reviews.some(review => review.userId === user.id) && user.id !== currentSpot?.userId ? (
             <div className='post-review'>
               <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
               <p id='no-reviews'>Be the first to post a review!</p>
@@ -196,7 +196,7 @@ function SpotDetail() {
                     <p id='createdAt'>{new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(new Date(review.createdAt))}</p>
                     <p id='review-description'>{review.review}</p>
                     <div className='delete-review-container'>
-                      {review.userId === user.id && (
+                      {user && review.userId === user.id && (
                         <OpenModalButton
                           buttonText={'Delete'}
                           className='delete-review-button'

@@ -39,17 +39,15 @@ function Spots() {
             {spots.map(spot => (
                 <div className='spot-tile'
                     key={spot.id}
-                    onMouseOver={(event) => tileHover(event, spot.name)} // Call handleTileHover when the tile is hovered over
+                    onMouseOver={(event) => tileHover(event, spot.title)} // Call handleTileHover when the tile is hovered over
                     onMouseOut={() => {
                         const tooltip = document.getElementById('spot-tooltip')
                         tooltip.textContent = ''; // Clear the tooltip text when the mouse leaves the tile
                     }}
                     onClick={() => window.location.href = `/spots/${spot.id}`}>
-                    {/* <div className='spot-tile-image'> */}
-                    <img src={spot.previewImage} alt={spot.name} id='spot-tile-image' />
-                    {/* </div> */}
+                    <img src={spot.previewImage} alt={spot.title} id='spot-tile-image' />
                     <div id='spot-city-state'>{spot.city}, {spot.state}
-                        <div title={spot.name} >
+                        <div title={spot.title} >
                             <i className="fas fa-star"></i>
                             {spot.numReviews && spot.numReviews.length === 0 ? 'New' : (spot.avgRating ? spot.avgRating.toFixed(1) : "New")}
                         </div>

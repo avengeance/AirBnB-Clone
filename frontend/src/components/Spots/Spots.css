@@ -58,4 +58,6 @@ body {
 
 #spot-tooltip {
     position: absolute;
+    font-size: large;
+    font-weight: bold;
 }
