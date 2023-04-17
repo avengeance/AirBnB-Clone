@@ -55,7 +55,7 @@ body {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    width: 100%;
+    width: 250px;
     /* flex-basis: calc(25%-10px); */
 }
 
@@ -63,7 +63,7 @@ body {
     display: flex;
     justify-content: flex-start;
     font-size: 12px;
-    width: 100%;
+    width: 250px;
 }
 
 #tile-price {
