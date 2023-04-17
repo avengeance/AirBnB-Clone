@@ -22,7 +22,7 @@ function SpotDetail() {
   const [spot, setSpot] = useState(null);
   const [preview, setPreview] = useState(null);
   const user = useSelector(state => state.session.user);
-  // const currentSpots = useSelector(state => state.spots.currentSpot);
+  const currentSpots = useSelector(state => state.spots.currentSpot);
 
   // const review = useSelector(state => state.reviews.reviews.Reviews);
 
@@ -177,7 +177,7 @@ function SpotDetail() {
               }
             </div>
           </div>
-          {user && reviews && !reviews.some(review => review.userId === user.id) && user.id !== currentSpot?.userId ? (
+          {user && reviews && !reviews.some(review => review.userId === user.id) && user.id !== currentSpots?.ownerId ? (
             <div className='post-review'>
               <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
               <p id='no-reviews'>Be the first to post a review!</p>

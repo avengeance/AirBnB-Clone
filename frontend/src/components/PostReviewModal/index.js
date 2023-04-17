@@ -28,59 +28,58 @@ function PostReviewModal() {
 
         setErrors([]);
         await dispatch(reviewActions.addReviewThunk(review, currentSpot.id, rating))
-            .then(closeModal())
             .then(history.push(`/spots/${currentSpot.id}`))
-            .catch ((error) => {
-        setErrors({ ...errors, errors: "Review already exists for this spot" })
-    })
-};
+            .catch((error) => {
+                setErrors({ ...errors, errors: "Review already exists for this spot" })
+            })
+    };
 
-return (
-    <div className="review-modal">
-        <div className="modal-backdrop" onClick={closeModal}></div>
-        <div className="post-review-modal">
-            <h1 id="post-review-text">How was your stay?</h1>
-            <form onSubmit={handleSubmit}>
-                {errors.length > 0 && (
-                    <ul className="error-list">
-                        {errors.map((error, idx) => (<li key={idx}>{error}</li>))}
-                        {!validReview && (<li>Review must be at least {MIN_REVIEW_LENGTH} characters long</li>)}
-                    </ul>
-                )}
-                <label id="review-label" className="review-label">
-                    <textarea
-                        placeholder="Leave your review here..."
-                        onChange={(e) => setReview(e.target.value)}
-                        type="text"
-                        id="review-input"
-                        name="review"
-                        value={review}
-                        required
-                        className="review-input"
-                    />
-                </label>
-                <div id="star-rating-div">
-                    <div className="star-rating">
-                        <StarRating
-                            rating={rating}
-                            onRatingChange={(newRating) => setRating(newRating)}
+    return (
+        <div className="review-modal">
+            <div className="modal-backdrop" onClick={closeModal}></div>
+            <div className="post-review-modal">
+                <h1 id="post-review-text">How was your stay?</h1>
+                <form onSubmit={handleSubmit}>
+                    {errors.length > 0 && (
+                        <ul className="error-list">
+                            {errors.map((error, idx) => (<li key={idx}>{error}</li>))}
+                            {!validReview && (<li>Review must be at least {MIN_REVIEW_LENGTH} characters long</li>)}
+                        </ul>
+                    )}
+                    <label id="review-label" className="review-label">
+                        <textarea
+                            placeholder="Leave your review here..."
+                            onChange={(e) => setReview(e.target.value)}
+                            type="text"
+                            id="review-input"
+                            name="review"
+                            value={review}
+                            required
+                            className="review-input"
                         />
+                    </label>
+                    <div id="star-rating-div">
+                        <div className="star-rating">
+                            <StarRating
+                                rating={rating}
+                                onRatingChange={(newRating) => setRating(newRating)}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="modal-buttons">
-                    <button
-                        type="submit"
-                        id="submit-button"
-                        disabled={!validReview}
-                        className="submit-button"
-                    >
-                        Submit Your Review
-                    </button>
-                </div>
-            </form>
+                    <div className="modal-buttons">
+                        <button
+                            type="submit"
+                            id="submit-button"
+                            disabled={!validReview}
+                            className="submit-button"
+                        >
+                            Submit Your Review
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-);
+    );
 }
 
 export default PostReviewModal
