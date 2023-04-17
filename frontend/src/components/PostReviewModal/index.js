@@ -26,12 +26,16 @@ function PostReviewModal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const url = currentSpot.id
+
         setErrors([]);
         await dispatch(reviewActions.addReviewThunk(review, currentSpot.id, rating))
-            .then(history.push(`/spots/${currentSpot.id}`))
+            .then(closeModal())
             .catch((error) => {
                 setErrors([...errors, errors.message])
             })
+        await history.push(`/spots/${url}`)
+        console.log('This is currentSpot.id: ', currentSpot.id)
     };
 
     return (
