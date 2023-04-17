@@ -49,9 +49,6 @@ const validateSpotError = [
         .exists({ checkFalsy: true })
         .notEmpty()
         .withMessage('Price per day is required'),
-    // check('preview')
-    //     .exists({ checkFalsy: true })
-    //     .withMessage('Preview Image is required'),
     handleValidationErrors
 ]
 

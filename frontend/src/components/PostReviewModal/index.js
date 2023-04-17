@@ -30,7 +30,7 @@ function PostReviewModal() {
         await dispatch(reviewActions.addReviewThunk(review, currentSpot.id, rating))
             .then(history.push(`/spots/${currentSpot.id}`))
             .catch((error) => {
-                setErrors({ ...errors, errors: "Review already exists for this spot" })
+                setErrors([...errors, errors.message])
             })
     };
 
@@ -46,6 +46,11 @@ function PostReviewModal() {
                             {!validReview && (<li>Review must be at least {MIN_REVIEW_LENGTH} characters long</li>)}
                         </ul>
                     )}
+                    {/* {proxyError && (
+                        <div className="error-list">
+                            <li>{proxyError}</li>
+                        </div>
+                    )} */}
                     <label id="review-label" className="review-label">
                         <textarea
                             placeholder="Leave your review here..."
