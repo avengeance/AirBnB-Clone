@@ -138,9 +138,7 @@ function SpotDetail() {
                           <div id='stars'>
                             {currentReviews?.length > 0 ?
                               (typeof currentSpot?.avgStarRating === 'number' ?
-                                <p>⭐️{(currentSpot?.avgStarRating.toLocaleString(undefined, {
-                                  minimumFractionDigits: 1, maximumFractionDigits: 1
-                                }))}</p> :
+                                <p>⭐️{(currentSpot?.avgStarRating.toLocaleString())}</p> :
                                 <p>⭐️New</p>
                               ) :
                               <p>⭐️NewLast</p>
