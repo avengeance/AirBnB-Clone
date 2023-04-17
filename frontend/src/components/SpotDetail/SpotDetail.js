@@ -167,8 +167,8 @@ function SpotDetail() {
                     <p>⭐️{parseFloat(currentSpot?.avgStarRating.toFixed(1))}</p> :
                     <p>⭐️New</p>
                   ) :
-                  <p>⭐️New</p>
-                  // null
+                  // <p>⭐️New</p>
+                  null
                 }
               </div>
               {currentReviews?.length > 0 &&
