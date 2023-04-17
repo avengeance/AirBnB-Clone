@@ -1,0 +1,8 @@
+.star-rating label i.active {
+    color: #ffd700;
+}
+
+.star-rating label i:hover,
+.star-rating label:hover~label i {
+    color: #ffd700;
+}

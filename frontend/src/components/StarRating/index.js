@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function StarRating({ rating, onRatingChange }) {
     const [hoveredStar, setHoveredStar] = useState(0);
+    const [initialRating, setIntialRating] = useState(false)
     const stars = [1, 2, 3, 4, 5];
     const [errors, setErrors] = useState([]);
 
@@ -19,21 +20,19 @@ function StarRating({ rating, onRatingChange }) {
             {stars.map((star) => (
                 <label key={star}>
                     <input
-                        type="range"
+                        type="radio"
                         name="rating"
-                        // min="1"
-                        // max="5"
                         value={star}
                         onMouseMove={handleStarHover}
                         onMouseLeave={handleMouseLeave}
-                        checked={rating === star}
+                        checked={initialRating ? rating === star : false}
                         onClick={(e) => {
-                            console.log(e.target.value)
                             onRatingChange(e.target.value)
+                            setIntialRating(true)
                         }}
                     /><p className="errors">{errors.star}</p>
                     <i
-                        className={`fas fa-star ${(hoveredStar || rating) >= star ? "active" : ""}`}
+                        className={`fas fa-star ${(hoveredStar || rating) <= star ? "active" : ""}`}
 
                     ></i>
 

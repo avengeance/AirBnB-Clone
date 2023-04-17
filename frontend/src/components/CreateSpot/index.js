@@ -25,7 +25,7 @@ function CreateSpot() {
     const [secondImage, setSecondImage] = useState('');
     const [thirdImage, setThirdImage] = useState('');
     const [fourthImage, setFourthImage] = useState('');
-    
+
     const [errors, setErrors] = useState([]);
 
     const dispatch = useDispatch();
@@ -77,7 +77,12 @@ function CreateSpot() {
                 setErrors([]);
                 history.push(url);
             }
-        } catch (error) {
+        } catch (res) {
+            const data = await res.json();
+            if (data && data.errors) {
+                setErrors(data.errors);
+            }
+        } {
         }
     }
 
@@ -266,7 +271,6 @@ function CreateSpot() {
                                     name="image"
                                     onChange={(e) => {
                                         setSpotPreviewImage(e.target.value
-                                            // , spot?.SpotImages?.length === 0 ? true : false
                                         );
                                     }}
                                     style={({
@@ -274,6 +278,7 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey",
                                     })}
                                     placeholder="Preview Image URL"
+                                    // required
                                 />
                                 <p className="errors">{errors.image}</p>
                                 <input

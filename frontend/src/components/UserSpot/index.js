@@ -27,7 +27,7 @@ function UserSpots() {
     return (
         <div>
             <div>
-                <h2>Manage Your Spots</h2>
+                <h2>Manage Spots</h2>
                 {spots.length === 0 && (
                     <div id='create-spot-button'>
                         <Link to={`/spots/new`} id='spot-button'>
@@ -62,11 +62,8 @@ function UserSpots() {
                                 <div id='delete-spot-container'>
                                     <OpenModalButton
                                         buttonText={'Delete'}
-                                        className='delete-spot-button'
+                                        // buttonClassName='delete-spot-button'
                                         modalComponent={<DeleteModal spotId={spot.id} />}
-                                        style={{
-                                            backgroundColor: '#3A3A3A !important',
-                                        }}
                                     />
                                 </div>
                             </div>

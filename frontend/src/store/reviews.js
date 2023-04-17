@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_REVIEWS = "reviews/all";
 const ADD_REVIEW = "reviews/add";
 const DELETE_REVIEW = 'reviews/delete'
+const ADD_REVIEW_ERROR = 'ADD_REVIEW_ERROR';
 
 const getReviews = (reviews) => ({
     type: GET_REVIEWS,
@@ -40,7 +41,15 @@ export const addReviewThunk = (review, spotId, stars) => async (dispatch) => {
     if (res.ok) {
         const data = await res.json();
         dispatch(addReview(data));
+        if (data && data.errors) {
+            return data
+        }
         return data
+    } else {
+        const error = new Error(res.statusText)
+        error.statusCode = res
+        dispatch(addReviewError(error))
+        throw error
     }
 }
 
@@ -53,8 +62,16 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     return data
 }
 
+export const addReviewError = (error) => ({
+    type: ADD_REVIEW_ERROR,
+    payload: {
+        error: error.message
+    }
+})
+
 const instialState = {
     reviews: [],
+    error: null
 }
 
 const reviewsReducer = (state = instialState, action) => {
@@ -73,6 +90,11 @@ const reviewsReducer = (state = instialState, action) => {
             return {
                 ...newState,
                 reviews: newReviews
+            }
+        case ADD_REVIEW_ERROR:
+            return {
+                ...newState,
+                error: action.payload.error
             }
         default:
             return state;

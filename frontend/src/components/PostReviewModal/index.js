@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 import StarRating from "../StarRating";
-import * as sessionActions from "../../store/reviews";
+import * as reviewActions from "../../store/reviews";
 import "./PostReview.css";
 
 function PostReviewModal() {
@@ -25,18 +25,13 @@ function PostReviewModal() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         setErrors([]);
-        await dispatch(sessionActions.addReviewThunk(review, currentSpot.id, rating))
-        history.push(`/spots/${currentSpot.id}`);
-        closeModal();
-        // .then((data) => {
-        //     if (data && data.errors) {
-        //         setErrors(data.errors);
-        //     } else {
-        //         history.push(`/spots/${currentSpot.id}`);
-        //         closeModal()
-        //     }
-        // })
+        await dispatch(reviewActions.addReviewThunk(review, currentSpot.id, rating))
+            .then(history.push(`/spots/${currentSpot.id}`))
+            .catch((error) => {
+                setErrors([...errors, errors.message])
+            })
     };
 
     return (
@@ -51,6 +46,11 @@ function PostReviewModal() {
                             {!validReview && (<li>Review must be at least {MIN_REVIEW_LENGTH} characters long</li>)}
                         </ul>
                     )}
+                    {/* {proxyError && (
+                        <div className="error-list">
+                            <li>{proxyError}</li>
+                        </div>
+                    )} */}
                     <label id="review-label" className="review-label">
                         <textarea
                             placeholder="Leave your review here..."

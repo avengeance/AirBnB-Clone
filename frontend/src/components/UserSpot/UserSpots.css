@@ -78,11 +78,13 @@ h2 {
     justify-content: center;
     align-items: center;
     width: 80px;
-    height: 20px;
+    height: 15px;
     margin-top: 15px;
     background-color: #3a3a3a;
     color: white;
+    font-size: small;
     box-shadow: 4px 4px 0px 0px #000000;
+    border: 2px outset #686868
 }
 
 .delete-spot-button {
@@ -98,7 +100,7 @@ h2 {
     box-shadow: 4px 4px 0px 0px #000000;
 }
 
-#delete-spot-container {
+/* #delete-spot-container {
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -109,7 +111,7 @@ h2 {
     background-color: #3a3a3a;
     color: white;
     box-shadow: 4px 4px 0px 0px #000000;
-}
+} */
 
 #update-delete-container {
     display: flex;
