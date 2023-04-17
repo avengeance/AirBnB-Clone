@@ -138,7 +138,9 @@ function SpotDetail() {
                           <div id='stars'>
                             {currentReviews?.length > 0 ?
                               (typeof currentSpot?.avgStarRating === 'number' ?
-                                <p>⭐️{parseFloat(currentSpot?.avgStarRating.toFixed(1))}</p> :
+                                <p>⭐️{(currentSpot?.avgStarRating.toLocalString(undefined, {
+                                  minimumFractionDigits: 1, maximumFractionDigits: 1
+                                }))}</p> :
                                 <p>⭐️New</p>
                               ) :
                               <p>⭐️New</p>
