@@ -7,6 +7,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    /* border: 3px solid orange; */
 
 }
 
@@ -14,7 +15,8 @@ body {
     display: flex;
     position: relative;
     flex-direction: column;
-    /* flex-basis: calc(25%-10px); */
+    flex-basis: calc(25%-10px);
+    /* border: 3px solid green; */
 }
 
 @media screen and (max-width: 1000px) {
@@ -36,19 +38,24 @@ body {
 }
 
 #spot-tile-image img {
-    width: 100%;
+    width: 100px;
     height: 100%;
     border-radius: 10px;
     object-fit: cover;
+    /* border : 3px solid blue; */
 }
 
-
+#spot-tile-image{
+    width: 100px;
+    height: 100%;
+    /* border: 3px solid red; */
+}
 
 #spot-city-state {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    flex-basis: calc(25%-10px);
+    /* flex-basis: calc(25%-10px); */
 }
 
 #spot-tile-price {
