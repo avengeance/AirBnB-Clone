@@ -93,8 +93,8 @@ function SpotDetail() {
       .catch(err => console.log(err));
   }, [dispatch, spotId])
 
-  console.log("this is currentReviews: ", currentReviews);
-  console.log("This is currentSpot: ", currentSpot);
+  // console.log("this is currentReviews: ", currentReviews);
+  // console.log("This is currentSpot: ", currentSpot);
 
 
   return (
@@ -138,7 +138,7 @@ function SpotDetail() {
                           <div id='stars'>
                             {currentReviews?.length > 0 ?
                               (Number(currentSpot?.avgStarRating) ?
-                                <p>⭐️{Number((currentSpot?.avgStarRating).toFixed(1))}</p> :
+                                <p>⭐️{Number(currentSpot?.avgStarRating.toFixed(1))}</p> :
                                 <p>⭐️New</p>
                               ) :
                               <p>⭐️New</p>
