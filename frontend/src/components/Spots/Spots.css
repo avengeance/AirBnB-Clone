@@ -33,7 +33,6 @@ body {
     height: 100%;
     border-radius: 10px;
     object-fit: cover;
-    border: 2px solid green;
 }
 
 
@@ -42,6 +41,7 @@ body {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
+    flex-basis: calc(25%-10px);
 }
 
 #spot-tile-price {
