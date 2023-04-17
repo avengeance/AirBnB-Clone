@@ -267,7 +267,7 @@ function CreateSpot() {
                                 <input
                                     type="text"
                                     className="image-input"
-                                    value={spotPreviewImage.url}
+                                    value={spotPreviewImage}
                                     name="image"
                                     onChange={(e) => {
                                         setSpotPreviewImage(e.target.value
