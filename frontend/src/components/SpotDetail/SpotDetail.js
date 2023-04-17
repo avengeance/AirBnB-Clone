@@ -95,6 +95,7 @@ function SpotDetail() {
 
   console.log("this is currentReviews: ", currentReviews);
   console.log("This is currentSpot: ", currentSpot);
+  console.log('type of:', typeof currentSpot?.avgStarRating);
 
 
   return (
@@ -137,10 +138,8 @@ function SpotDetail() {
                         <div id='stars-review'>
                           <div id='stars'>
                             {currentReviews?.length > 0 ?
-                              (typeof parseFloat(currentSpot?.avgStarRating) === 'number'
-                              && !isNaN(currentSpot?.avgStarRating)
-                              ?
-                                <p>⭐️{parseFloat(currentSpot?.avgStarRating.toFixed(1))}</p> :
+                              (typeof parseFloat(currentSpot?.avgStarRating) === 'number' ?
+                                <p>⭐️{parseFloat((currentSpot?.avgStarRating).toFixed(1))}</p> :
                                 <p>⭐️New</p>
                               ) :
                               <p>⭐️NewLast</p>
