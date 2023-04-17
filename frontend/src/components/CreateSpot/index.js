@@ -44,10 +44,10 @@ function CreateSpot() {
             title,
             price,
             spotPreviewImage,
-            firstImage,
-            secondImage,
-            thirdImage,
-            fourthImage
+            // firstImage,
+            // secondImage,
+            // thirdImage,
+            // fourthImage
         }
 
         const images = [spotPreviewImage, firstImage, secondImage, thirdImage, fourthImage];
@@ -70,10 +70,10 @@ function CreateSpot() {
                 setTitle('');
                 setPrice('');
                 setSpotPreviewImage('');
-                setFirstImage('');
-                setSecondImage('');
-                setThirdImage('');
-                setFourthImage('');
+                // setFirstImage('');
+                // setSecondImage('');
+                // setThirdImage('');
+                // setFourthImage('');
                 setErrors([]);
                 history.push(url);
             }
