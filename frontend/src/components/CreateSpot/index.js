@@ -25,6 +25,7 @@ function CreateSpot() {
     const [secondImage, setSecondImage] = useState('');
     const [thirdImage, setThirdImage] = useState('');
     const [fourthImage, setFourthImage] = useState('');
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const [errors, setErrors] = useState([]);
 
@@ -33,6 +34,9 @@ function CreateSpot() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const imageErrors = {}
+
         const payload = {
             country,
             address,
@@ -57,11 +61,14 @@ function CreateSpot() {
             preview: idx === 0,
         }))
 
+        let newSpot;
+
         try {
             const spot = await dispatch(SpotActions.createSpotThunk(payload, newSpotImages));
             const newSpotId = spot.id;
             const url = `/spots/${newSpotId}`;
             if (spot) {
+                newSpot = spot
                 setCountry('');
                 setAddress('');
                 setCity('');
@@ -79,8 +86,18 @@ function CreateSpot() {
             }
         } catch (res) {
             const data = await res.json();
+
+            if (!spotPreviewImage) {
+                imageErrors.spotPreviewImage = 'Preview Image is required'
+            }
+
+            if (!/\.(png|jpe?g)$/i.test(firstImage)) {
+                imageErrors.imageUrl = 'Image URL must end in .png, .jpg or .jpeg'
+            }
+
             if (data && data.errors) {
-                setErrors(data.errors);
+                const totalErrors = { ...data.errors, ...imageErrors }
+                setErrors(totalErrors);
             }
         } {
         }
@@ -278,7 +295,7 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey",
                                     })}
                                     placeholder="Preview Image URL"
-                                // required
+                                    required
                                 />
                                 <p className="errors">{errors.image}</p>
                                 <input
@@ -294,6 +311,7 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey"
                                     })}
                                     placeholder="Image URL"
+                                    required
                                 />
                                 <input
                                     type="text"
@@ -308,6 +326,7 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey"
                                     })}
                                     placeholder="Image URL"
+                                    required
                                 />
                                 <input
                                     type="text"
@@ -322,6 +341,7 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey"
                                     })}
                                     placeholder="Image URL"
+                                    required
                                 />
                                 <input
                                     type="text"
@@ -336,6 +356,7 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey"
                                     })}
                                     placeholder="Image URL"
+                                    required
                                 />
                             </label>
                         </div>
