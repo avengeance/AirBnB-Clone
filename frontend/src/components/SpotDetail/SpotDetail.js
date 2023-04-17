@@ -23,6 +23,8 @@ function SpotDetail() {
   const [preview, setPreview] = useState(null);
   const user = useSelector(state => state.session.user);
   const currentSpots = useSelector(state => state.spots.currentSpot);
+  const currentReviews = useSelector(state => state.reviews.reviews.Reviews);
+
 
   // const review = useSelector(state => state.reviews.reviews.Reviews);
 
@@ -129,19 +131,20 @@ function SpotDetail() {
                         </div>
                         <div id='stars-review'>
                           <div id='stars'>
-                            {currentSpot?.numReviews > 0 ?
+                            {currentReviews?.length > 0 ?
                               (typeof currentSpot?.avgStarRating === 'number' ?
                                 <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
                                 <p>⭐️New</p>
                               ) :
-                              <p>⭐️New</p>
+                              // <p>⭐️New</p>
+                              null
                             }
                           </div>
-                          {currentSpot?.numReviews > 0 &&
+                          {currentReviews?.length > 0 &&
                             <>
                               <div className='centered-dot'><p>·</p></div>
                               <div id='reviews'>
-                                <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                                <p>#{currentReviews.length} {currentReviews.length === 1 ? 'Review' : 'Reviews'}</p>
                               </div>
                             </>
                           }
@@ -159,19 +162,20 @@ function SpotDetail() {
           <div id='reviews-box'>
             <div id='stars-review'>
               <div id='stars'>
-                {currentSpot?.numReviews > 0 ?
+                {currentReviews?.length > 0 ?
                   (typeof currentSpot?.avgStarRating === 'number' ?
                     <p>⭐️{currentSpot?.avgStarRating.toFixed(1)}</p> :
                     <p>⭐️New</p>
                   ) :
-                  <p>⭐️New</p>
+                  // <p>⭐️New</p>
+                  null
                 }
               </div>
-              {currentSpot?.numReviews > 0 &&
+              {currentReviews?.length > 0 &&
                 <>
                   <div className='centered-dot'><p>·</p></div>
                   <div id='reviews'>
-                    <p>#{currentSpot?.numReviews} {currentSpot?.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                    <p>#{currentReviews?.length} {currentReviews.length === 1 ? 'Review' : 'Reviews'}</p>
                   </div>
                 </>
               }
