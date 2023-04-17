@@ -143,7 +143,7 @@ function SpotDetail() {
                                 }))}</p> :
                                 <p>⭐️New</p>
                               ) :
-                              <p>⭐️New</p>
+                              <p>⭐️NewLast</p>
                             }
                           </div>
                           {currentReviews?.length > 0 &&
