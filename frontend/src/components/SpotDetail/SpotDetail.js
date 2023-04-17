@@ -111,8 +111,6 @@ function SpotDetail() {
                   ))}
                 </div>
               </div>
-
-
               <div id='hosted-description-rating-box'>
                 <div id='hosted-description'>
                   <p id='hosted'>Hosted by: {currentSpot.Owner?.firstName} {currentSpot.Owner?.lastName}</p>

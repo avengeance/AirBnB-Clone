@@ -44,10 +44,10 @@ function CreateSpot() {
             title,
             price,
             spotPreviewImage,
-            // firstImage,
-            // secondImage,
-            // thirdImage,
-            // fourthImage
+            firstImage,
+            secondImage,
+            thirdImage,
+            fourthImage
         }
 
         const images = [spotPreviewImage, firstImage, secondImage, thirdImage, fourthImage];
@@ -70,10 +70,10 @@ function CreateSpot() {
                 setTitle('');
                 setPrice('');
                 setSpotPreviewImage('');
-                // setFirstImage('');
-                // setSecondImage('');
-                // setThirdImage('');
-                // setFourthImage('');
+                setFirstImage('');
+                setSecondImage('');
+                setThirdImage('');
+                setFourthImage('');
                 setErrors([]);
                 history.push(url);
             }
@@ -278,14 +278,14 @@ function CreateSpot() {
                                         backgroundColor: "lightgrey",
                                     })}
                                     placeholder="Preview Image URL"
-                                    // required
+                                // required
                                 />
                                 <p className="errors">{errors.image}</p>
                                 <input
                                     type="text"
                                     className="image-input"
                                     name="image"
-                                    value={firstImage.url}
+                                    value={firstImage}
                                     onChange={(e) => {
                                         setFirstImage(e.target.value);
                                     }}
@@ -299,6 +299,7 @@ function CreateSpot() {
                                     type="text"
                                     className="image-input"
                                     name="image"
+                                    value={secondImage}
                                     onChange={(e) => {
                                         setSecondImage(e.target.value);
                                     }}
@@ -312,6 +313,7 @@ function CreateSpot() {
                                     type="text"
                                     className="image-input"
                                     name="image"
+                                    value={thirdImage}
                                     onChange={(e) => {
                                         setThirdImage(e.target.value);
                                     }}
@@ -325,6 +327,7 @@ function CreateSpot() {
                                     type="text"
                                     className="image-input"
                                     name="image"
+                                    value={fourthImage}
                                     onChange={(e) => {
                                         setFourthImage(e.target.value);
                                     }}
