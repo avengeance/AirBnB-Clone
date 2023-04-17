@@ -169,7 +169,9 @@ function SpotDetail() {
               <div id='stars'>
                 {currentReviews?.length > 0 ?
                   (typeof currentSpot?.avgStarRating === 'number' ?
-                    <p>⭐️{Number((currentSpot?.avgStarRating).toFixed(1))}</p> : <p>⭐️New</p>) :
+                    <p>⭐️{Number(currentSpot?.avgStarRating.toFixed(1))}</p> :
+                    <p>⭐️New</p>
+                  ) :
                   // <p>⭐️New</p>
                   null
                 }
@@ -187,7 +189,7 @@ function SpotDetail() {
           {user && reviews && !reviews.some(review => review.userId === user.id) && user.id !== currentSpots?.ownerId ? (
             <div className='post-review'>
               <button id='post-review' onClick={handlePostReview}>Post Your Review</button>
-              {reviews.length > 0 ? null : <p id='no-reviews'>Be the first to post a review!</p>}
+              <p id='no-reviews'>Be the first to post a review!</p>
             </div>
           ) : (
             null
