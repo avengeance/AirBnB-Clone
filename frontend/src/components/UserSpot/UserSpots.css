@@ -118,4 +118,5 @@ h2 {
     justify-content: space-between;
     flex-wrap: wrap;
     height: 100px;
+    width: 250px;
 }
