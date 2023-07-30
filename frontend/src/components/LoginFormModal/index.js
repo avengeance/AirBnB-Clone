@@ -19,32 +19,30 @@ function LoginFormModal() {
   const validCredential = credential.length >= MIN_USERNAME_LENGTH;
   const validPassword = password.length >= MIN_PASSWORD_LENGTH;
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
-      .catch(
-        async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            setErrors(data.errors);
-          }
-          else {
-            setErrors(["The provided credentials are invalid"]);
-          }
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        } else {
+          setErrors(["The provided credentials are invalid"]);
         }
-      );
+      });
   };
 
   const handleDemoLogin = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({
-      credential: "Demo-lition",
-      password: "password"
-    })).then(closeModal);
+    return dispatch(
+      sessionActions.login({
+        credential: "Demo-lition",
+        password: "password",
+      })
+    ).then(closeModal);
   };
 
   return (
@@ -64,7 +62,7 @@ function LoginFormModal() {
             required
             placeholder="Username or Email"
             style={{
-              width: '90%',
+              width: "90%",
             }}
           />
         </label>
@@ -76,27 +74,30 @@ function LoginFormModal() {
             required
             placeholder="Password"
             style={{
-              width: '90%',
+              width: "90%",
             }}
           />
         </label>
         <div id="div-login-submit">
-          <button type="submit"
+          <button
+            type="submit"
             id="login-submit"
             style={{
-              width: '92%',
-              backgroundColor: 'white',
+              width: "92%",
+              backgroundColor: "white",
               border: "2px solid grey",
-              color: 'grey',
-              boxShadow: '5px 9px 17px 4px grey',
+              color: "grey",
+              boxShadow: "5px 9px 17px 4px grey",
             }}
             disabled={!validCredential || !validPassword}
-          >Log In</button>
+          >
+            Log In
+          </button>
         </div>
         <div className="demo-login">
-          <a href="javascript:void(0)"
-            onClick={handleDemoLogin}
-          >Demo User</a>
+          <a href="#" onClick={handleDemoLogin}>
+            Demo User
+          </a>
         </div>
       </form>
     </div>
